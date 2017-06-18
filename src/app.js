@@ -7,51 +7,59 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-import React from 'react';
-import {connect} from 'react-redux'
-import {RightMenu, LeftMenu} from './menus';
-import AppBar from 'material-ui/AppBar';
-import {getClientView} from './view';
-import Space from './space';
+// class App extends React.Component {
+//     render () {
+//         return (
+//             <div>
+//                 <AppBar
+//                     title={this.props.title}
+//                     iconElementLeft={<LeftMenu />}
+//                     iconElementRight={<RightMenu />}
+//                 />
+//                 {this.getEntryPointApp()}
+//             </div>
+//         );
+//     }
+// }
+import Vue from 'vue';
+import './menus';
+import './view';
+import './space';
 
-
-class App extends React.Component {
-    /**
-     * Render children of the application, it may be:
-     *  - space
-     *  - custom view
-     *
-    **/
-    getEntryPointApp () {
-        const res = [];
-        if (this.props.spaceId) {
-            res.push(<Space key={'space-' + this.props.spaceId} spaceId={this.props.spaceId} />);
+/**
+ * Render children of the application, it may be:
+ *  - space
+ *  - custom view
+ *
+**/
+export const App = Vue.component('furet-ui', {
+    template: `
+        <div>
+            <nav class="nav">
+                <div class="nav-left">
+                    <furet-ui-appbar-left-menu />
+                </div>
+                <div class="nav-center">
+                    {{ title }}
+                </div>
+                <div class="nav-right">
+                    <furet-ui-appbar-right-menu />
+                </div>
+            </nav>
+            <furet-ui-space v-if="spaceId" v-bind:spaceId="spaceId" />
+            <furet-ui-custom-view v-if="custom_view" v-bind:viewName="custom_view" />
+        </div>`,
+    computed: {
+        spaceId () {
+            return this.$store.state.global.spaceId;
+        },
+        custom_view () {
+            return this.$store.state.global.custom_view;
+        },
+        title () {
+            return this.$store.state.global.title;
         }
-        if (this.props.custom_view) {
-            res.push(getClientView(this.props.custom_view));
-        }
-        return res;
-    }
-    render () {
-        return (
-            <div>
-                <AppBar
-                    title={this.props.title}
-                    iconElementLeft={<LeftMenu />}
-                    iconElementRight={<RightMenu />}
-                />
-                {this.getEntryPointApp()}
-            </div>
-        );
-    }
-}
+    },
+});
 
-const mapStateToProps = (state) => {
-    return state.global;
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App

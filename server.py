@@ -267,7 +267,7 @@ def _getInitRequiredData():
             'values': [
                 {
                     'label': 'Login',
-                    'image': {'type': 'svg-icon', 'value': 'ActionAndroid'},
+                    'image': {'type': 'font-icon', 'value': 'fa-user'},
                     'id': 'login',
                     'values': [
                         {
@@ -295,7 +295,7 @@ def _getInitOptionnalData():
             'locales': [
                 {
                     'locale': 'fr-FR',
-                    'counterpart': {
+                    'messages': {
                         'formats': {
                             'date': {
                                 'default': '%d/%m/%Y',
@@ -308,12 +308,9 @@ def _getInitOptionnalData():
                             'close': 'Fermer',
                             'search': 'Filtrer par ...',
                         },
-                        'space': {
-                            'close': 'Fermer',
-                        },
                         'views': {
                             'unknown': {
-                                'title': 'Le vue "%(name)s" est inconnue',
+                                'title': 'La vue "{name}" est inconnue',
                                 'message': "Veuillez contacter l'administrateur",
                             },
                             'common': {
@@ -570,7 +567,6 @@ def getSpace1():
         'menuId': None,
         'right_menu': [],
         'actionId': '1',
-        'viewId': None,
         'custom_view': '',
     }]
     space.extend(getAction1())

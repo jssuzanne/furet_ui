@@ -7,14 +7,21 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
+// import AlertWarning from 'material-ui/svg-icons/alert/warning';
+// 
+// /**
+//  * Unknown icon for view selector
+// **/
+// plugin.set(['views', 'icon'], {Unknown: (props) => {
+//     return <AlertWarning />;
+// }});
+
 import './clients';
-import './list';
-import './thumbnail';
-import './form';
-import React from 'react';
+// import './list';
+// import './thumbnail';
+// import './form';
+import Vue from 'vue';
 import plugin from '../plugin';
-import AlertWarning from 'material-ui/svg-icons/alert/warning';
-import translate from 'counterpart';
 
 /**
  * Unknown view, use if no view found
@@ -25,37 +32,27 @@ import translate from 'counterpart';
  *  @viewType: Name of the standard view which is not available
  *
 **/
-export class Unknown extends React.Component {
-    render () {
-        return (
-            <div>
-                <div className="row">
-                    <div className="col-xs-12 col-sm-8 col-md-8 col-lg-9">
-                    </div>
-                    <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-                        {this.props.selector || null}
-                    </div>
-                </div>
-                <div className="container">
-                    <h1>{translate('furetUI.views.unknown.title', {name: this.props.viewName || this.props.viewType, fallback: 'The wanted view "%(name)s" is unknown'})}</h1>
-                    <p>
-                        {translate('furetUI.views.unknown.message', {fallback: 'Report this message to the administrator'})}
-                    </p>
-                </div>
+                // <div className="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                // </div>
+                // <div className="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                //     {this.props.selector || null}
+                // </div>
+export const VueUnknown = Vue.component('furet-ui-view-unknown', {
+    props: ['selector', 'viewName'],
+    template: `
+        <div>
+            <div v-if="selector">
+                {{selector}}
             </div>
-        );
-    }
-}
+            <section class="section">
+                <div class="container">
+                    <h1 class="title">{{$t('views.unknown.title', {name: viewName})}}</h1>
+                    <h2 class="subtitle">
+                        {{$t('views.unknown.message')}}
+                    </h2>
+                </div>
+            </section>
+        </div>`,
+});
 
-plugin.set(['views'], {Unknown});
-
-/**
- * Unknown icon for view selector
-**/
-plugin.set(['views', 'icon'], {Unknown: (props) => {
-    return <AlertWarning />;
-}});
-
-export default {
-    Unknown,
-}
+plugin.set(['views'], {Unknown: {vue: 'furet-ui-view-unknown'}})

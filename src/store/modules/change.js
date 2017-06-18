@@ -15,6 +15,28 @@ export const defaultState = {
     currents: {},
 }
 
+// getters
+export const getters = {
+};
+
+// actions
+export const actions = {
+};
+
+// mutations
+export const mutations = {
+};
+
+export default {
+  state: defaultState,
+  getters,
+  actions,
+  mutations
+}
+
+console.log('TO FIX')
+
+/*
 export const current2Sync = (current, toSync, uuid, model, dataId, newData, fields) => {
     const newSync = {
         uuid,
@@ -221,5 +243,4 @@ export const change = (state = defaultState, action) => {
             return state
     }
 }
-
-export default change;
+*/

@@ -7,193 +7,129 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-import React from 'react';
-import {dispatchAll} from './reducers';
-import {connect} from 'react-redux';
-import {ActionManager} from './action';
-import {getClientView} from './views';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/svg-icons/navigation/menu';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
-import {List, ListItem} from 'material-ui/List';
-import Picture from './picture';
-import {green500} from 'material-ui/styles/colors';
-import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
+import Vue from 'vue';
+import {dispatchAll} from './store';
 import {json_post} from './server-call';
-import translate from 'counterpart';
-import Loading from './loading';
 
-/**
- * Render a specific space
- *
- * @spaceId: (string, required) id of the space to render
- *
-**/
-class SpaceCpt extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            left_menu: false,
-            right_menu: false,
-        }
-    }
-    /**
-     * transform menus definition to one component
-     *
-     * @menus: array of object, definition of the structure
-     * @menuId: current menu rendered
-     *
-    **/
-    renderMenu (menus, menuId) {
-        const res = [];
-        let has_menu = false;
-        _.each(menus, menu => {
-            const props = {};
-            if ((menu.submenus || []).length != 0) {
-                const submenu = this.renderMenu(menu.submenus, menuId);
-                props.initiallyOpen=submenu.has_menu;
-                props.nestedItems=submenu.menus;
-                if (submenu.has_menu) has_menu = true;
-            }
-            if (menu.id == menuId) {
-                has_menu = true;
-                props.style = {color: green500};
-            }
-            if (menu.actionId || menu.custom_view) {
-                props.onClick = () => {
-                    if (menu.actionId) {
-                        json_post('/action/' + menu.actionId, {}, {
-                            onSuccess: (results) => {
-                                this.props.dispatchAll(results)
-                            }
-                        });
+Vue.component('furet-ui-space-menu', {
+    template: `
+        <ul class="menu-list">
+            <li v-for="menu in menus">
+                <span v-if="(menu.submenus || []).length != 0">
+                    <furet-ui-picture 
+                        v-bind:type="menu.image.type"
+                        v-bind:value="menu.image.value"
+                    />
+                    {{menu.label}}
+                </span>
+                <furet-ui-space-menu 
+                    v-if="(menu.submenus || []).length != 0"
+                    v-bind:menus="menu.submenus || []"
+                    v-bind:menuId="menuId"
+                    v-bind:spaceId="spaceId"
+                />
+                <a v-if="menu.actionId || menu.custom_view"
+                   v-on:click="onClick(menu)"
+                   v-bind:class="[menu.id == menuId ? 'is-active' : '']"
+                >
+                    <furet-ui-picture 
+                        v-bind:type="menu.image.type"
+                        v-bind:value="menu.image.value"
+                    />
+                    {{menu.label}}
+                </a>
+            </li>
+        </ul>`,
+    props: ['menus', 'menuId', 'spaceId'],
+    methods: {
+        onClick (menu) {
+            if (menu.actionId) {
+                json_post('/action/' + menu.actionId, {}, {
+                    onSuccess: (results) => {
+                        dispatchAll(results)
                     }
-                    this.props.dispatchAll([
-                        {
-                            type: 'UPDATE_SPACE',
-                            spaceId: this.props.spaceId,
-                            menuId: menu.id,
-                            actionId: menu.actionId || '',
-                            custom_view: menu.custom_view || '',
-                        },
-                        {
-                            type: 'RESET_ACTION_MANAGER'
-                        },
-                        {
-                            type: 'CLEAR_ALL_CHANGES'
-                        },
-                    ]);
-                }
+                });
             }
-            res.push(
-                <ListItem
-                    key={'menu-' + menu.id}
-                    primaryText={menu.label}
-                    leftIcon={<Picture {...menu.image} />}
-                    {...props}
-                />
-            );
-        });
-        return {menus: res, has_menu};
-    }
-    /**
-     * Render A Drawer
-     *
-     * @menus: array of object, definition of the structure
-     * @state: key in the state to indicate if it is right_menu or left_menu
-     * @menuId: current menu rendered
-     *
-    **/
-    renderDrawer(menus, state, menuId) {
-        if ((menus || []).length == 0) return null;
-        return (
-            <div>
-                <IconButton
-                    onClick={() => {
-                        const val = {};
-                        val[state] = true;
-                        this.setState(val);
-                    }}
-                    iconStyle={{width: 40, height: 40}}
-                >
-                    <IconMenu/>
-                </IconButton>
-                <Drawer
-                    openSecondary={state == 'right_menu'}
-                    open={this.state[state]}
-                >
-                    <MenuItem onClick={() => {
-                        const val = {};
-                        val[state] = false;
-                        this.setState(val);
-                    }}
-                    >
-                        {translate('furetUI.space.close', {fallback: 'Close'})}
-                    </MenuItem>
-                    <Divider />
-                    <List>
-                        {this.renderMenu(menus, menuId).menus}
-                    </List>
-                </Drawer>
-            </div>
-        );
-    }
-    /**
-     * Render children in function of redux storage
-    **/
-    getEntryPointApp () {
-        const res = [],
-              space_state = this.props.space_state,
-              left_menu = this.renderDrawer(space_state.left_menu, 'left_menu', space_state.menuId),
-              right_menu = this.renderDrawer(space_state.right_menu, 'right_menu', space_state.menuId);
-        if (this.props.space_state.actionId) {
-            res.push(
-                <ActionManager
-                    key={this.props.space_state.actionId}
-                    actionId={this.props.space_state.actionId}
-                    left_menu={left_menu}
-                    right_menu={right_menu}
-                />
-            );
-        } else if (this.props.space_state.custom_view) {
-            res.push(
-                <Toolbar key={"toolbar-space-" + this.props.spaceId}>
-                    <ToolbarGroup firstChild={true}>
-                        {left_menu}
-                    </ToolbarGroup>
-                    <ToolbarGroup>
-                        {right_menu}
-                    </ToolbarGroup>
-                </Toolbar>
-            );
-            res.push(getClientView(this.props.space_state.custom_view));
+            dispatchAll([
+                {
+                    type: 'UPDATE_SPACE',
+                    spaceId: this.spaceId,
+                    menuId: menu.id,
+                    actionId: menu.actionId || '',
+                    custom_view: menu.custom_view || '',
+                },
+                {
+                    type: 'RESET_ACTION_MANAGER'
+                },
+                {
+                    type: 'CLEAR_ALL_CHANGES'
+                },
+            ]);
         }
-        return res;
     }
-    render () {
-        if (!this.props.space_state) return <Loading />
-        return (<div>{this.getEntryPointApp()}</div>);
+});
+
+                // <div v-if="space_state.actionId">
+                //     <furet-ui-action-manager v-bind:actionId="space_state.actionId" />
+                // </div>
+                // <div v-else-if="space_state.custom_view">
+                //     <furet-ui-custom-view v-bind:viewName="space_state.custom_view" />
+                // </div>
+                // <furet-ui-loading v-else/>
+export const Space = Vue.component('furet-ui-space', {
+    template: `
+        <div class="columns is-gapless">
+            <div v-if="isOpenLeft" class="column is-one-quarter is-half-mobile">
+                <aside class="menu">
+                    <furet-ui-space-menu 
+                        v-bind:menus="left_menu" 
+                        v-bind:menuId="menuId" 
+                        v-bind:spaceId="spaceId"
+                    />
+                </aside>
+            </div>
+            <nav class="nav column">
+                <div class="nav-left">
+                    <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">
+                        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="nav-right">
+                    <a class="button" v-on:click="isOpenRight = !isOpenRight" v-if="right_menu.length > 0">
+                        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </nav>
+            <div v-if="isOpenRight" class="column is-one-quarter is-half-mobile">
+                <aside class="menu">
+                    <furet-ui-space-menu 
+                        v-bind:menus="right_menu" 
+                        v-bind:menuId="menuId" 
+                        v-bind:spaceId="spaceId"
+                    />
+                </aside>
+            </div>
+        </div>`,
+    props: ['spaceId'],
+    data: () => {
+        const data = {
+            isOpenLeft: false,
+            isOpenRight: false,
+        }
+        return data
+    },
+    computed: {
+        space_state () {
+            return this.$store.state.global.spaces[String(this.spaceId)];
+        },
+        menuId () {
+            return this.space_state.menuId;
+        },
+        left_menu () {
+            return this.space_state && this.space_state.left_menu || [];
+        },
+        right_menu () {
+            return this.space_state && this.space_state.right_menu || [];
+        }
     }
-}
-
-SpaceCpt.propTypes = {
-    spaceId: React.PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state, props) => {
-    return {
-        space_state: state.spaces[String(props.spaceId)],
-    };
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatchAll: (data) => (dispatchAll(dispatch, data)),
-        dispatch: dispatch,
-    }
-}
-
-export const Space = connect(mapStateToProps, mapDispatchToProps)(SpaceCpt);
-export default Space;
+});

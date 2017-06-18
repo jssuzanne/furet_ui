@@ -9,15 +9,12 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import plugin from '../../plugin';
 import {json_post} from '../../server-call';
+import {dispatchAll} from '../../store';
 
-const Logout = (props) => {
+plugin.set(['views', 'type', 'client'], {Logout: {function: () => {
     json_post('/client/logout', {}, {
         onSuccess: (result) => {
-            props.dispatchAll(result);
+            dispatchAll(result);
         },
-    })
-    return null
-};
-
-plugin.set(['views', 'type', 'client'], {Logout});
-export default Logout
+    });
+}}});
