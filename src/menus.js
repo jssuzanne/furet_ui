@@ -13,14 +13,6 @@ import _ from 'underscore';
 import {dispatchAll} from './store';
 import {json_post} from './server-call';
 
-/**
- * Render a Dialog box, with thumbnail menu and search box to filter thumbnail
- *
- * the props come from redx store
- *
- * and the click on a thumbnail change the redux store
- *
-**/
 export const Menu = Vue.component('furet-ui-appbar-menu', {
     template: `
         <a class="nav-item" v-if="hasValue">
@@ -119,15 +111,11 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
             const key = 'UPDATE_' + (this.type || '').toUpperCase() + '_MENU';
             switch (card.type) {
                 case 'client':
-                    this.$store.commit('UPDATE_GLOBAL', {custom_view: card.id});
+                    this.$router.push({name: 'custom_view', params: {viewName: card.id}}); 
                     break;
                 case 'space':
-                    json_post('/space/' + card.id, {}, {
-                        onSuccess: (results) => {
-                            dispatchAll(results)
-                        }
-                    });
-                    this.$store.commit('UPDATE_GLOBAL', {spaceId: card.id});
+                    console.log(this.$router)
+                    this.$router.push({name: 'space', params: {spaceId: card.id}});
                     this.$store.commit(key, {
                         value: {
                             label: card.label,

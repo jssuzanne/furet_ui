@@ -21,10 +21,10 @@ export const store = new Vuex.Store({
     actions,
     getters,
     modules,
-      strict: debug,
+    strict: debug,
 });
 
-export const dispatchAll = (datas) => {
+export const dispatchAll = (router, datas) => {
     _.each(datas, data => {
         if (data.type) {
             switch (data.type) {
@@ -36,6 +36,10 @@ export const dispatchAll = (datas) => {
                 case 'SET_LOCALE':
                     FuretUI.$i18n.locale = data.locale;
                     break
+                case 'UPDATE_ROUTE':
+                    if (data.name) router.push({name: data.name, params: data.params});
+                    else if (data.path) router.push({path: data.path});
+                    break;
                 default:
                     const type = data.type;
                     delete data.type;

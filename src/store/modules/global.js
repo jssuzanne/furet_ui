@@ -11,20 +11,13 @@ obtain one at http://mozilla.org/MPL/2.0/.
 export const defaultSpace = {
     left_menu: [],
     right_menu: [],
-    menuId: '',
-    actionId: '',
-    spaceId: '',
-    viewId: '',
-    custom_view: '',
 };
 
 // initial state
 export const defaultState = {
     title: '',
-    custom_view: '',
     modal_custom_view: '',
     spaces: {},
-    spaceId: '',
 };
 
 // getters
@@ -40,13 +33,6 @@ export const mutations = {
     'UPDATE_GLOBAL'(state, action) {
         if (action.title) state.title = action.title;
         if (action.modal_custom_view) state.modal_custom_view = action.modal_custom_view;
-        if (action.custom_view) {
-            state.spaceId = '';
-            state.custom_view = action.custom_view;
-        } else if (action.spaceId) {
-            state.spaceId = action.spaceId;
-            state.custom_view = '';
-        }
     },
     'UPDATE_SPACE'(state, action) {
         const spaces = Object.assign({}, state.spaces)
@@ -61,9 +47,7 @@ export const mutations = {
     },
     'CLEAR_GLOBAL'(state, action) {
         state.title = '';
-        state.custom_view = '';
         state.modal_custom_view = '';
-        state.spaceId = '';
         state.spaces = {}
     },
 };

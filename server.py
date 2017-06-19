@@ -564,13 +564,9 @@ def getSpace1():
         'type': 'UPDATE_SPACE',
         'spaceId': '1',
         'left_menu': [],
-        'menuId': None,
         'right_menu': [],
-        'actionId': '1',
-        'custom_view': '',
     }]
-    space.extend(getAction1())
-    return space
+    return space, {'actionId': '1', 'viewId': '1'}
 
 
 def getSpace2():
@@ -608,14 +604,9 @@ def getSpace2():
                 ],
             },
         ],
-        'menuId': '1',
         'right_menu': [],
-        'actionId': '2',
-        'viewId': None,
-        'custom_view': '',
     }]
-    space.extend(getAction2())
-    return space
+    return space, {'menuId': '1', 'actionId': '2', 'viewId': '8'}
 
 
 def getSpace(spaceId):
@@ -1148,10 +1139,6 @@ def getLoginData():
     response.set_header('Content-Type', 'application/json')
     data = [
         {
-            'type': 'UPDATE_GLOBAL',
-            'spaceId': '1',
-        },
-        {
             'type': 'UPDATE_RIGHT_MENU',
             'value': {
                 'label': 'Hello Jean-Sebastien',
@@ -1204,8 +1191,11 @@ def getLoginData():
                 },
             ],
         },
+        {
+            'type': 'UPDATE_ROUTE',
+            'path': '/space/1/menu/1/action/1/view/1',
+        },
     ]
-    data.extend(getSpace1())
     return superDumps(data)
 
 
@@ -1268,7 +1258,29 @@ def getSpaceInformation(spaceId=None):
     if spaceId is None:
         return superDumps([])
 
-    return superDumps(getSpace(spaceId))
+    data = loads(request.body.read())
+
+    res, default = getSpace(spaceId)
+    path = ['', 'space', spaceId]
+    if data.get('menuId'):
+        path.extend(['menu', data['menuId']])
+    elif default.get('menuId'):
+        path.extend(['menu', default['menuId']])
+    if data.get('actionId'):
+        path.extend(['action', data['actionId']])
+    elif default.get('actionId'):
+        path.extend(['action', default['actionId']])
+    if data.get('viewId'):
+        path.extend(['view', data['viewId']])
+    elif default.get('viewId'):
+        path.extend(['view', default['viewId']])
+
+    res.append({
+        'type': 'UPDATE_ROUTE',
+        'path': '/'.join(path),
+    })
+
+    return superDumps(res)
 
 
 @route('/furetui/field/x2x/open', method='POST')

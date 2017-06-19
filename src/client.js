@@ -7,26 +7,11 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-
-/*
-class FuretUI extends React.Component {
-    render () {
-        return (
-            <Provider store={store}>
-                <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-                    <App />
-                </MuiThemeProvider>
-            </Provider>
-        );
-    }
-}
-*/
 import Vue from 'vue';
 import Buefy from 'buefy';
 import VueI18n from 'vue-i18n';
 import 'buefy/lib/buefy.css';
 import 'bulma/css/bulma.css'
-import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import "font-awesome-loader";
 import {json_post} from './server-call';
@@ -38,19 +23,15 @@ import './app';
 
 Vue.use(Buefy);
 Vue.use(VueI18n);
-Vue.use(VueRouter);
 
 import {store, dispatchAll} from './store';
-const router = new VueRouter({
-    routes: [],  // TODO
-});
-
+import router from './routes';
 sync(store, router)  // use vue-router with vuex
 
-plugin.set([], {initData: (store) => {
+plugin.set([], {initData: (router, store) => {
     json_post('/init/required/data', {}, {
         onSuccess: (result) => {
-            dispatchAll(result);
+            dispatchAll(router, result);
         },
         onError: (error, response) => {
             console.error('call initial required data', error || response.body)
@@ -58,7 +39,7 @@ plugin.set([], {initData: (store) => {
         onComplete: (error, response) => {
             json_post('/init/optionnal/data', {}, {
                 onSuccess: (result) => {
-                    dispatchAll(result);
+                    dispatchAll(router, result);
                 },
                 onError: (error, response) => {
                     console.error('call initial optional data', error || response.body)
@@ -78,7 +59,7 @@ const FuretUI = new Vue({
     i18n,
     created: () => {
         const initData = plugin.get(['initData']);
-        if (initData) initData(store);
+        if (initData) initData(router, store);
     },
 })
 

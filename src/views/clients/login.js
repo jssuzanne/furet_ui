@@ -25,7 +25,7 @@ export const Login = Vue.component('furet-ui-custom-view-login', {
         onCallServer () {
             json_post('/client/login', {}, {
                 onSuccess: (result) => {
-                    dispatchAll(result);
+                    dispatchAll(this.$router, result);
                 },
             });
         }

@@ -44,6 +44,16 @@ Vue.component('furet-ui-space-menu', {
     methods: {
         onClick (menu) {
             if (menu.actionId) {
+                this.$router.push({
+                    name: 'space_menu_action',
+                    params: {
+                        spaceId: this.spaceId,
+                        menuId: menu.id,
+                        actionId: menu.actionId,
+                    },
+                });
+            }
+            if (menu.actionId) {
                 json_post('/action/' + menu.actionId, {}, {
                     onSuccess: (results) => {
                         dispatchAll(results)
@@ -51,13 +61,6 @@ Vue.component('furet-ui-space-menu', {
                 });
             }
             dispatchAll([
-                {
-                    type: 'UPDATE_SPACE',
-                    spaceId: this.spaceId,
-                    menuId: menu.id,
-                    actionId: menu.actionId || '',
-                    custom_view: menu.custom_view || '',
-                },
                 {
                     type: 'RESET_ACTION_MANAGER'
                 },
@@ -69,13 +72,6 @@ Vue.component('furet-ui-space-menu', {
     }
 });
 
-                // <div v-if="space_state.actionId">
-                //     <furet-ui-action-manager v-bind:actionId="space_state.actionId" />
-                // </div>
-                // <div v-else-if="space_state.custom_view">
-                //     <furet-ui-custom-view v-bind:viewName="space_state.custom_view" />
-                // </div>
-                // <furet-ui-loading v-else/>
 export const Space = Vue.component('furet-ui-space', {
     template: `
         <div class="columns is-gapless">
@@ -88,18 +84,21 @@ export const Space = Vue.component('furet-ui-space', {
                     />
                 </aside>
             </div>
-            <nav class="nav column">
-                <div class="nav-left">
-                    <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">
-                        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                    </a>
-                </div>
-                <div class="nav-right">
-                    <a class="button" v-on:click="isOpenRight = !isOpenRight" v-if="right_menu.length > 0">
-                        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </nav>
+            <div class="column">
+                <nav class="nav">
+                    <div class="nav-left">
+                        <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">
+                            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="nav-right">
+                        <a class="button" v-on:click="isOpenRight = !isOpenRight" v-if="right_menu.length > 0">
+                            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </nav>
+                <router-view></router-view>
+            </div>
             <div v-if="isOpenRight" class="column is-one-quarter is-half-mobile">
                 <aside class="menu">
                     <furet-ui-space-menu 
@@ -110,7 +109,7 @@ export const Space = Vue.component('furet-ui-space', {
                 </aside>
             </div>
         </div>`,
-    props: ['spaceId'],
+    props: ['spaceId', 'menuId'],
     data: () => {
         const data = {
             isOpenLeft: false,
@@ -122,14 +121,11 @@ export const Space = Vue.component('furet-ui-space', {
         space_state () {
             return this.$store.state.global.spaces[String(this.spaceId)];
         },
-        menuId () {
-            return this.space_state.menuId;
-        },
         left_menu () {
             return this.space_state && this.space_state.left_menu || [];
         },
         right_menu () {
             return this.space_state && this.space_state.right_menu || [];
         }
-    }
+    },
 });
