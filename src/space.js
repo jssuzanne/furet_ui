@@ -7,6 +7,8 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
+console.error('miss breadscrumbs')
+
 import Vue from 'vue';
 import {dispatchAll} from './store';
 import {json_post} from './server-call';
@@ -53,20 +55,9 @@ Vue.component('furet-ui-space-menu', {
                     },
                 });
             }
-            if (menu.actionId) {
-                json_post('/action/' + menu.actionId, {}, {
-                    onSuccess: (results) => {
-                        dispatchAll(results)
-                    }
-                });
-            }
             dispatchAll([
-                {
-                    type: 'RESET_ACTION_MANAGER'
-                },
-                {
-                    type: 'CLEAR_ALL_CHANGES'
-                },
+                {type: 'RESET_ACTION_MANAGER'},
+                {type: 'CLEAR_ALL_CHANGES'},
             ]);
         }
     }
@@ -90,8 +81,34 @@ export const Space = Vue.component('furet-ui-space', {
                         <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">
                             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
                         </a>
+                        <ul v-bind:style="{padding: '10px 0px', listStyle: 'none'}">
+                            <li v-bind:style="{display: 'inline'}" 
+                                v-for="a in actions"
+                            >
+                                <a v-on:click="onClick(a)">
+                                    {{a.label}}
+                                </a>
+                                /
+                            </li>
+                            <li v-bind:style="{display: 'inline'}" >
+                                {{action.label}}
+                            </li>
+                        </ul>
                     </div>
                     <div class="nav-right">
+                        <div class="field has-addons" v-if="action.views.length > 0">
+                            <p class="control" v-for="view in action.views">
+                                <a class="button" 
+                                    v-on:click.stop="changeView(view.viewId)"
+                                    v-bind:disabled="view.viewId == viewId"
+                                    v-bind:class="[view.viewId == viewId ? 'is-primary': '']"
+                                >
+                                    <span class="icon is-small">
+                                        <furet-ui-view-icon v-bind:type="view.type" />
+                                    </span>
+                                </a>
+                            </p>
+                        </div>
                         <a class="button" v-on:click="isOpenRight = !isOpenRight" v-if="right_menu.length > 0">
                             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
                         </a>
@@ -109,7 +126,7 @@ export const Space = Vue.component('furet-ui-space', {
                 </aside>
             </div>
         </div>`,
-    props: ['spaceId', 'menuId'],
+    props: ['spaceId', 'menuId', 'actionId', 'viewId'],
     data: () => {
         const data = {
             isOpenLeft: false,
@@ -126,6 +143,43 @@ export const Space = Vue.component('furet-ui-space', {
         },
         right_menu () {
             return this.space_state && this.space_state.right_menu || [];
+        },
+        actions () {
+            // return [
+            //     {
+            //         path: '/space/2/menu/3/action/3/view/2',
+            //         label: "PLop 2"
+            //     },
+            //     {
+            //         path: '/space/2/menu/3/action/3/view/3',
+            //         label: "PLop 3"
+            //     },
+            //     {
+            //         path: '/space/2/menu/3/action/3/view/4',
+            //         label: "PLop 4"
+            //     },
+            // ]
+            return this.$store.state.global.breadscrumbs || [];
+        },
+        action () {
+            if (this.actionId) {
+                const action = this.$store.state.data.actions[String(this.actionId)];
+                if (action) return {label: action.label, views: action.views || []}
+           }
+           return {label: '', views: []};
+        }
+    },
+    methods: {
+        changeView (viewId) {
+            this.$router.push({
+                name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
+                params: {
+                    spaceId: this.spaceId,
+                    menuId: this.menuId,
+                    actionId: this.actionId,
+                    viewId
+                }
+            });
         }
     },
 });

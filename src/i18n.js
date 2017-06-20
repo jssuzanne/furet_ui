@@ -21,6 +21,16 @@ export default {
                     title: 'The wanted view "{name}" is unknown',
                     message: "Report this message to the administrator",
                 },
+                common: {
+                    create: 'Create',
+                    save: 'Save',
+                    edit: 'Edit',
+                    cancel: 'Cancel',
+                    delete: 'Delete',
+                    close: 'Close',
+                    actions: 'Actions',
+                    more: 'More',
+                },
                 clients: {
                     login: {
                         button: 'Log in',

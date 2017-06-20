@@ -7,177 +7,230 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-import React from 'react';
-import Multi from './multi';
+console.error('FIX ME, find a better way to load data')
+import Vue from 'vue';
 import plugin from '../plugin';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import ActionViewList from 'material-ui/svg-icons/action/view-list';
+import {dispatchAll} from '../store';
+import {json_post} from '../server-call';
+import {getNewID} from '../view';
 
 /**
  * Add Icon for List view
 **/
-plugin.set(['views', 'icon'], {List: (props) => {
-    return <ActionViewList />;
-}});
+export const ListViewIcon = Vue.component('furet-ui-list-view-icon', {
+    template: '<i class="fa fa-list"></i>',
+});
 
-class TableBodyExtended extends TableBody {
-    createRowCheckboxColumn(rowProps) {
-        if (!this.props.displayRowCheckbox) {
-            return null;
-        }
-
-        const key = `${rowProps.rowNumber}-cb`;
-        const disabled = !this.props.selectable;
-        const checkbox = (
-            <Checkbox
-                ref="rowSelectCB"
-                name={key}
-                value="selected"
-                disabled={disabled}
-                checked={rowProps.selected}
-            />
-        );
-
-        return (
-            <TableRowColumn
-                key={key}
-                columnNumber={0}
-                style={{
-                    width: 24,
-                    cursor: disabled ? 'not-allowed' : 'inherit',
-                    height: 32,
-                }}
-            >
-                {checkbox}
-            </TableRowColumn>
-        );
-    }
-}
+plugin.set(['views', 'icon'], {List: 'furet-ui-list-view-icon'})
 
 /**
  * List view
  *
 **/
-export class List extends Multi {
-    call_server () {
-        this.json_post(
-            '/list/get', 
-            {
-                model: this.props.model,
-                filter: this.state.search,
-                fields: this.props.fields,
-                viewId: this.props.viewId,
-            },
-            {
-                onSuccess: (results) => {
-                    this.props.dispatchAll(results);
-                },
-            },
-        );
-    }
-    /**
-     * call by click on row
-    **/
-    onRowSelection(selectedRows) {
-        const selectedIds = selectedRows == 'all' ? this.props.ids : _.map(selectedRows, i => this.props.ids[i]);
-        this.setState({selectedIds})
-    }
-    /**
-     * render line
-    **/
-    renderLine (lineId) {
-        if (this.props.computed && this.props.computed[lineId] == 'DELETED') return null;
-        if (this.props.change && this.props.change[lineId] == 'DELETED') return null;
-        if (this.props.data && this.props.data[lineId] == undefined && this.props.change && !this.props.change[lineId] && this.props.computed && !this.props.computed[lineId]) return null;
-        const data = Object.assign(
-            {}, 
-            this.props.data[lineId], 
-            this.props.computed[lineId], 
-            this.props.change[lineId]
-              ),
-              selected = this.state.selectedIds.indexOf(lineId) != -1;
-        return (
-            <TableRow 
-                key={lineId}
-                hoverable={true}
-                selectable={this.props.selectable}
-                style={{minHeight: 32}}
-            >
-                {_.map(this.props.headers || [], header => (
-                    <TableRowColumn 
-                        style={{padding: 0, height: 32}}
-                        key={header.name}
-                        selected={selected}
-                    >
-                        <div 
-                            style={{
-                                minHeight: 32,
-                                paddingTop: 8
-                            }}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                this.onEntrySelect(lineId);
-                            }}
+export const ListView = Vue.component('furet-ui-list-view', {
+    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'dataIds', 'data', 'change'],
+    template: `
+        <div>
+            <nav class="level">
+                <div class="level-left">
+                    <div class="field has-addons">
+                        <p class="control" v-if="view && view.creatable">
+                            <a  class="button"
+                                v-on:click="addNew"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>{{$t('views.common.create')}}</span>
+                            </a>
+                        </p>
+                        <p class="control" v-if="hasChecked && view && view.deletable">
+                            <a class="button">
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                                <span>{{$t('views.common.delete')}}</span>
+                            </a>
+                        </p>
+                        <p class="control" 
+                            v-if="view && (view.buttons || []).length >0"
                         >
-                            {this.getField(
-                                'List', 
-                                header.type, 
-                                header,
-                                data
-                            )}
-                        </div>
-                    </TableRowColumn>
-                ))}
-            </TableRow>
-        );
-    }
-    render () {
-        let ids = [];
-        if (this.props.dataIds) ids = this.props.dataIds;
-        else if (this.props.ids) ids = this.props.ids;
-        return (
-            <div>
-                {this.renderSearchBar()}
-                <Table
-                    fixedHeader={true}
-                    fixedFooter={true}
-                    selectable={this.props.selectable}
-                    multiSelectable={this.props.selectable}
-                    onRowSelection={this.onRowSelection.bind(this)}
-                >
-                    <TableHeader
-                        displaySelectAll={this.props.selectable}
-                        adjustForCheckbox={this.props.selectable}
-                        enableSelectAll={this.props.selectable}
-                    >
-                        <TableRow>
-                            {_.map(this.props.headers || [], header => (
-                                <TableHeaderColumn 
-                                    style={{padding: 0}}
-                                    key={header.name}
+                            <b-dropdown>
+                                <button class="button" slot="trigger">
+                                    <span>{{$t('views.common.actions')}}</span>
+                                    <span class="icon is-small">
+                                        <i class="fa fa-caret-down"></i>
+                                    </span>
+                                </button>
+                                <b-dropdown-option 
+                                    v-for="button in view.buttons"
+                                    v-bind:value="button.buttonId"
+                                    v-bind:key="button.buttonId"
+                                    v-on:change="selectAction(button.buttonId)"
                                 >
-                                    {header.label}
-                                </TableHeaderColumn>
-                            ))}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBodyExtended
-                        displayRowCheckbox={this.props.selectable}
-                        showRowHover={true}
-                        stripedRows={true}
-                        deselectOnClickaway={false}
+                                    {{button.label}}
+                                </b-dropdown-option>
+                            </b-dropdown>
+                        </p>
+                        <p class="control" 
+                            v-if="hasChecked && view && (view.onSelect_buttons || []).length >0"
+                        >
+                            <b-dropdown>
+                                <button class="button" slot="trigger">
+                                    <span>{{$t('views.common.more')}}</span>
+                                    <span class="icon is-small">
+                                        <i class="fa fa-caret-down"></i>
+                                    </span>
+                                </button>
+                                <b-dropdown-option 
+                                    v-for="button in view.onSelect_buttons"
+                                    v-bind:value="button.buttonId"
+                                    v-bind:key="button.buttonId"
+                                    v-on:change="selectMore(button.buttonId)"
+                                >
+                                    {{button.label}}
+                                </b-dropdown-option>
+                            </b-dropdown>
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    search bar
+                </div>
+            </nav>
+            <b-table
+                v-bind:data="tableData"
+                v-bind:narrowed="narrowed"
+                v-bind:checkable="isCheckable"
+                v-bind:mobile-cards="mobileCard"
+                v-bind:paginated="paginated"
+                v-bind:per-page="perPage"
+                v-bind:selected.sync="selected"
+                v-bind:checked-rows.sync="checkedRows"
+                v-on:dblclick="selectRow"
+            >
+                <template scope="props">
+                    <b-table-column v-for="header in headers"
+                        v-bind:key="header.field"
+                        v-bind:field="header.field"
+                        v-bind:label="header.label"
+                        v-bind:width="header.width"
+                        v-bind:numeric="header.numeric"
+                        v-bind:sortable="header.sortable"
+                        v-bind:custom-sort="header.customSort"
                     >
-                        {_.map(ids, id => {
-                            return this.renderLine(id);
-                        })}
-                    </TableBodyExtended>
-                </Table>
-            </div>
-        )
+                        {{ header.render(props.row) }}
+                    </b-table-column>
+                </template>
+            </b-table>
+        </div>
+    `,
+    data: () => {
+        return {
+            selected: {},
+            checkedRows: [],
+            narrowed: true,
+            mobileCard: true,
+            paginated: true,
+            filter: {},
+        };
+    },
+    computed: {
+        headers () {
+            if (this.view) {
+                return _.map(this.view.headers || [], header => {
+                    let field = plugin.get(['field', 'List', header.type]);
+                    if (!field) field = plugin.get(['field', 'List', 'Unknown']);
+                    return field(header);
+                });
+            }
+            return [];
+        },
+        tableData () {
+            const dataIds = this.dataIds ? this.dataIds : _.keys(this.data || {});
+            return _.map(dataIds, dataId => Object.assign(
+                {__dataId: dataId}, 
+                (this.data || {})[dataId], 
+                (this.change || {})[dataId]
+            ));
+        },
+        isCheckable () {
+            if (this.view) {
+                json_post(
+                    '/list/get', 
+                    {
+                        model: this.view.model,
+                        filter: this.filter,
+                        fields: this.view.fields,
+                        viewId: this.viewId,
+                    },
+                    {
+                        onSuccess: (results) => {
+                            dispatchAll(this.$router, results);
+                        },
+                    },
+                );
+                return this.view.selectable;
+            }
+            return false;
+        },
+        perPage () {
+            const defaultPerPage = 20;
+            if (this.view) return this.view.perPage || defaultPerPage;
+            return defaultPerPage;
+        },
+        hasChecked () {
+            return this.checkedRows.length > 0;
+        }
+    },
+    methods: {
+        addNew: function () {
+            if (this.view.onSelect) {
+                this.$router.push({
+                    name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+                    params: {
+                        spaceId: this.spaceId,
+                        menuId: this.menuId,
+                        actionId: this.actionId,
+                        viewId: this.view.onSelect,
+                        dataId: getNewID(this.view.model),
+                        readonly: 'new',
+                    }
+                });
+            }
+        },
+        selectRow: function (row) {
+            if (this.view.onSelect) {
+                this.$router.push({
+                    name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+                    params: {
+                        spaceId: this.spaceId,
+                        menuId: this.menuId,
+                        actionId: this.actionId,
+                        viewId: this.view.onSelect,
+                        dataId: row.__dataId,
+                        readonly: 'readonly',
+                    }
+                });
+            }
+        }
     }
-}
+});
 
-plugin.set(['views', 'type'], {List})
+plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});
 
-export default List
+plugin.set(['field', 'List'], {Unknown: (header) => {
+    const res = {
+        label: header.label,
+        field: header.name,
+        numeric: false,
+        width: undefined,
+        render: (row) => {
+            return row[header.name] || '';
+        },
+    }
+    if (header.width) res.width = header.width;
+    if (header.sortable) res.sortable = header.sortable;
+    console.log('Unknown field for', header)
+    return res;
+}})

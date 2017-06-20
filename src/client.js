@@ -10,18 +10,19 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import Buefy from 'buefy';
 import VueI18n from 'vue-i18n';
-import 'buefy/lib/buefy.css';
 import 'bulma/css/bulma.css'
+import 'buefy/lib/buefy.css';
 import { sync } from 'vuex-router-sync';
 import "font-awesome-loader";
 import {json_post} from './server-call';
 import plugin from './plugin';
 import defaultI18n from './i18n';
 import './views';
-// import './fields';
+import './field';
+import './fields';
 import './app';
 
-Vue.use(Buefy);
+Vue.use(Buefy, {defaultIconPack: 'fa',});
 Vue.use(VueI18n);
 
 import {store, dispatchAll} from './store';

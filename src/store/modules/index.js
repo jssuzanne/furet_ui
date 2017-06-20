@@ -12,8 +12,6 @@ import client from './client';
 import rightmenu from './right-menu';
 import leftmenu from './left-menu';
 import action_manager from './action_manager';
-import actions from './actions';
-import views from './views';
 import data from './data';
 import change from './change';
 
@@ -23,8 +21,6 @@ export default {
     rightmenu,
     leftmenu,
     action_manager,
-    actions,
-    views,
     data,
     change,
 }

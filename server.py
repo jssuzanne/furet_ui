@@ -367,10 +367,9 @@ def _getInitOptionnalData():
 def getAction1():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '1',
             'label': 'Action : 1',
-            'viewId': '1',
             'views': [
                 {
                     'viewId': '1',
@@ -401,20 +400,17 @@ def getAction1():
                     'type': 'Gantt',
                 },
             ],
-            'model': 'Test',
         }
     ]
-    res.append(getView1())
-    return res
+    return res, {'viewId': '1'}
 
 
 def getAction2():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '2',
             'label': 'Customer',
-            'viewId': '8',
             'views': [
                 {
                     'viewId': '8',
@@ -425,20 +421,17 @@ def getAction2():
                     'type': 'Form',
                 },
             ],
-            'model': 'Customer',
         }
     ]
-    res.append(getView8())
-    return res
+    return res, {'viewId': '8'}
 
 
 def getAction3():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '3',
             'label': 'Category',
-            'viewId': '10',
             'views': [
                 {
                     'viewId': '10',
@@ -449,20 +442,17 @@ def getAction3():
                     'type': 'Form',
                 },
             ],
-            'model': 'Category',
         }
     ]
-    res.append(getView10())
-    return res
+    return res, {'viewId': '10'}
 
 
 def getAction4():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '4',
             'label': 'Address',
-            'viewId': '12',
             'views': [
                 {
                     'viewId': '12',
@@ -473,40 +463,34 @@ def getAction4():
                     'type': 'Form',
                 },
             ],
-            'model': 'Address',
         }
     ]
-    res.append(getView12())
-    return res
+    return res, {'viewId': '12'}
 
 
 def getAction5():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '5',
             'label': 'Customer',
-            'viewId': '9',
             'views': [
                 {
                     'viewId': '9',
                     'type': 'Form',
                 },
             ],
-            'model': 'Customer',
         }
     ]
-    res.append(getView9())
-    return res
+    return res, {'viewId': '9'}
 
 
 def getAction6():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '6',
             'label': 'Category',
-            'viewId': '11',
             'views': [
                 {
                     'viewId': '11',
@@ -516,17 +500,15 @@ def getAction6():
             'model': 'Category',
         }
     ]
-    res.append(getView11())
-    return res
+    return res, {'viewId': '11'}
 
 
 def getAction7():
     res = [
         {
-            'type': 'UPDATE_ACTION_MANAGER_ADD_ACTION_DATA',
+            'type': 'UPDATE_ACTION',
             'actionId': '7',
             'label': 'Address',
-            'viewId': '13',
             'views': [
                 {
                     'viewId': '13',
@@ -536,8 +518,7 @@ def getAction7():
             'model': 'Address',
         }
     ]
-    res.append(getView13())
-    return res
+    return res, {'viewId': '13'}
 
 
 def getAction(actionId):
@@ -622,11 +603,13 @@ def getView1():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '1',
+        'viewType': 'List',
         'label': 'View : 1',
         'creatable': True,
         'deletable': True,
         'selectable': True,
         'onSelect': '3',
+        'model': 'Test',
         'headers': [
             {
                 'name': 'id',
@@ -637,6 +620,7 @@ def getView1():
                 'name': 'name',
                 'type': 'String',
                 'label': 'Label',
+                'sortable': True,
             },
             {
                 'name': 'state',
@@ -709,9 +693,11 @@ def getView2():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '2',
+        'viewType': 'Thumbnail',
         'label': 'View : 2',
         'creatable': True,
         'onSelect': '3',
+        'model': 'Test',
         'search': [
             {
                 'key': 'name',
@@ -792,11 +778,13 @@ def getView3():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': 3,
+        'viewType': 'Form',
         'label': 'View : 3',
         'creatable': True,
         'deletable': True,
         'editable': True,
         'onClose': '1',
+        'model': 'Test',
         'template': '''
             <div className="row">
                 <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -881,11 +869,13 @@ def getView8():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '8',
+        'viewType': 'List',
         'label': 'Customers',
         'creatable': True,
         'deletable': True,
         'selectable': False,
         'onSelect': '9',
+        'model': 'Customer',
         'headers': [
             {
                 'name': 'name',
@@ -923,11 +913,13 @@ def getView9():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '9',
+        'viewType': 'Form',
         'label': 'Customer',
         'creatable': True,
         'deletable': True,
         'editable': True,
         'onClose': '8',
+        'model': 'Customer',
         'template': '''
             <div className="row">
                 <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -969,11 +961,13 @@ def getView10():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '10',
+        'viewType': 'List',
         'label': 'Categories',
         'creatable': True,
         'deletable': True,
         'selectable': False,
         'onSelect': '11',
+        'model': 'Category',
         'headers': [
             {
                 'name': 'name',
@@ -995,11 +989,13 @@ def getView11():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '11',
+        'viewType': 'Form',
         'label': 'Category',
         'creatable': True,
         'deletable': True,
         'editable': True,
         'onClose': '10',
+        'model': 'Category',
         'template': '''
             <div className="row">
                 <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -1026,11 +1022,13 @@ def getView12():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '12',
+        'viewType': 'List',
         'label': 'Addresses',
         'creatable': True,
         'deletable': True,
         'selectable': False,
         'onSelect': '13',
+        'model': 'Address',
         'headers': [
             {
                 'name': 'customer',
@@ -1070,11 +1068,13 @@ def getView13():
     return {
         'type': 'UPDATE_VIEW',
         'viewId': '13',
+        'viewType': 'Form',
         'label': 'Category',
         'creatable': True,
         'deletable': True,
         'editable': True,
         'onClose': '12',
+        'model': 'Address',
         'template': '''
             <div>
                 <div className="row">
@@ -1287,7 +1287,7 @@ def getSpaceInformation(spaceId=None):
 def getM2OAction():
     response.set_header('Content-Type', 'application/json')
     data = loads(request.body.read())
-    return superDumps(getAction(data['actionId']))
+    return superDumps(getAction(data['actionId'])[0])
 
 
 @route('/furetui/action/<actionId>', method='POST')
@@ -1295,8 +1295,22 @@ def getActionInformation(actionId=None):
     response.set_header('Content-Type', 'application/json')
     if actionId is None:
         return superDumps([])
+    data = loads(request.body.read())
+    res, default = getAction(actionId)
+    path = ['', 'space', data['spaceId']]
+    path.extend(['menu', data['menuId']])
+    path.extend(['action', actionId])
+    if data.get('viewId'):
+        path.extend(['view', data['viewId']])
+    elif default.get('viewId'):
+        path.extend(['view', default['viewId']])
 
-    return superDumps(getAction(actionId))
+    res.append({
+        'type': 'UPDATE_ROUTE',
+        'path': '/'.join(path),
+    })
+
+    return superDumps(res)
 
 
 @route('/furetui/view/<viewId>', method='POST')
@@ -1310,6 +1324,7 @@ def getViewInformation(viewId=None):
 
 def getMultiView():
     data = loads(request.body.read())
+    print(data)
     ids = getIdsFromFilter(data['model'], data['filter'])
     fields = data.get('fields')
     if fields is None:
@@ -1320,7 +1335,7 @@ def getMultiView():
     _data.append({
         'type': 'UPDATE_VIEW',
         'viewId': data['viewId'],
-        'ids': ids,
+        'dataIds': ids,
     })
     return superDumps(_data)
 

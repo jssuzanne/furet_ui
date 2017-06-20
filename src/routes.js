@@ -14,34 +14,62 @@ import {dispatchAll} from './store';
 import {json_post} from './server-call';
 
 
-const spaceChildren = [
-    {
-        path: 'action/:actionId',
-        props: true,
-        component: {
-            template: '<furet-ui-space v-bind:actionId="actionId" />',
-            props: ['actionId'],
-        },
-        beforeEnter: (to, from, next) => {
-            next()
-        },
-        children: [
-            {
-                path: 'view/:viewId',
-                props: true,
-                component: {
-                    template: '<furet-ui-space v-bind:viewId="viewId" />',
-                    props: ['viewId'],
-                },
-                beforeEnter: (to, from, next) => {
-                    console.log('view', to, from)
-                    next()
-                },
+const CustomeView = {
+    template: '<furet-ui-custom-view v-bind:viewName="viewName" />',
+    props: ['viewName'],
+    beforeRouteEnter: (to, from, next) => {
+        json_post('/custom/view/' + to.params.viewName, {}, {
+            onSucess: (results) => {
+                dispatchAll(undefined, results);
             },
-        ],
+        })
+        next();
     },
-];
+    beforeRouteUpdate: (to, from, next) => {
+        if (to.params.viewName != from.params.viewName) {
+            json_post('/custom/view/' + to.params.viewName, {}, {
+                onSucess: (results) => {
+                    dispatchAll(undefined, results);
+                },
+            })
+        }
+        next();
+    },
+}
 
+const Action = {
+    template: '<router-view></router-view>',
+    beforeRouteEnter: (to, from, next) => {
+        call('/action/' + to.params.actionId, to.params);
+        next();
+    },
+    beforeRouteUpdate: (to, from, next) => {
+        if (to.params.actionId != from.params.actionId) 
+            call('/action/' + to.params.actionId, to.params);
+        next();
+    },
+};
+
+const View = {
+    template: `<furet-ui-view 
+                    v-bind:spaceId="spaceId" 
+                    v-bind:menuId="menuId" 
+                    v-bind:actionId="actionId" 
+                    v-bind:viewId="viewId" 
+                    v-bind:dataId="dataId"
+                    v-bind:readonly="readonly"
+                />`,
+    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId', 'readonly'],
+    beforeRouteEnter: (to, from, next) => {
+        call('/view/' + to.params.viewId, to.params);
+        next();
+    },
+    beforeRouteUpdate: (to, from, next) => {
+        if (to.params.viewId != from.params.viewId) 
+            call('/view/' + to.params.viewId, to.params);
+        next();
+    },
+};
 
 
 const router = new VueRouter({
@@ -50,111 +78,92 @@ const router = new VueRouter({
             path: '/custom/view/:viewName',
             name: 'custom_view',
             props: true,
-            component: {
-                template: '<furet-ui-custom-view v-bind:viewName="viewName" />',
-                props: ['viewName'],
-                beforeRouteEnter: (to, from, next) => {
-                    json_post('/custom/view/' + to.params.viewName, {}, {
-                        onSucess: (results) => {
-                            dispatchAll(undefined, results);
-                        },
-                    })
-                    next();
-                },
-                beforeRouteUpdate: (to, from, next) => {
-                    json_post('/custom/view/' + to.params.viewName, {}, {
-                        onSucess: (results) => {
-                            dispatchAll(undefined, results);
-                        },
-                    })
-                    next();
-                },
-            },
+            component: CustomeView,
         },
         {
             path: '/space/:spaceId',
             name: 'space',
             props: true,
             component: {
-                template: '<furet-ui-space v-bind:spaceId="spaceId" />',
-                props: ['spaceId'],
+                template: `<furet-ui-space 
+                                v-bind:spaceId="spaceId" 
+                                v-bind:menuId="menuId" 
+                                v-bind:actionId="actionId" 
+                                v-bind:viewId="viewId" 
+                            />`,
+                props: ['spaceId', 'menuId', 'actionId', 'viewId'],
                 beforeRouteEnter: (to, from, next) => {
                     call('/space/' + to.params.spaceId, to.params);
                     next();
                 },
                 beforeRouteUpdate: (to, from, next) => {
-                    if (to.params.spaceId != from.params.spaceId) call('/space/' + to.params.spaceId, to.params);
-                    next();
-                },
-            },
-            children: spaceChildren,
-        },
-        {
-            path: '/space/:spaceId/menu/:menuId',
-            name: 'space_menu',
-            props: true,
-            component: {
-                template: '<furet-ui-space v-bind:spaceId="spaceId" v-bind:menuId="menuId" />',
-                props: ['spaceId', 'menuId'],
-                beforeRouteEnter: (to, from, next) => {
-                    console.log('plop', to.params)
-                    call('/space/' + to.params.spaceId, to.params);
-                    next();
-                },
-                beforeRouteUpdate: (to, from, next) => {
-                    console.log('plop', to.params)
                     if (to.params.spaceId != from.params.spaceId) call('/space/' + to.params.spaceId, to.params);
                     next();
                 },
             },
             children: [
                 {
-                    path: 'action/:actionId',
-                    name: 'space_menu_action',
-                    props: true,
+                    path: 'menu/:menuId',
+                    name: 'space_menu',
                     component: {
-                        template: '<div>{{spaceId}} {{menuId}} {{actionId}} </div>',
-                        props: ['spaceId', 'menuId', 'actionId'],
-                    },
-                    beforeEnter: (to, from, next) => {
-                        console.log('action', to, from)
-                        next()
+                        template: '<router-view></router-view>'
                     },
                     children: [
                         {
-                            path: 'view/:viewId',
-                            props: true,
-                            component: {
-                                template: '<furet-ui-space v-bind:viewId="viewId" />',
-                                props: ['viewId'],
-                            },
-                            beforeEnter: (to, from, next) => {
-                                console.log('view', to, from)
-                                next()
-                            },
+                            path: 'action/:actionId',
+                            name: 'space_menu_action',
+                            component: Action,
+                            children: [
+                                {
+                                    path: 'view/:viewId',
+                                    name: 'space_menu_action_view',
+                                    props: true,
+                                    component: View,
+                                    children: [
+                                        {
+                                            path: 'data/:dataId/mode/:readonly',
+                                            name: 'space_menu_action_view_dataId',
+                                            component: {template: '<div />'},  // never called
+                                        },
+                                    ],
+                                },
+                                {
+                                    path: 'custom/view/:viewName',
+                                    name: 'space_menu_action_custom_view',
+                                    props: true,
+                                    component: CustomeView,
+                                },
+                            ],
                         },
                     ],
                 },
-            ],
-            // children: [
-            //     {
-            //         path: 'action/:actionId',
-            //         name: 'space_menu_action',
-            //         props: true,
-            //         component: {
-            //             template: '<furet-ui-space v-bind:spaceId="spaceId" v-bind:menuId="menuId" v-bind:actionId="actionId"/>',
-            //             props: ['spaceId', 'menuId', 'actionId'],
-            //             beforeRouteEnter: (to, from, next) => {
-            //                 console.log('action.beforeRouteEnter', to)
-            //                 next();
-            //             },
-            //             beforeRouteUpdate: (to, from, next) => {
-            //                 console.log('action.beforeRouteUpdate', to)
-            //                 next();
-            //             },
-            //         }
-            //     }
-            // ],
+                {
+                    path: 'action/:actionId',
+                    name: 'space_action',
+                    component: Action,
+                    children: [
+                        {
+                            path: 'view/:viewId',
+                            name: 'space_action_view',
+                            props: true,
+                            component: View,
+                            children: [
+                                {
+                                    path: 'data/:dataId/mode/:readonly',
+                                    name: 'space_action_view_dataId',
+                                    component: {template: '<div />'},  // never called
+                                },
+                            ],
+                        },
+                        {
+                            path: 'custom/view/:viewName',
+                            name: 'space_action_custom_view',
+                            props: true,
+                            component: CustomeView,
+                        },
+                    ],
+                },
+            ]
         },
     ],
 });

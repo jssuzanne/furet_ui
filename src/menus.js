@@ -114,7 +114,6 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                     this.$router.push({name: 'custom_view', params: {viewName: card.id}}); 
                     break;
                 case 'space':
-                    console.log(this.$router)
                     this.$router.push({name: 'space', params: {spaceId: card.id}});
                     this.$store.commit(key, {
                         value: {
