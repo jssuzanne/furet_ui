@@ -9,8 +9,8 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import './clients';
 import './list';
-// import './thumbnail';
-// import './form';
+import './thumbnail';
+import './form';
 import Vue from 'vue';
 import plugin from '../plugin';
 

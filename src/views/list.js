@@ -8,6 +8,7 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 console.error('FIX ME, find a better way to load data')
+console.error('FIX ME, search bar')
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
@@ -28,7 +29,7 @@ plugin.set(['views', 'icon'], {List: 'furet-ui-list-view-icon'})
  *
 **/
 export const ListView = Vue.component('furet-ui-list-view', {
-    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'dataIds', 'data', 'change'],
+    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change'],
     template: `
         <div>
             <nav class="level">
@@ -194,7 +195,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                         actionId: this.actionId,
                         viewId: this.view.onSelect,
                         dataId: getNewID(this.view.model),
-                        readonly: 'new',
+                        mode: 'new',
                     }
                 });
             }
@@ -209,7 +210,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                         actionId: this.actionId,
                         viewId: this.view.onSelect,
                         dataId: row.__dataId,
-                        readonly: 'readonly',
+                        mode: 'readonly',
                     }
                 });
             }

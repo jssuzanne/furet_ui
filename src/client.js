@@ -18,7 +18,6 @@ import {json_post} from './server-call';
 import plugin from './plugin';
 import defaultI18n from './i18n';
 import './views';
-import './field';
 import './fields';
 import './app';
 

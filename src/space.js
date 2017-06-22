@@ -98,15 +98,17 @@ export const Space = Vue.component('furet-ui-space', {
                     <div class="nav-right">
                         <div class="field has-addons" v-if="action.views.length > 0">
                             <p class="control" v-for="view in action.views">
-                                <a class="button" 
-                                    v-on:click.stop="changeView(view.viewId)"
-                                    v-bind:disabled="view.viewId == viewId"
-                                    v-bind:class="[view.viewId == viewId ? 'is-primary': '']"
-                                >
-                                    <span class="icon is-small">
-                                        <furet-ui-view-icon v-bind:type="view.type" />
-                                    </span>
-                                </a>
+                                <b-tooltip v-bind:label="view.type" position="is-left" type="is-info">
+                                    <a class="button" 
+                                        v-on:click.stop="changeView(view.viewId)"
+                                        v-bind:disabled="view.viewId == viewId"
+                                        v-bind:class="[view.viewId == viewId ? 'is-primary': '']"
+                                    >
+                                        <span class="icon is-small">
+                                            <furet-ui-view-icon v-bind:type="view.type" />
+                                        </span>
+                                    </a>
+                                </b-tooltip>
                             </p>
                         </div>
                         <a class="button" v-on:click="isOpenRight = !isOpenRight" v-if="right_menu.length > 0">

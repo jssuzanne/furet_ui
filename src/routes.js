@@ -57,9 +57,9 @@ const View = {
                     v-bind:actionId="actionId" 
                     v-bind:viewId="viewId" 
                     v-bind:dataId="dataId"
-                    v-bind:readonly="readonly"
+                    v-bind:mode="mode"
                 />`,
-    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId', 'readonly'],
+    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId', 'mode'],
     beforeRouteEnter: (to, from, next) => {
         call('/view/' + to.params.viewId, to.params);
         next();
@@ -121,7 +121,7 @@ const router = new VueRouter({
                                     component: View,
                                     children: [
                                         {
-                                            path: 'data/:dataId/mode/:readonly',
+                                            path: 'data/:dataId/mode/:mode',
                                             name: 'space_menu_action_view_dataId',
                                             component: {template: '<div />'},  // never called
                                         },
@@ -149,7 +149,7 @@ const router = new VueRouter({
                             component: View,
                             children: [
                                 {
-                                    path: 'data/:dataId/mode/:readonly',
+                                    path: 'data/:dataId/mode/:mode',
                                     name: 'space_action_view_dataId',
                                     component: {template: '<div />'},  // never called
                                 },

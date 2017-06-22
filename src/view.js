@@ -23,7 +23,7 @@ export const getNewID = (model) => {
  *
 **/
 export const View = Vue.component('furet-ui-view', {
-    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId'],
+    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId', 'mode'],
     render: function(createElement) {
         let view = plugin.get(['views', 'type', this.view.viewType]);
         if (!view) view = plugin.get(['views', 'Unknown']).vue;
@@ -38,6 +38,7 @@ export const View = Vue.component('furet-ui-view', {
                 dataId: this.dataId,
                 data: this.data,
                 change: this.change,
+                mode: this.mode,
             },
         });
     },
@@ -56,8 +57,11 @@ export const View = Vue.component('furet-ui-view', {
         data () {
             if (this.model) {
                 const data = this.$store.state.data.data;
-                if (this.dataId) return data[this.model][String(this.dataId)];
-                return data[this.model];
+                if (this.dataId) 
+                    if (data[this.model])
+                        data[this.model][String(this.dataId)];
+
+                return data[this.model] || {};
             }
             if (this.dataId) return {};
             return [];
