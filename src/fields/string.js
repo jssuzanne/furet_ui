@@ -7,29 +7,83 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-import React from 'react';
+import Vue from 'vue';
 import plugin from '../plugin';
-import {BaseList, BaseThumbnail, BaseForm} from './base';
+import {FormMixin, ThumbnailMixin} from './common';
 
-export class StringList extends BaseList {}
-export class StringThumbnail extends BaseThumbnail {}
-export class StringForm extends BaseForm {
-    getInputProps () {
-        const props = super.getInputProps();
-        props.type = 'text';
-        return props;
+
+plugin.set(['field', 'List'], {String: (header) => {
+    const res = {
+        label: header.label,
+        field: header.name,
+        render: (row) => {
+            return row[header.name] || '';
+        },
     }
-}
+    if (header.sortable) res.sortable = header.sortable;
+    return res;
+}})
 
-plugin.set(['field', 'List'], {'String': StringList});
-plugin.set(['field', 'Thumbnail'], {'String': StringThumbnail});
-plugin.set(['field', 'Form'], {'String': StringForm});
-plugin.set(['field', 'List'], {'UString': StringList});
-plugin.set(['field', 'Thumbnail'], {'UString': StringThumbnail});
-plugin.set(['field', 'Form'], {'UString': StringForm});
+export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-string', {
+    props: ['name', 'label', 'params', 'data'],
+    mixins: [ThumbnailMixin],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
+            v-else
+        >
+            <b-field 
+                v-bind:label="this.label"
+                v-bind:style="{'width': 'inherit'}"
+            >
+                <span> {{value}} </span>
+            </b-field>
+        </b-tooltip>`,
+})
+plugin.set(['field', 'Thumbnail'], {String: 'furet-ui-thumbnail-field-string'});
 
-export default {
-    StringList,
-    StringThumbnail,
-    StringForm,
-}
+export const FieldFormString = Vue.component('furet-ui-form-field-string', {
+    props: ['name', 'label', 'params', 'config'],
+    mixins: [FormMixin],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
+            v-bind:style="{'width': '100%'}"
+            v-else
+        >
+            <b-field 
+                v-bind:label="this.label"
+                v-bind:type="getType"
+                v-bind:message="getMessage"
+                v-bind:style="{'width': 'inherit'}"
+            >
+                <span v-if="isReadonly"> {{data}} </span>
+                <b-input 
+                    v-else 
+                    v-bind:value="data" 
+                    v-on:change="updateValue"
+                    v-bind:maxlength="maxlength"
+                    v-bind:placeholder="placeholder"
+                    icon-pack="fa"
+                    v-bind:icon="icon"
+                >
+                </b-input>
+            </b-field>
+        </b-tooltip>`,
+    computed: {
+        maxlength () {
+            return this.params && this.params.maxlength || 64;
+        },
+        placeholder () {
+            return this.params && this.params.placeholder || "";
+        },
+        icon () {
+            return this.params && this.params.placeholder || "";
+        },
+    },
+})
+plugin.set(['field', 'Form'], {String: 'furet-ui-form-field-string'});

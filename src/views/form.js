@@ -8,7 +8,6 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 console.error('FIX ME, find a better way to load data')
-console.error('FIX ME, search bar')
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
@@ -114,11 +113,8 @@ export const FormView = Vue.component('furet-ui-form-view', {
                         </p>
                     </div>
                 </div>
-                <div class="level-right">
-                    search bar
-                </div>
             </nav>
-            <section class="section box">
+            <section class="box">
                 <component v-bind:is="form_card" v-bind:config="config"/>
             </section>
         </div>
@@ -131,7 +127,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
     computed: {
         config () {
             return {
-                data: Object.assign({}, this.data)[this.dataId],
+                data: this.data,
                 view: this.view,
                 spaceId: this.spaceId,
                 menuId: this.menuId,
@@ -195,20 +191,6 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 }
             });
         },
-        deleteData: function () {
-            this.$store.commit('DELETE_DATA', {dataId: this.dataId});
-            if (this.view.onClose) {
-                this.$router.push({
-                    name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onClose,
-                    }
-                });
-            }
-        },
         closeMode: function () {
             if (this.view.onClose) {
                 this.$router.push({
@@ -223,7 +205,10 @@ export const FormView = Vue.component('furet-ui-form-view', {
             }
         },
         cancelMode: function () {
-            this.$store.commit('CLEAR_CHANGE');
+            this.$store.commit('CLEAR_CHANGE', {
+                model: this.view.model,
+                dataId: this.dataId,
+            });
             if (this.mode == 'new') {
                 if (this.view.onClose) {
                     this.$router.push({
@@ -250,19 +235,50 @@ export const FormView = Vue.component('furet-ui-form-view', {
                     });
             }
         },
-        saveData: function () {
-            console.error('SEND TO SERVER')
-            this.$store.commit('SAVE_CHANGE');
-            this.$router.push({
-                name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                params: {
-                    spaceId: this.spaceId,
-                    menuId: this.menuId,
-                    actionId: this.actionId,
-                    viewId: this.viewId,
-                    dataId: this.dataId,
-                    mode: 'readonly',
+        deleteData: function () {
+            json_post(
+                '/data/delete', 
+                { 
+                    model: this.view.model, 
+                    dataIds: [this.dataId],
+                    path: {
+                        spaceId: this.spaceId,
+                        menuId: this.menuId,
+                        actionId: this.actionId,
+                        viewId: this.view.onClose,
+                    },
+                },
+                {
+                    onSuccess: (result) => {
+                        dispatchAll(this.$router, result)
+                    },
                 }
+            )
+        },
+        saveData: function () {
+            json_post(
+                this.mode == 'new' ? '/data/create' : '/data/update', 
+                {
+                    model: this.view.model,
+                    dataId: this.dataId,
+                    data: this.change,
+                    fields: this.view.fields,
+                    path: {
+                        spaceId: this.spaceId,
+                        menuId: this.menuId,
+                        actionId: this.actionId,
+                        viewId: this.viewId,
+                    },
+                },
+                {
+                    onSuccess: (result) => {
+                        dispatchAll(this.$router, result)
+                    },
+                }
+            )
+            this.$store.commit('CLEAR_CHANGE', {
+                model: this.view.model,
+                dataId: this.dataId,
             });
         }
     }
@@ -289,7 +305,6 @@ export const Field = Vue.component('furet-ui-form-field', {
             props.widget = this.widget
             console.log('furet-ui-form-field', this.widget)
         }
-        console.log(field, this.data)
         return createElement(field, {props});
     },
 });
@@ -298,8 +313,15 @@ export const FieldUnknown = Vue.component('furet-ui-form-field-unknown', {
     props: ['name', 'label', 'params', 'config', 'widget'],
     template: `
         <b-field v-bind:label="getLabel">
-            <span v-if="isReadonly"> {{data}} </span>
-            <b-input v-else v-bind:value="data"></b-input>
+            <div 
+                v-if="isReadonly"
+                v-bind:style="{maxWidth: '300px', display: 'inline-block', maxHeight: '100px', overflowY: 'auto'}"
+            >
+                <span v-bind:style="{maxWidth: '300px', display: 'inline-block', wordBreak: 'break-word'}"> 
+                    {{data}} 
+                </span>
+            </div>
+            <b-input v-else v-bind:value="data" v-on:change="updateValue"></b-input>
         </b-field>`,
     computed: {
         data () {
@@ -312,5 +334,15 @@ export const FieldUnknown = Vue.component('furet-ui-form-field-unknown', {
             return this.label + ' (' + this.widget + ' widget missing)';
         }
     },
+    methods: {
+        updateValue (value) {
+            this.$store.commit('UPDATE_CHANGE', {
+                model: this.config.view.model,
+                dataId: this.config.dataId,
+                fieldname: this.name,
+                value
+            })
+        }
+    }
 })
 plugin.set(['field', 'Form'], {Unknown: 'furet-ui-form-field-unknown'});

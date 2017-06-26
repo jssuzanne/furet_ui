@@ -36,7 +36,7 @@ class Test(Base):
     filesize = Column(Integer)
 
     @classmethod
-    def insert(cls, data, mapping):
+    def insert(cls, session, data):
         return cls(**data)
 
     def read(self, fields):
@@ -46,7 +46,7 @@ class Test(Base):
             'data': {self.id: {y: getattr(self, y) for y in fields}},
         }]
 
-    def update(self, session, val, mapping):
+    def update(self, session, val):
         for k, v in val.items():
             setattr(self, k, v)
 
@@ -85,31 +85,31 @@ class Category(Base):
 
         return res
 
-    def update(self, session, val, mapping):
+    def update(self, session, val):
         for k, v in val.items():
             if k == 'customers':
                 customers = []
-                for dataId in v:
-                    if dataId in mapping:
-                        customers.append(mapping[dataId])
-                    else:
-                        customers.append(session.query(Customer).filter(
-                            Customer.id == int(dataId)).one())
+                ## for dataId in v:
+                ##     if dataId in mapping:
+                ##         customers.append(mapping[dataId])
+                ##     else:
+                ##         customers.append(session.query(Customer).filter(
+                ##             Customer.id == int(dataId)).one())
 
                 self.customers = customers
             else:
                 setattr(self, k, v)
 
     @classmethod
-    def insert(cls, data, mapping):
+    def insert(cls, session, data):
         if 'customers' in data:
             customers = []
-            for dataId in data['customers']:
-                if dataId in mapping:
-                    customers.append(mapping[dataId])
-                else:
-                    customers.append(session.query(Customer).filter(
-                        Customer.id == int(dataId)).one())
+            ##for dataId in data['customers']:
+            ##    if dataId in mapping:
+            ##        customers.append(mapping[dataId])
+            ##    else:
+            ##        customers.append(session.query(Customer).filter(
+            ##            Customer.id == int(dataId)).one())
 
             data['customers'] = customers
 
@@ -144,16 +144,16 @@ class Customer(Base):
 
         return res
 
-    def update(self, session, val, mapping):
+    def update(self, session, val):
         for k, v in val.items():
             if k == 'categories':
                 categories = []
-                for dataId in v:
-                    if dataId in mapping:
-                        categories.append(mapping[dataId])
-                    else:
-                        categories.append(session.query(Customer).filter(
-                            Customer.id == int(dataId)).one())
+                ## for dataId in v:
+                ##     if dataId in mapping:
+                ##         categories.append(mapping[dataId])
+                ##     else:
+                ##         categories.append(session.query(Customer).filter(
+                ##             Customer.id == int(dataId)).one())
 
                 self.categories = categories
             elif k == 'addresses':
@@ -162,19 +162,19 @@ class Customer(Base):
                 setattr(self, k, v)
 
     @classmethod
-    def insert(cls, data, mapping):
-        if 'categories' in data:
-            categories = []
-            for dataId in data['categories']:
-                if dataId in mapping:
-                    categories.append(mapping[dataId])
-                else:
-                    categories.append(session.query(Category).filter(
-                        Category.id == int(dataId)).one())
+    def insert(cls, session, data):
+        ##if 'categories' in data:
+        ##    categories = []
+        ##    for dataId in data['categories']:
+        ##        if dataId in mapping:
+        ##            categories.append(mapping[dataId])
+        ##        else:
+        ##            categories.append(session.query(Category).filter(
+        ##                Category.id == int(dataId)).one())
 
-            data['categories'] = categories
-        if 'addresses' in data:
-            del data['addresses']
+        ##    data['categories'] = categories
+        ##if 'addresses' in data:
+        ##    del data['addresses']
 
         return cls(**data)
 
@@ -212,24 +212,25 @@ class Address(Base):
 
         return res
 
-    def update(self, session, val, mapping):
+    def update(self, session, val):
         for k, v in val.items():
             if k == 'customer':
-                if v in mapping:
-                    self.customer = mapping[v]
-                else:
-                    self.customer_id = int(v)
+                pass
+                ## if v in mapping:
+                ##     self.customer = mapping[v]
+                ## else:
+                ##     self.customer_id = int(v)
             else:
                 setattr(self, k, v)
 
     @classmethod
-    def insert(cls, data, mapping):
-        customer = data['customer']
-        if customer in mapping:
-            data['customer'] = mapping[customer]
-        else:
-            data['customer_id'] = int(customer)
-            del data['customer']
+    def insert(cls, session, data):
+        ##customer = data['customer']
+        ##if customer in mapping:
+        ##    data['customer'] = mapping[customer]
+        ##else:
+        ##    data['customer_id'] = int(customer)
+        ##    del data['customer']
 
         return cls(**data)
 
@@ -653,13 +654,13 @@ def getView1():
                 'type': 'Time',
                 'label': 'Time',
             },
-            # {
-            #     'name': 'file',
-            #     'type': 'LargeBinaryPreview',
-            #     'label': 'File',
-            #     'filename': 'filename',
-            #     'filesize': 'filesize',
-            # },
+            {
+                'name': 'file',
+                'type': 'LargeBinaryPreview',
+                'label': 'File',
+                'filename': 'filename',
+                'filesize': 'filesize',
+            },
         ],
         'search': [
             {
@@ -712,7 +713,13 @@ def getView2():
         'template': '''
             <div class="columns is-multiline is-mobile">
                 <div class="column is-8">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="name" widget="String" label="Label"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field
+                        v-bind:data="card"
+                        name="name"
+                        widget="String"
+                        label="Label"
+                    >
+                    </furet-ui-thumbnail-field>
                 </div>
                 <div class="column is-6">
                     <furet-ui-thumbnail-field
@@ -724,7 +731,12 @@ def getView2():
                     </furet-ui-thumbnail-field>
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="creation_date" widget="DateTime" label="Creation date"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field
+                        v-bind:data="card"
+                        name="creation_date"
+                        widget="DateTime"
+                        label="Creation date">
+                    </furet-ui-thumbnail-field>
                 </div>
                 <div class="column is-6">
                     <furet-ui-thumbnail-field v-bind:data="card" name="number" widget="Float" label="Number"></furet-ui-thumbnail-field>
@@ -789,8 +801,23 @@ def getView3():
         'model': 'Test',
         'template': '''
             <div class="columns is-multiline is-mobile">
+                <div class="column is-4">
+                    <furet-ui-form-field
+                        v-bind:config="config"
+                        name="id"
+                        widget="Integer"
+                        label="ID"
+                        v-bind:params="{'required': 1, 'readonly': 1}"
+                    ></furet-ui-form-field>
+                </div>
                 <div class="column is-8">
-                    <furet-ui-form-field v-bind:config="config" name="name" widget="String" label="Label"></furet-ui-form-field>
+                    <furet-ui-form-field
+                        v-bind:params="{'required': 'fields.number', 'tooltip': 'Plop'}"
+                        v-bind:config="config"
+                        name="name"
+                        widget="String"
+                        label="Label">
+                    </furet-ui-form-field>
                 </div>
                 <div class="column is-6">
                     <furet-ui-form-field
@@ -837,14 +864,6 @@ def getView3():
                            filesize="filesize"
                     >
                     </furet-ui-form-field>
-                </div>
-                <div class="column is-6">
-                    <furet-ui-form-field
-                        v-bind:config="config"
-                        name="id"
-                        widget="Integer"
-                        label="ID"
-                        required="1" readonly="true"></furet-ui-form-field>
                 </div>
                 <div class="column is-6">
                     <furet-ui-form-field
@@ -1449,63 +1468,107 @@ def getInitOptionnalData():
     return _getInitOptionnalData()
 
 
+@route('/furetui/data/create', method='POST')
+def createData():
+    response.set_header('Content-Type', 'application/json')
+    _data = []
+    session = Session()
+    try:
+        data = loads(request.body.read())
+        Model = MODELS[data['model']]
+        obj = Model.insert(session, data['data'])
+        session.add(obj)
+        session.commit()
+        _data.extend(_getData(session, data['model'], [obj.id], data['fields']))
+        path = ['', 'space', data['path']['spaceId']]
+        if data['path'].get('menuId'):
+            path.extend(['menu', data['path']['menuId']])
+        path.extend(['action', data['path']['actionId']])
+        path.extend(['view', data['path']['viewId']])
+        path.extend(['data', str(obj.id)])
+        path.extend(['mode', 'readonly'])
+        _data.append({
+            'type': 'UPDATE_ROUTE',
+            'path': '/'.join(path),
+        })
+    except Exception as e:
+        print(str(e))
+        _data = []
+        session.rollback()
+    finally:
+        session.close()
+
+    print (_data)
+    return superDumps(_data)
+
+
 @route('/furetui/data/update', method='POST')
 def updateData():
     response.set_header('Content-Type', 'application/json')
     _data = []
-    toUpdate = []
-    toDelete = {}
-    toCreate = {}
-
+    session = Session()
     try:
-        session = Session()
-        for data in loads(request.body.read()):
-            Model = MODELS[data['model']]
-            if data['type'] == 'CREATE':
-                obj = Model.insert(data['data'], toCreate)
-                session.add(obj)
-                toUpdate.append((data['model'], data['fields'], obj))
-                toCreate[data['dataId']] = obj
-            elif data['type'] == 'UPDATE':
-                query = session.query(Model).filter(Model.id == int(data['dataId']))
-                obj = query.one()
-                toUpdate.append((data['model'], data['fields'], obj))
-                obj.update(session, data['data'], toCreate)
-            elif data['type'] == 'DELETE':
-                dataIds = []
-                for dataId in data['dataIds']:
-                    if not isinstance(dataId, str):
-                        dataIds.append(dataId)
-
-                query = session.query(Model).filter(Model.id.in_(dataIds))
-                query.delete(synchronize_session='fetch')
-                if data['model'] not in toDelete:
-                    toDelete[data['model']] = data['dataIds']
-                else:
-                    toDelete[data['model']].extend(data['dataIds'])
-            else:
-                raise Exception('Unknown data update type %r' % data)
-
+        data = loads(request.body.read())
+        Model = MODELS[data['model']]
+        query = session.query(Model).filter(Model.id == int(data['dataId']))
+        obj = query.one()
+        obj.update(session, data['data'])
         session.commit()
-        for model, fields, obj in toUpdate:
-            _data.extend(_getData(session, model, [obj.id], fields))
-
-        if toDelete:
-            _data.append({
-                'type': 'DELETE_DATA',
-                'data': toDelete,
-            })
-
-        if toCreate:
-            _data.append({
-                'type': 'UPDATE_NEW_ID',
-                'data': [{'oldId': x, 'newId': y.id} for x, y in toCreate.items()],
-            })
-
-    except:
+        _data.extend(_getData(session, data['model'], [obj.id], data['fields']))
+        path = ['', 'space', data['path']['spaceId']]
+        if data['path'].get('menuId'):
+            path.extend(['menu', data['path']['menuId']])
+        path.extend(['action', data['path']['actionId']])
+        path.extend(['view', data['path']['viewId']])
+        path.extend(['data', data['dataId']])
+        path.extend(['mode', 'readonly'])
+        _data.append({
+            'type': 'UPDATE_ROUTE',
+            'path': '/'.join(path),
+        })
+    except Exception as e:
+        print(str(e))
         _data = []
         session.rollback()
-        raise
+    finally:
+        session.close()
+
+    print(_data)
+    return superDumps(_data)
+
+
+@route('/furetui/data/delete', method='POST')
+def deleteData():
+    response.set_header('Content-Type', 'application/json')
+    session = Session()
+    _data = []
+    try:
+        data = loads(request.body.read())
+        Model = MODELS[data['model']]
+        query = session.query(Model)
+        query = query.filter(Model.id.in_([int(x) for x in data['dataIds']]))
+        query.delete(synchronize_session='fetch')
+        session.commit()
+        _data.append({
+            'type': 'DELETE_DATA',
+            'model': data['model'],
+            'dataIds': data['dataIds'],
+        })
+
+        if data.get('path'):
+            path = ['', 'space', data['path']['spaceId']]
+            if data['path'].get('menuId'):
+                path.extend(['menu', data['path']['menuId']])
+            path.extend(['action', data['path']['actionId']])
+            path.extend(['view', data['path']['viewId']])
+            _data.append({
+                'type': 'UPDATE_ROUTE',
+                'path': '/'.join(path),
+            })
+    except Exception as e:
+        print(str(e))
+        _data = []
+        session.rollback()
     finally:
         session.close()
 

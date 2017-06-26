@@ -11,7 +11,8 @@ import _ from 'underscore';
 export const defaultState = {
     actions: {},
     views: {},
-    data: {}
+    data: {},
+    changes: {},
 }
 
 // getters
@@ -45,22 +46,37 @@ export const mutations = {
         Object.assign(data[action.model], action.data)
         state.data = data;
     },
+    'DELETE_DATA'(state, action) {
+        const data = Object.assign({}, state.data)
+        _.each(action.dataIds, dataId => {
+            if (data[action.model][dataId])
+                delete data[action.model][dataId];
+        });
+        state.data = data;
+    },
+    'UPDATE_CHANGE'(state, action) {
+        const changes = Object.assign({}, state.changes);
+        if (changes[action.model] == undefined) changes[action.model] = {}
+        if (changes[action.model][action.dataId] == undefined) changes[action.model][action.dataId] = {};
+        changes[action.model][action.dataId][action.fieldname] = action.value;
+        state.changes = changes
+    },
     'CLEAR_DATA'(state, action) {
         state.actions = {};
         state.views = {};
         state.data = {};
+        state.changes = {};
     },
-    // 'DELETE_DATA'(state, action) {
-    //     _.each(_.keys(state), model => {
-    //         if (action.data[model] != undefined) {
-    //             state[model] = Object.assign({}, state[model]);
-    //             _.each(action.data[model], dataId => {
-    //                 if (state[model][dataId] != undefined) delete state[model][dataId];
-    //                 if (_.keys(state[model]).length == 0) delete state[model];
-    //             });
-    //         }
-    //     });
-    // },
+    'CLEAR_CHANGE'(state, action) {
+        const changes = Object.assign({}, state.changes);
+        if (changes[action.model] && changes[action.model][action.dataId]) {
+            delete changes[action.model][action.dataId];
+            state.changes = changes;
+        }
+    },
+    'CLEAR_ALL_CHANGE'(state, action) {
+        state.changes = {};
+    },
 };
 
 export default {

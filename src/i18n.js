@@ -37,6 +37,11 @@ export default {
                     },
                 },
             },
+            fields: {
+                common: {
+                    required: 'this field is required',
+                }
+            },
         },
     },
 }

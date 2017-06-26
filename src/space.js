@@ -173,6 +173,7 @@ export const Space = Vue.component('furet-ui-space', {
     },
     methods: {
         changeView (viewId) {
+            this.$store.commit('CLEAR_ALL_CHANGE');
             this.$router.push({
                 name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
                 params: {

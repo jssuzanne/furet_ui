@@ -46,7 +46,9 @@ export const ListView = Vue.component('furet-ui-list-view', {
                             </a>
                         </p>
                         <p class="control" v-if="hasChecked && view && view.deletable">
-                            <a class="button">
+                            <a class="button"
+                               v-on:click="deleteData"
+                            >
                                 <span class="icon is-small">
                                     <i class="fa fa-trash"></i>
                                 </span>
@@ -157,20 +159,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
         },
         isCheckable () {
             if (this.view) {
-                json_post(
-                    '/list/get', 
-                    {
-                        model: this.view.model,
-                        filter: this.filter,
-                        fields: this.view.fields,
-                        viewId: this.viewId,
-                    },
-                    {
-                        onSuccess: (results) => {
-                            dispatchAll(this.$router, results);
-                        },
-                    },
-                );
+                this.getData()
                 return this.view.selectable;
             }
             return false;
@@ -185,6 +174,22 @@ export const ListView = Vue.component('furet-ui-list-view', {
         }
     },
     methods: {
+        getData() {
+            json_post(
+                '/list/get', 
+                {
+                    model: this.view.model,
+                    filter: this.filter,
+                    fields: this.view.fields,
+                    viewId: this.viewId,
+                },
+                {
+                    onSuccess: (results) => {
+                        dispatchAll(this.$router, results);
+                    },
+                },
+            );
+        },
         addNew: function () {
             if (this.view.onSelect) {
                 this.$router.push({
@@ -199,6 +204,15 @@ export const ListView = Vue.component('furet-ui-list-view', {
                     }
                 });
             }
+        },
+        deleteData: function () {
+            const dataIds = _.map(this.checkedRows, row => row.__dataId);
+            json_post('/data/delete', {model: this.view.model, dataIds}, {
+                onSuccess: (result) => {
+                    dispatchAll(this.$router, result)
+                    this.getData()
+                },
+            });
         },
         selectRow: function (row) {
             if (this.view.onSelect) {
@@ -225,7 +239,7 @@ plugin.set(['field', 'List'], {Unknown: (header) => {
         label: header.label,
         field: header.name,
         numeric: false,
-        width: undefined,
+        width: '200px',
         render: (row) => {
             return row[header.name] || '';
         },

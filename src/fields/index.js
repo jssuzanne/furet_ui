@@ -9,12 +9,12 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import plugin from '../plugin';
 import Vue from 'vue';
-// import './string';
+import './string';
 // import './selection';
 // import './date';
 // import './datetime';
 // import './time';
-// import './integer';
+import './integer';
 // import './float';
 // import './url';
 // import './uuid';

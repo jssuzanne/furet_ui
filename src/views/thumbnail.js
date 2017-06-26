@@ -180,7 +180,11 @@ export const FieldUnknown = Vue.component('furet-ui-thumbnail-field-unknown', {
     props: ['name', 'label', 'params', 'data'],
     template: `
         <b-field v-bind:label="getLabel">
-            <span> {{data[name]}} </span>
+            <div v-bind:style="{maxWidth: '300px', display: 'inline-block', maxHeight: '100px', overflowY: 'auto'}">
+                <span v-bind:style="{maxWidth: '300px', display: 'inline-block', wordBreak: 'break-word'}"> 
+                    {{data[name]}} 
+                </span>
+            </div>
         </b-field>`,
     computed: {
         getLabel () {

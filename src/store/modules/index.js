@@ -13,7 +13,6 @@ import rightmenu from './right-menu';
 import leftmenu from './left-menu';
 import action_manager from './action_manager';
 import data from './data';
-import change from './change';
 
 export default {
     global,
@@ -22,5 +21,4 @@ export default {
     leftmenu,
     action_manager,
     data,
-    change,
 }

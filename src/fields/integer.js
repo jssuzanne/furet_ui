@@ -7,33 +7,73 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-import React from 'react';
+import Vue from 'vue';
 import plugin from '../plugin';
-import {BaseList, BaseThumbnail, BaseForm} from './base';
+import {FormMixin, ThumbnailMixin} from './common';
 
-export class IntegerList extends BaseList {}
-export class IntegerThumbnail extends BaseThumbnail {}
-export class IntegerForm extends BaseForm {
-    getInputProps () {
-        const props = super.getInputProps();
-        props.type = 'number';
-        props.step = '1';
-        return props;
+
+plugin.set(['field', 'List'], {Integer: (header) => {
+    const res = {
+        label: header.label,
+        field: header.name,
+        numeric: true,
+        width: 40,
+        render: (row) => {
+            return row[header.name] || '';
+        },
     }
-}
+    if (header.sortable) res.sortable = header.sortable;
+    return res;
+}})
 
-plugin.set(['field', 'List'], {'Integer': IntegerList});
-plugin.set(['field', 'Thumbnail'], {'Integer': IntegerThumbnail});
-plugin.set(['field', 'Form'], {'Integer': IntegerForm});
-plugin.set(['field', 'List'], {'BigInteger': IntegerList});
-plugin.set(['field', 'Thumbnail'], {'BigInteger': IntegerThumbnail});
-plugin.set(['field', 'Form'], {'BigInteger': IntegerForm});
-plugin.set(['field', 'List'], {'SmallInteger': IntegerList});
-plugin.set(['field', 'Thumbnail'], {'SmallInteger': IntegerThumbnail});
-plugin.set(['field', 'Form'], {'SmallInteger': IntegerForm});
+export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-integer', {
+    props: ['name', 'label', 'params', 'data'],
+    mixins: [ThumbnailMixin],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
+            v-bind:style="{'width': '100%'}"
+            v-else
+        >
+            <b-field 
+                v-bind:label="this.label"
+                v-bind:style="{'width': 'inherit'}"
+            >
+                <span> {{value}} </span>
+            </b-field>
+        </b-tooltip>`,
+})
+plugin.set(['field', 'Thumbnail'], {Integer: 'furet-ui-thumbnail-field-integer'});
 
-export default {
-    IntegerList,
-    IntegerThumbnail,
-    IntegerForm,
-}
+export const FieldFormString = Vue.component('furet-ui-form-field-integer', {
+    props: ['name', 'label', 'params', 'config'],
+    mixins: [FormMixin],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
+            v-bind:style="{'width': '100%'}"
+            v-else
+        >
+            <b-field 
+                v-bind:label="this.label"
+                v-bind:type="getType"
+                v-bind:message="getMessage"
+                v-bind:style="{'width': 'inherit'}"
+            >
+                <span v-if="isReadonly"> {{data}} </span>
+                <b-input 
+                    v-else 
+                    type="number"
+                    step="1"
+                    v-bind:value="data" 
+                    v-on:change="updateValue"
+                >
+                </b-input>
+            </b-field>
+        </b-tooltip>`,
+})
+plugin.set(['field', 'Form'], {Integer: 'furet-ui-form-field-integer'});

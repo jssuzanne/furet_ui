@@ -56,16 +56,27 @@ export const View = Vue.component('furet-ui-view', {
         },
         data () {
             if (this.model) {
-                const data = this.$store.state.data.data;
-                if (this.dataId) 
-                    if (data[this.model])
-                        data[this.model][String(this.dataId)];
+                let data = this.$store.state.data.data;
+                let changes = this.$store.state.data.changes;
+
+                if (this.dataId) {
+                    data = (data[this.model]) ? data[this.model][String(this.dataId)] || {} : {};
+                    changes = (changes[this.model]) ? changes[this.model][String(this.dataId)] || {} : {};
+                    return Object.assign({}, data, changes);
+                }
 
                 return data[this.model] || {};
             }
             if (this.dataId) return {};
             return [];
-        }
+        },
+        change () {
+            if (this.dataId) {
+                const changes = this.$store.state.data.changes;
+                return (changes[this.model]) ? changes[this.model][String(this.dataId)] || {} : {};
+            }
+            return {};
+        },
     },
 });
 
