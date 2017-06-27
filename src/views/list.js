@@ -122,7 +122,10 @@ export const ListView = Vue.component('furet-ui-list-view', {
                         v-bind:sortable="header.sortable"
                         v-bind:custom-sort="header.customSort"
                     >
-                        {{ header.render(props.row) }}
+                        <div v-if="header.render">
+                            {{ header.render(props.row) }}
+                        </div>
+                        <furet-ui-list-component v-else v-bind:row="props.row" v-bind:header="header"/>
                     </b-table-column>
                 </template>
             </b-table>
@@ -171,7 +174,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
         },
         hasChecked () {
             return this.checkedRows.length > 0;
-        }
+        },
     },
     methods: {
         getData() {
@@ -185,7 +188,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 },
                 {
                     onSuccess: (results) => {
-                        dispatchAll(this.$router, results);
+                        dispatchAll(results);
                     },
                 },
             );
@@ -209,7 +212,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
             const dataIds = _.map(this.checkedRows, row => row.__dataId);
             json_post('/data/delete', {model: this.view.model, dataIds}, {
                 onSuccess: (result) => {
-                    dispatchAll(this.$router, result)
+                    dispatchAll(result)
                     this.getData()
                 },
             });
@@ -230,6 +233,13 @@ export const ListView = Vue.component('furet-ui-list-view', {
             }
         }
     }
+});
+
+Vue.component('furet-ui-list-component', {
+    props: ['row', 'header'],
+    render: function(createElement) {
+        return this.header.renderHtml(createElement, this.row);
+    },
 });
 
 plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});

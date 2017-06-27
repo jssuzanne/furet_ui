@@ -104,7 +104,7 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
                     },
                     {
                         onSuccess: (results) => {
-                            dispatchAll(this.$router, results);
+                            dispatchAll(results);
                         },
                     },
                 );

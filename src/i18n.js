@@ -7,7 +7,12 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-export default {
+import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
+
+
+export const i18n = new VueI18n({
     locale: 'en',
     fallbackLocale: 'en',
     messages: {
@@ -40,8 +45,12 @@ export default {
             fields: {
                 common: {
                     required: 'this field is required',
-                }
+                },
+                boolean: {
+                    'true': 'True',
+                    'false': 'False',
+                },
             },
         },
     },
-}
+});

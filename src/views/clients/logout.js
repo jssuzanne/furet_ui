@@ -11,11 +11,11 @@ import plugin from '../../plugin';
 import {json_post} from '../../server-call';
 import {dispatchAll} from '../../store';
 
-plugin.set(['views', 'type', 'client'], {Logout: {function: ({router}) => {
+plugin.set(['views', 'type', 'client'], {Logout: {function: () => {
     router.push('/');
     json_post('/client/logout', {}, {
         onSuccess: (result) => {
-            dispatchAll(router, result);
+            dispatchAll(result);
         },
     });
 }}});

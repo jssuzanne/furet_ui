@@ -13,6 +13,8 @@ import Vuex from 'vuex';
 import * as actions from './actions';
 import * as getters from './getters';
 import modules from './modules';
+import {i18n} from '../i18n';
+import {router} from '../routes';
 
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
@@ -24,17 +26,17 @@ export const store = new Vuex.Store({
     strict: debug,
 });
 
-export const dispatchAll = (router, datas) => {
+export const dispatchAll = (datas) => {
     _.each(datas, data => {
         if (data.type) {
             switch (data.type) {
                 case 'UPDATE_LOCALES':
                     _.each(data.locales, locale => {
-                        FuretUI.$i18n.setLocaleMessage(locale.locale, locale.messages)
+                        i18n.setLocaleMessage(locale.locale, locale.messages)
                     });
                     break
                 case 'SET_LOCALE':
-                    FuretUI.$i18n.locale = data.locale;
+                    i18n.locale = data.locale;
                     break
                 case 'UPDATE_ROUTE':
                     if (data.name) router.push({name: data.name, params: data.params});

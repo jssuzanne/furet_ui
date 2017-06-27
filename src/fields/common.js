@@ -39,7 +39,11 @@ export const FormMixin = {
             return this.config && this.config.data && this.config.data[this.name] || '';
         },
         isReadonly () {
-            return this.config && this.config.mode == 'readonly';
+            const readonlyParams = safe_eval(
+                    this.params && this.params.readonly || 'false', 
+                    this.data && this.data.config || {});
+            const readonly = this.config && this.config.mode == 'readonly';
+            return readonly || readonlyParams;
         },
         isRequired () {
             const required = this.params && this.params.required || false;
@@ -71,6 +75,7 @@ export const FormMixin = {
     },
     methods: {
         updateValue (value) {
+            console.log(value)
             this.$store.commit('UPDATE_CHANGE', {
                 model: this.config.view.model,
                 dataId: this.config.dataId,

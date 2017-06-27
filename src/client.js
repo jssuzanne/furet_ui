@@ -9,20 +9,18 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
 import Buefy from 'buefy';
-import VueI18n from 'vue-i18n';
 import 'bulma/css/bulma.css'
 import 'buefy/lib/buefy.css';
 import { sync } from 'vuex-router-sync';
 import "font-awesome-loader";
 import {json_post} from './server-call';
 import plugin from './plugin';
-import defaultI18n from './i18n';
+import {i18n} from './i18n';
 import './views';
 import './fields';
 import './app';
 
 Vue.use(Buefy, {defaultIconPack: 'fa',});
-Vue.use(VueI18n);
 
 import {store, dispatchAll} from './store';
 import router from './routes';
@@ -31,7 +29,7 @@ sync(store, router)  // use vue-router with vuex
 plugin.set([], {initData: (router, store) => {
     json_post('/init/required/data', {}, {
         onSuccess: (result) => {
-            dispatchAll(router, result);
+            dispatchAll(result);
         },
         onError: (error, response) => {
             console.error('call initial required data', error || response.body)
@@ -39,7 +37,7 @@ plugin.set([], {initData: (router, store) => {
         onComplete: (error, response) => {
             json_post('/init/optionnal/data', {}, {
                 onSuccess: (result) => {
-                    dispatchAll(router, result);
+                    dispatchAll(result);
                 },
                 onError: (error, response) => {
                     console.error('call initial optional data', error || response.body)
@@ -48,8 +46,6 @@ plugin.set([], {initData: (router, store) => {
         },
     });
 }});
-
-const i18n = new VueI18n(defaultI18n);
 
 const FuretUI = new Vue({
     el: '#furet-ui-app',

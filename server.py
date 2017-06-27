@@ -624,6 +624,11 @@ def getView1():
                 'sortable': True,
             },
             {
+                'name': 'bool',
+                'type': 'Boolean',
+                'label': 'Boolean',
+            },
+            {
                 'name': 'state',
                 'type': 'Selection',
                 'label': 'State',
@@ -685,7 +690,7 @@ def getView1():
                 'buttonId': '2',
             },
         ],
-        'fields': ["id", "name", "state", "creation_date", "number",
+        'fields': ["id", "name", "state", "creation_date", "number", "bool",
                    "color", "text", "time", "file", 'filename', 'filesize'],
     }
 
@@ -712,6 +717,14 @@ def getView2():
         ],
         'template': '''
             <div class="columns is-multiline is-mobile">
+                <div class="column is-4">
+                    <furet-ui-form-field
+                        v-bind:data="card"
+                        name="bool"
+                        widget="Boolean"
+                        label="Boolean"
+                    ></furet-ui-form-field>
+                </div>
                 <div class="column is-8">
                     <furet-ui-thumbnail-field
                         v-bind:data="card"
@@ -727,7 +740,7 @@ def getView2():
                         name="state"
                         widget="Selection"
                         label="State"
-                        params='{"selections"=[["new", "New"], ["started", "Started"], ["done", "Done"]]}'>
+                        v-bind:params="{'selections': {'new': 'New', 'started': 'Started', 'done': 'Done'}}">
                     </furet-ui-thumbnail-field>
                 </div>
                 <div class="column is-6">
@@ -743,9 +756,6 @@ def getView2():
                 </div>
                 <div class="column is-6">
                     <furet-ui-thumbnail-field v-bind:data="card" name="url" widget="URL" label="URL" required="1"></furet-ui-thumbnail-field>
-                </div>
-                <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="uuid" widget="UUID" label="UUID"></furet-ui-thumbnail-field>
                 </div>
                 <div class="column is-6">
                     <furet-ui-thumbnail-field v-bind:data="card" name="password" widget="Password" label="Password"></furet-ui-thumbnail-field>
@@ -825,7 +835,7 @@ def getView3():
                         name="state"
                         widget="Selection"
                         label="State"
-                        params='{"selections"=[["new", "New"], ["started", "Started"], ["done", "Done"]]}'>
+                        v-bind:params="{'selections': {'new': 'New', 'started': 'Started', 'done': 'Done'}}">
                     </furet-ui-form-field>
                 </div>
                 <div class="column is-6">
@@ -838,9 +848,6 @@ def getView3():
                     <furet-ui-form-field v-bind:config="config" name="url" widget="URL" label="URL" required="1"></furet-ui-form-field>
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="uuid" widget="UUID" label="UUID"></furet-ui-form-field>
-                </div>
-                <div class="column is-6">
                     <furet-ui-form-field v-bind:config="config" name="password" widget="Password" label="Password"></furet-ui-form-field>
                 </div>
                 <div class="column is-6">
@@ -850,7 +857,12 @@ def getView3():
                     <furet-ui-form-field v-bind:config="config" name="text" widget="Text" label="Text"></furet-ui-form-field>
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="bool" widget="Boolean" label="Boolean"></furet-ui-form-field>
+                    <furet-ui-form-field
+                        v-bind:config="config"
+                        name="bool"
+                        widget="Boolean"
+                        label="Boolean"
+                    ></furet-ui-form-field>
                 </div>
                 <div class="column is-6">
                     <furet-ui-form-field v-bind:config="config" name="time" widget="Time" label="Time"></furet-ui-form-field>

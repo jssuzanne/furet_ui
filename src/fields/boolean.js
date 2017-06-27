@@ -1,112 +1,75 @@
-/**
-This file is a part of the FuretUI project
-
-   Copyright (C) 2017 Jean-Sebastien SUZANNE <jssuzanne@anybox.fr>
-
-This Source Code Form is subject to the terms of the Mozilla Public License,
-v. 2.0. If a copy of the MPL was not distributed with this file,You can
-obtain one at http://mozilla.org/MPL/2.0/.
-**/
-import React from 'react';
+// /**
+// This file is a part of the FuretUI project
+// 
+//    Copyright (C) 2017 Jean-Sebastien SUZANNE <jssuzanne@anybox.fr>
+// 
+// This Source Code Form is subject to the terms of the Mozilla Public License,
+// v. 2.0. If a copy of the MPL was not distributed with this file,You can
+// obtain one at http://mozilla.org/MPL/2.0/.
+// **/
+import Vue from 'vue';
 import plugin from '../plugin';
-import Checkbox from 'material-ui/Checkbox';
-import {indigo500} from 'material-ui/styles/colors';
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import Visibility from 'material-ui/svg-icons/action/visibility';
-import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
-import Location from 'material-ui/svg-icons/communication/location-on';
-import LocationOff from 'material-ui/svg-icons/communication/location-off';
-import Mic from 'material-ui/svg-icons/av/mic';
-import MicOff from 'material-ui/svg-icons/av/mic-off';
-import Star from 'material-ui/svg-icons/toggle/star';
-import StarOff from 'material-ui/svg-icons/toggle/star-border';
+import {FormMixin, ThumbnailMixin} from './common';
+import {i18n} from '../i18n';
 
-class BooleanBase extends React.Component {
-    getPropsIcon (props) {
-        switch (this.props.icon) {
-            case 'favorite':
-                props.checkedIcon = <ActionFavorite />;
-                props.uncheckedIcon = <ActionFavoriteBorder />;
-                break;
-            case 'visibility':
-                props.checkedIcon = <Visibility />;
-                props.uncheckedIcon = <VisibilityOff />;
-                break;
-            case 'location':
-                props.checkedIcon = <Location />;
-                props.uncheckedIcon = <LocationOff />;
-                break;
-            case 'mic':
-                props.checkedIcon = <Mic />;
-                props.uncheckedIcon = <MicOff />;
-                break;
-            case 'star':
-                props.checkedIcon = <Star />;
-                props.uncheckedIcon = <StarOff />;
-                break;
-        }
-    }
-    getPropsPosition (props) {
-        switch (this.props.labelPosition) {
-            case 'left':
-                props.labelPosition = 'left';
-                break;
-            default:
-                props.labelPosition = 'right';
-        }
-    }
-    getProps () {
-        const props = {
-            checked: this.props.value,
-            onCheck: (e, isInputChecked) => {this.props.onChange(this.props.name, isInputChecked)},
-        };
-        this.getPropsIcon(props);
-        return props;
-    }
-    getNullValue () {
-        return false;
-    }
-    render () {
-        const props = this.getProps();
-        return <Checkbox {...props} />
-    }
-}
+Vue.component('furet-ui-list-field-boolean', {
+    props: ['checked'],
+    template: '<b-checkbox v-bind:checked="checked" disabled></b-checkbox>',
+})
 
-export class BooleanList extends BooleanBase {
-    getProps () {
-        const props = super.getProps();
-        props.disabled = true;
-        return props;
+
+plugin.set(['field', 'List'], {Boolean: (header) => {
+    const res = {
+        label: header.label,
+        field: header.name,
+        width: 40,
+        renderHtml: (createElement, row) => {
+            return createElement('furet-ui-list-field-boolean', {
+                props: {checked: eval(row[header.name]) ? true : false}
+            });
+        },
     }
-}
+    if (header.sortable) res.sortable = header.sortable;
+    return res;
+}})
 
-export class BooleanThumbnail extends BooleanBase {
-    getProps () {
-        const props = super.getProps();
-        props.disabled = true;
-        props.label = this.props.label;
-        this.getPropsPosition(props);
-        return props;
+export const FieldThumbnailBoolean = Vue.component('furet-ui-thumbnail-field-boolean', {
+    props: ['name', 'label', 'params', 'data'],
+    mixins: [ThumbnailMixin],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-checkbox 
+            v-else
+            v-bind:checked="value" 
+            disabled
+        >
+            {{this.label}}
+        </b-checkbox>`,
+    computed: {
+        value () {
+            return eval(this.data[this.name]) ? true : false;
+        },
     }
-}
+})
+plugin.set(['field', 'Thumbnail'], {Boolean: 'furet-ui-thumbnail-field-boolean'});
 
-export class BooleanForm extends BooleanBase {
-    getProps () {
-        const props = super.getProps();
-        props.disabled = this.props.readonly;
-        props.label = this.props.label;
-        this.getPropsPosition(props);
-        return props;
-    }
-}
-
-plugin.set(['field', 'List'], {'Boolean': BooleanList});
-plugin.set(['field', 'Thumbnail'], {'Boolean': BooleanThumbnail});
-plugin.set(['field', 'Form'], {'Boolean': BooleanForm});
-
-export default {
-    BooleanList,
-    BooleanThumbnail,
-    BooleanForm,
-}
+export const FieldFormBoolean = Vue.component('furet-ui-form-field-boolean', {
+    props: ['name', 'label', 'params', 'config'],
+    mixins: [FormMixin],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-checkbox 
+            v-else
+            v-bind:checked="data" 
+            v-bind:disabled="isReadonly"
+        >
+            {{this.label}}
+        </b-checkbox>`,
+    computed: {
+        data () {
+            const value = this.config && this.config.data && this.config.data[this.name] || '';
+            return eval(value) ? true : false;
+        },
+    },
+})
+plugin.set(['field', 'Form'], {Boolean: 'furet-ui-form-field-boolean'});

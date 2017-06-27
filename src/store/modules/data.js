@@ -43,7 +43,9 @@ export const mutations = {
     'UPDATE_DATA'(state, action) {
         const data = Object.assign({}, state.data)
         if (data[action.model] == undefined) data[action.model] = {};
-        Object.assign(data[action.model], action.data)
+        _.each(_.keys(action.data), dataId => {
+            data[action.model][dataId] = Object.assign({}, data[action.model][dataId], action.data[dataId]);
+        });
         state.data = data;
     },
     'DELETE_DATA'(state, action) {

@@ -150,7 +150,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                     },
                     {
                         onSuccess: (results) => {
-                            dispatchAll(this.$router, results);
+                            dispatchAll(results);
                         },
                     },
                 );
@@ -250,7 +250,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 },
                 {
                     onSuccess: (result) => {
-                        dispatchAll(this.$router, result)
+                        dispatchAll(result)
                     },
                 }
             )
@@ -272,14 +272,14 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 },
                 {
                     onSuccess: (result) => {
-                        dispatchAll(this.$router, result)
+                        dispatchAll(result)
+                        this.$store.commit('CLEAR_CHANGE', {
+                            model: this.view.model,
+                            dataId: this.dataId,
+                        });
                     },
                 }
             )
-            this.$store.commit('CLEAR_CHANGE', {
-                model: this.view.model,
-                dataId: this.dataId,
-            });
         }
     }
 });

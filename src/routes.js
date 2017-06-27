@@ -20,7 +20,7 @@ const CustomeView = {
     beforeRouteEnter: (to, from, next) => {
         json_post('/custom/view/' + to.params.viewName, {}, {
             onSucess: (results) => {
-                dispatchAll(undefined, results);
+                dispatchAll(results);
             },
         })
         next();
@@ -29,7 +29,7 @@ const CustomeView = {
         if (to.params.viewName != from.params.viewName) {
             json_post('/custom/view/' + to.params.viewName, {}, {
                 onSucess: (results) => {
-                    dispatchAll(undefined, results);
+                    dispatchAll(results);
                 },
             })
         }
@@ -44,18 +44,18 @@ const Action = {
         next();
     },
     beforeRouteUpdate: (to, from, next) => {
-        if (to.params.actionId != from.params.actionId) 
+        if (to.params.actionId != from.params.actionId)
             call('/action/' + to.params.actionId, to.params);
         next();
     },
 };
 
 const View = {
-    template: `<furet-ui-view 
-                    v-bind:spaceId="spaceId" 
-                    v-bind:menuId="menuId" 
-                    v-bind:actionId="actionId" 
-                    v-bind:viewId="viewId" 
+    template: `<furet-ui-view
+                    v-bind:spaceId="spaceId"
+                    v-bind:menuId="menuId"
+                    v-bind:actionId="actionId"
+                    v-bind:viewId="viewId"
                     v-bind:dataId="dataId"
                     v-bind:mode="mode"
                 />`,
@@ -65,14 +65,14 @@ const View = {
         next();
     },
     beforeRouteUpdate: (to, from, next) => {
-        if (to.params.viewId != from.params.viewId) 
+        if (to.params.viewId != from.params.viewId)
             call('/view/' + to.params.viewId, to.params);
         next();
     },
 };
 
 
-const router = new VueRouter({
+export const router = new VueRouter({
     routes: [
         {
             path: '/custom/view/:viewName',
@@ -85,11 +85,11 @@ const router = new VueRouter({
             name: 'space',
             props: true,
             component: {
-                template: `<furet-ui-space 
-                                v-bind:spaceId="spaceId" 
-                                v-bind:menuId="menuId" 
-                                v-bind:actionId="actionId" 
-                                v-bind:viewId="viewId" 
+                template: `<furet-ui-space
+                                v-bind:spaceId="spaceId"
+                                v-bind:menuId="menuId"
+                                v-bind:actionId="actionId"
+                                v-bind:viewId="viewId"
                             />`,
                 props: ['spaceId', 'menuId', 'actionId', 'viewId'],
                 beforeRouteEnter: (to, from, next) => {
@@ -171,7 +171,7 @@ const router = new VueRouter({
 const call = (path, params) => {
     json_post(path, params, {
         onSuccess: (results) => {
-            dispatchAll(router, results);
+            dispatchAll(results);
         },
     })
 }
