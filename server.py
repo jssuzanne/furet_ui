@@ -614,57 +614,64 @@ def getView1():
         'headers': [
             {
                 'name': 'id',
-                'type': 'Integer',
                 'label': 'ID',
+                'numeric': True,
+                'component': 'furet-ui-list-field-integer',
             },
             {
                 'name': 'name',
-                'type': 'String',
                 'label': 'Label',
                 'sortable': True,
+                'component': 'furet-ui-list-field-string',
             },
             {
                 'name': 'bool',
-                'type': 'Boolean',
                 'label': 'Boolean',
+                'component': 'furet-ui-list-field-boolean',
             },
             {
                 'name': 'state',
-                'type': 'Selection',
                 'label': 'State',
                 'selections': {'new': 'New', 'started': 'Started', 'done': 'Done'},
+                'component': 'furet-ui-list-field-selection',
             },
             {
                 'name': 'creation_date',
-                'type': 'DateTime',
                 'label': 'Creation date',
+                'component': 'furet-ui-list-field-datetime',
             },
             {
                 'name': 'number',
-                'type': 'Float',
                 'label': 'Number',
+                'numeric': True,
+                'component': 'furet-ui-list-field-float',
             },
             {
                 'name': 'color',
-                'type': 'Color',
                 'label': 'Color',
+                'component': 'furet-ui-list-field-color',
             },
             {
                 'name': 'text',
-                'type': 'Text',
                 'label': 'Text',
+                'component': 'furet-ui-list-field-text',
             },
             {
                 'name': 'time',
-                'type': 'Time',
                 'label': 'Time',
+                'component': 'furet-ui-list-field-time',
+            },
+            {
+                'name': 'password',
+                'label': 'Password',
+                'component': 'furet-ui-list-field-password',
             },
             {
                 'name': 'file',
-                'type': 'LargeBinaryPreview',
                 'label': 'File',
                 'filename': 'filename',
                 'filesize': 'filesize',
+                'component': 'furet-ui-list-field-file',
             },
         ],
         'search': [
@@ -691,7 +698,8 @@ def getView1():
             },
         ],
         'fields': ["id", "name", "state", "creation_date", "number", "bool",
-                   "color", "text", "time", "file", 'filename', 'filesize'],
+                   "color", "text", "time", "file", 'filename', 'filesize',
+                   "password"],
     }
 
 
@@ -718,69 +726,84 @@ def getView2():
         'template': '''
             <div class="columns is-multiline is-mobile">
                 <div class="column is-4">
-                    <furet-ui-form-field
+                    <furet-ui-thumbnail-field-boolean
                         v-bind:data="card"
                         name="bool"
-                        widget="Boolean"
                         label="Boolean"
-                    ></furet-ui-form-field>
+                    />
                 </div>
                 <div class="column is-8">
-                    <furet-ui-thumbnail-field
+                    <furet-ui-thumbnail-field-string
                         v-bind:data="card"
                         name="name"
-                        widget="String"
                         label="Label"
-                    >
-                    </furet-ui-thumbnail-field>
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field
+                    <furet-ui-thumbnail-field-selection
                         v-bind:data="card"
                         name="state"
-                        widget="Selection"
                         label="State"
-                        v-bind:params="{'selections': {'new': 'New', 'started': 'Started', 'done': 'Done'}}">
-                    </furet-ui-thumbnail-field>
+                        v-bind:selections="{'new': 'New', 'started': 'Started', 'done': 'Done'}"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field
+                    <furet-ui-thumbnail-field-datetime
                         v-bind:data="card"
                         name="creation_date"
-                        widget="DateTime"
-                        label="Creation date">
-                    </furet-ui-thumbnail-field>
+                        label="Creation date"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="number" widget="Float" label="Number"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-float
+                        v-bind:data="card"
+                        name="number"
+                        label="Number"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="url" widget="URL" label="URL" required="1"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-url
+                        v-bind:data="card"
+                        name="url"
+                        label="URL"
+                        required="1"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="password" widget="Password" label="Password"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-password
+                        v-bind:data="card"
+                        name="password"
+                        label="Password"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="color" widget="Color" label="Color"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-color
+                        v-bind:data="card"
+                        name="color"
+                        label="Color"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="text" widget="Text" label="Text"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-text
+                        v-bind:data="card"
+                        name="text"
+                        label="Text"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="bool" widget="Boolean" label="Boolean"></furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-time
+                        v-bind:data="card"
+                        name="time"
+                        label="Time"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field v-bind:data="card" name="time" widget="Time" label="Time"></furet-ui-thumbnail-field>
-                </div>
-                <div class="column is-6">
-                    <furet-ui-thumbnail-field name="file"
-                           widget="LargeBinaryPreview"
-                           v-bind:data="card"
-                           label="File"
-                           filename="filename"
-                           filesize="filesize"
-                    >
-                    </furet-ui-thumbnail-field>
+                    <furet-ui-thumbnail-field-file
+                        v-bind:data="card"
+                        name="file"
+                        label="File"
+                        v-bind:params="{'filename':'filename','filesize':'filesize'}"
+                    />
                 </div>
             </div>
         ''',
@@ -812,75 +835,102 @@ def getView3():
         'template': '''
             <div class="columns is-multiline is-mobile">
                 <div class="column is-4">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-integer
                         v-bind:config="config"
                         name="id"
-                        widget="Integer"
                         label="ID"
-                        v-bind:params="{'required': 1, 'readonly': 1}"
-                    ></furet-ui-form-field>
+                        required="1"
+                        readonly="1"
+                    />
                 </div>
                 <div class="column is-8">
-                    <furet-ui-form-field
-                        v-bind:params="{'required': 'fields.number', 'tooltip': 'Plop'}"
+                    <furet-ui-form-field-string
                         v-bind:config="config"
+                        required="fields.number"
+                        tooltip="Plop"
                         name="name"
-                        widget="String"
-                        label="Label">
-                    </furet-ui-form-field>
+                        label="Label"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-selection
                         v-bind:config="config"
                         name="state"
-                        widget="Selection"
                         label="State"
-                        v-bind:params="{'selections': {'new': 'New', 'started': 'Started', 'done': 'Done'}}">
-                    </furet-ui-form-field>
+                        v-bind:selections="{'new': 'New', 'started': 'Started', 'done': 'Done'}"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="creation_date" widget="DateTime" label="Creation date"></furet-ui-form-field>
+                    <furet-ui-form-field-datetime
+                        v-bind:config="config"
+                        name="creation_date"
+                        label="Creation date"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="number" widget="Float" label="Number"></furet-ui-form-field>
+                    <furet-ui-form-field-float
+                        v-bind:config="config"
+                        name="number"
+                        label="Number"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="url" widget="URL" label="URL" required="1"></furet-ui-form-field>
+                    <furet-ui-form-field-url
+                        v-bind:config="config"
+                        name="url"
+                        label="URL"
+                        required="1"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="password" widget="Password" label="Password"></furet-ui-form-field>
+                    <furet-ui-form-field-password
+                        v-bind:config="config"
+                        name="password"
+                        label="Password"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="color" widget="Color" label="Color"></furet-ui-form-field>
+                    <furet-ui-form-field-color
+                        v-bind:config="config"
+                        name="color"
+                        label="Color"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="text" widget="Text" label="Text"></furet-ui-form-field>
+                    <furet-ui-form-field-text
+                        v-bind:config="config"
+                        name="text"
+                        label="Text"
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-boolean
                         v-bind:config="config"
                         name="bool"
-                        widget="Boolean"
                         label="Boolean"
-                    ></furet-ui-form-field>
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field v-bind:config="config" name="time" widget="Time" label="Time"></furet-ui-form-field>
-                </div>
-                <div class="column is-6">
-                    <furet-ui-form-field name="file"
-                           widget="LargeBinaryPreview"
-                           v-bind:config="config"
-                           label="File"
-                           filename="filename"
-                           filesize="filesize"
-                    >
-                    </furet-ui-form-field>
-                </div>
-                <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-time
                         v-bind:config="config"
-                        name="json" widget="Json" label="JSON" required="1" readonly="1"></furet-ui-form-field>
+                        name="time"
+                        label="Time"
+                    />
+                </div>
+                <div class="column is-6">
+                    <furet-ui-form-field-file
+                        name="file"
+                       v-bind:config="config"
+                       label="File"
+                       v:bind:params="{'filename': 'filename', 'filesize': 'filesize'}"
+                    />
+                </div>
+                <div class="column is-6">
+                    <furet-ui-form-field-json
+                        v-bind:config="config"
+                        name="json"
+                        label="JSON"
+                    />
                 </div>
             </div>
         ''',
@@ -912,24 +962,24 @@ def getView8():
         'headers': [
             {
                 'name': 'name',
-                'type': 'String',
                 'label': 'Name',
+                'component': 'furet-ui-list-field-string',
             },
             {
                 'name': 'addresses',
-                'type': 'One2Many',
                 'label': 'Addresses',
                 'model': 'Address',
                 'field': 'complete_name',
                 'actionId': '7',
+                'component': 'furet-ui-list-field-one2many',
             },
             {
                 'name': 'categories',
-                'type': 'Many2Many',
                 'label': 'Categories',
                 'model': 'Category',
                 'field': 'name',
                 'actionId': '6',
+                'component': 'furet-ui-list-field-many2many',
             },
         ],
         'search': [
@@ -956,40 +1006,36 @@ def getView9():
         'template': '''
             <div class="columns is-mobile is-multiline">
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-string
                         v-bind:config="config"
+                        required="1"
                         name="name"
-                        widget="String"
                         label="Name"
-                        params='{"required": "1"}'>
-                    </furet-ui-form-field>
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-string
                         v-bind:config="config"
+                        required="1"
                         name="email"
-                        widget="String"
                         label="E-mail"
-                        params='{"required": "1"}'>
-                    </furet-ui-form-field>
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-one2many
                         v-bind:config="config"
                         name="addresses"
-                        widget="One2Many"
                         label="Addresses"
-                        params='{"model": "Address", "actionId": "4", "many2oneField": "customer"}'>
-                    </furet-ui-form-field>
+                        params='{"model": "Address", "actionId": "4", "many2oneField": "customer"}'
+                    />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-many2many-checkbox
                         v-bind:config="config"
                         name="categories"
-                        widget="Many2ManyCheckBox"
                         label="Categories"
-                        params='{"model": "Category", "field": "name", "checkbox_class": "is-12-mobile is-6-tablette is-3"}'>
-                    </furet-ui-form-field>
+                        params='{"model": "Category", "field": "name", "checkbox_class": "is-12-mobile is-6-tablette is-3"}'
+                    />
                 </div>
             </div>
         ''',
@@ -1012,8 +1058,8 @@ def getView10():
         'headers': [
             {
                 'name': 'name',
-                'type': 'String',
                 'label': 'Name',
+                'component': 'furet-ui-list-field-string',
             },
         ],
         'search': [
@@ -1040,22 +1086,20 @@ def getView11():
         'template': '''
             <div class="columns is-mobile is-multiline">
                 <div class="column is-6">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-string
                         v-bind:config="config"
+                        required="1"
                         name="name"
-                        widget="String"
                         label="Name"
-                        params='{"required": "1"}'>
-                    </furet-ui-form-field>
+                    />
                 </div>
                 <div class="column is-12">
-                    <furet-ui-form-field
+                    <furet-ui-form-field-many2many-tags
                         v-bind:config="config"
                         name="customers"
-                        widget="Many2ManyTags"
                         label="Customers"
-                        params='{"model": "Customer", "field": "name"}'>
-                    </furet-ui-form-field>
+                        params='{"model": "Customer", "field": "name"}'
+                    />
                 </div>
             </div>
         ''',
@@ -1078,26 +1122,26 @@ def getView12():
         'headers': [
             {
                 'name': 'customer',
-                'type': 'Many2One',
                 'label': 'Customer',
                 'model': 'Customer',
                 'field': 'name',
                 'actionId': '5',
+                'component': 'furet-ui-list-field-many2one',
             },
             {
                 'name': 'street',
-                'type': 'String',
                 'label': 'Street',
+                'component': 'furet-ui-list-field-string',
             },
             {
                 'name': 'zip',
-                'type': 'String',
                 'label': 'zip',
+                'component': 'furet-ui-list-field-string',
             },
             {
                 'name': 'city',
-                'type': 'String',
                 'label': 'City',
+                'component': 'furet-ui-list-field-string',
             },
         ],
         'search': [
@@ -1125,42 +1169,38 @@ def getView13():
             <div>
                 <div class="columns">
                     <div class="column">
-                        <furet-ui-form-field
+                        <furet-ui-form-field-many2one
                             v-bind:config="config"
                             name="customer"
-                            widget="Many2One"
                             label="Customer"
-                            params='{"model": "Customer", "field": "name", "limit": "10", "actionId": "5", "required": "1"}'>
-                        </furet-ui-form-field>
+                            params='{"model": "Customer", "field": "name", "limit": "10", "actionId": "5", "required": "1"}'
+                        />
                     </div>
                     <div class="column">
-                        <furet-ui-form-field
+                        <furet-ui-form-field-string
                             v-bind:config="config"
+                            required="1"
                             name="street"
-                            widget="String"
                             label="Street"
-                            params='{"required": "1"}'>
-                        </furet-ui-form-field>
+                        />
                     </div>
                 </div>
                 <div class="columns">
                     <div class="column">
-                        <furet-ui-form-field
+                        <furet-ui-form-field-string
                             v-bind:config="config"
+                            required="1"
                             name="zip"
-                            widget="String"
                             label="Zip"
-                            params='{"required": "1"}'>
-                        </furet-ui-form-field>
+                        />
                     </div>
                     <div class="column">
-                        <furet-ui-form-field
+                        <furet-ui-form-field-string
                             v-bind:config="config"
+                            required="1"
                             name="city"
-                            widget="String"
                             label="City"
-                            params='{"required": "1"}'>
-                        </furet-ui-form-field>
+                        />
                     </div>
                 </div>
             </div>
@@ -1363,7 +1403,9 @@ def getActionInformation(actionId=None):
     data = loads(request.body.read())
     res, default = getAction(actionId)
     path = ['', 'space', data['spaceId']]
-    path.extend(['menu', data['menuId']])
+    if data.get('menuId'):
+        path.extend(['menu', data['menuId']])
+
     path.extend(['action', actionId])
     if data.get('viewId'):
         path.extend(['view', data['viewId']])
@@ -1456,7 +1498,7 @@ def getFormView():
         view = getView(data['viewId'])
         fields = view['fields']
 
-    if data['new']:
+    if data['new'] or data.get('id') is None:
         return superDumps([])
 
     return superDumps(getData(data['model'], [data['id']], fields))

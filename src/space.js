@@ -66,7 +66,7 @@ Vue.component('furet-ui-space-menu', {
 export const Space = Vue.component('furet-ui-space', {
     template: `
         <div class="columns is-gapless">
-            <div v-if="isOpenLeft" class="column is-one-quarter is-half-mobile">
+            <div v-if="isOpenLeft && left_menu.length > 0" class="column is-one-quarter is-half-mobile">
                 <aside class="menu">
                     <furet-ui-space-menu 
                         v-bind:menus="left_menu" 
@@ -118,7 +118,7 @@ export const Space = Vue.component('furet-ui-space', {
                 </nav>
                 <router-view></router-view>
             </div>
-            <div v-if="isOpenRight" class="column is-one-quarter is-half-mobile">
+            <div v-if="isOpenRight && right_menu.length > 0" class="column is-one-quarter is-half-mobile">
                 <aside class="menu">
                     <furet-ui-space-menu 
                         v-bind:menus="right_menu" 

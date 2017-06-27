@@ -26,7 +26,7 @@ export const ViewUnknown = Vue.component('furet-ui-view-unknown', {
     props: ['viewName'],
     template: `
         <div>
-            <section class="section">
+            <section class="section box">
                 <h1 class="title">{{$t('views.unknown.title', {name: viewName})}}</h1>
                 <h2 class="subtitle">
                     {{$t('views.unknown.message')}}

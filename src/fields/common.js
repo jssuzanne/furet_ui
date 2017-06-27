@@ -14,20 +14,32 @@ export const safe_eval = (condition, fields) => {
 }
 
 
+export const ListMixin = {
+    props: ['row', 'index', 'header'],
+    computed: {
+        value () {
+            return this.row[this.header.name] || '';
+        },
+        isInvisible () {
+            return safe_eval(this.header.invisible, this.row || {});
+        },
+    },
+};
+
+
 export const ThumbnailMixin = {
     computed: {
         value () {
             return this.data && this.data[this.name] || '';
         },
         isInvisible () {
-            const invisible = this.params && this.params.invisible || false;
-            return safe_eval(invisible, this.config && this.config.data || {});
+            return safe_eval(this.invisible, this.config && this.config.data || {});
         },
         getTooltip () {
-            return this.params && this.params.tooltip || '';
+            return this.tooltip || '';
         },
         tooltipPosition () {
-            return this.params && this.params.tooltip_position || 'is-top';
+            return this.tooltip_position || 'is-top';
         },
     },
 };
@@ -39,25 +51,21 @@ export const FormMixin = {
             return this.config && this.config.data && this.config.data[this.name] || '';
         },
         isReadonly () {
-            const readonlyParams = safe_eval(
-                    this.params && this.params.readonly || 'false', 
-                    this.data && this.data.config || {});
-            const readonly = this.config && this.config.mode == 'readonly';
+            const readonlyParams = safe_eval(this.readonly, this.config.data || {});
+            const readonly = this.config.mode == 'readonly';
             return readonly || readonlyParams;
         },
         isRequired () {
-            const required = this.params && this.params.required || false;
-            return safe_eval(required, this.config && this.config.data || {});
+            return safe_eval(this.required, this.config.data || {});
         },
         isInvisible () {
-            const invisible = this.params && this.params.invisible || false;
-            return safe_eval(invisible, this.config && this.config.data || {});
+            return safe_eval(this.invisible, this.config.data || {});
         },
         getTooltip () {
-            return this.params && this.params.tooltip || '';
+            return this.tooltip || '';
         },
         tooltipPosition () {
-            return this.params && this.params.tooltip_position || 'is-top';
+            return this.tooltip_position || 'is-top';
         },
         getType () {
             if (this.isRequired) {
@@ -75,7 +83,6 @@ export const FormMixin = {
     },
     methods: {
         updateValue (value) {
-            console.log(value)
             this.$store.commit('UPDATE_CHANGE', {
                 model: this.config.view.model,
                 dataId: this.config.dataId,

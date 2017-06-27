@@ -46,10 +46,6 @@ export const i18n = new VueI18n({
                 common: {
                     required: 'this field is required',
                 },
-                boolean: {
-                    'true': 'True',
-                    'false': 'False',
-                },
             },
         },
     },

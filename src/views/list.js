@@ -114,18 +114,19 @@ export const ListView = Vue.component('furet-ui-list-view', {
             >
                 <template scope="props">
                     <b-table-column v-for="header in headers"
-                        v-bind:key="header.field"
-                        v-bind:field="header.field"
+                        v-bind:key="header.name"
+                        v-bind:field="header.name"
                         v-bind:label="header.label"
                         v-bind:width="header.width"
                         v-bind:numeric="header.numeric"
                         v-bind:sortable="header.sortable"
-                        v-bind:custom-sort="header.customSort"
                     >
-                        <div v-if="header.render">
-                            {{ header.render(props.row) }}
-                        </div>
-                        <furet-ui-list-component v-else v-bind:row="props.row" v-bind:header="header"/>
+                        <component 
+                            v-bind:is="header.component" 
+                            v-bind:row="props.row" 
+                            v-bind:index="props.index" 
+                            v-bind:header="header"
+                        />
                     </b-table-column>
                 </template>
             </b-table>
@@ -143,6 +144,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
     },
     computed: {
         headers () {
+            return this.view && this.view.headers || [];
             if (this.view) {
                 return _.map(this.view.headers || [], header => {
                     let field = plugin.get(['field', 'List', header.type]);
@@ -235,27 +237,4 @@ export const ListView = Vue.component('furet-ui-list-view', {
     }
 });
 
-Vue.component('furet-ui-list-component', {
-    props: ['row', 'header'],
-    render: function(createElement) {
-        return this.header.renderHtml(createElement, this.row);
-    },
-});
-
 plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});
-
-plugin.set(['field', 'List'], {Unknown: (header) => {
-    const res = {
-        label: header.label,
-        field: header.name,
-        numeric: false,
-        width: '200px',
-        render: (row) => {
-            return row[header.name] || '';
-        },
-    }
-    if (header.width) res.width = header.width;
-    if (header.sortable) res.sortable = header.sortable;
-    console.log('Unknown field for', header)
-    return res;
-}})

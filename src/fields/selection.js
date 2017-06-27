@@ -8,26 +8,25 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
-import plugin from '../plugin';
-import {FormMixin, ThumbnailMixin} from './common';
+import {FormMixin, ThumbnailMixin, ListMixin} from './common';
 
-
-plugin.set(['field', 'List'], {Selection: (header) => {
-    const res = {
-        label: header.label,
-        field: header.name,
-        render: (row) => {
-            const value = row[header.name] || '';
-            if ((header.selections || {})[value] == undefined) return ' --- ';
-            return header.selections[value];
+export const FieldListSelection = Vue.component('furet-ui-list-field-selection', {
+    mixins: [ListMixin],
+    template: `
+        <span v-if="isInvisible" />
+        <span v-else>{{value}}</span>`,
+    computed: {
+        value () {
+            const selections = this.header.selections || {};
+            const value = this.row[this.header.name] || '';
+            if (selections[value] == undefined) return ' --- ';
+            return selections[value];
         },
-    }
-    if (header.sortable) res.sortable = header.sortable;
-    return res;
-}})
+    },
+})
 
 export const FieldThumbnailSelection = Vue.component('furet-ui-thumbnail-field-selection', {
-    props: ['name', 'label', 'params', 'data'],
+    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position', 'selections'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -45,17 +44,18 @@ export const FieldThumbnailSelection = Vue.component('furet-ui-thumbnail-field-s
         </b-tooltip>`,
     computed: {
         value () {
-            const selections = this.params && this.params.selections || {};
+            const selections = this.selections || {};
             const value = this.data && this.data[this.name] || '';
             if (selections[value] == undefined) return ' --- ';
             return selections[value];
         },
     },
 })
-plugin.set(['field', 'Thumbnail'], {Selection: 'furet-ui-thumbnail-field-selection'});
 
 export const FieldFormSelection = Vue.component('furet-ui-form-field-selection', {
-    props: ['name', 'label', 'params', 'config'],
+    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
+            'readonly', 'required', 'placeholder', 'icon', 'selections', 
+            'expanded'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -93,25 +93,10 @@ export const FieldFormSelection = Vue.component('furet-ui-form-field-selection',
         </b-tooltip>`,
     computed: {
         value () {
-            const selections = this.params && this.params.selections || {};
+            const selections = this.selections || {};
             const value = this.config && this.config.data && this.config.data[this.name] || '';
             if (selections[value] == undefined) return ' --- ';
             return selections[value];
         },
-        selections () {
-            const selections = this.params && this.params.selections || {};
-            return _.map(selections, (label, value) => ({value, label}));
-        },
-        placeholder () {
-            return this.params && this.params.placeholder || "";
-        },
-        icon () {
-            return this.params && this.params.placeholder || "";
-        },
-        expanded () {
-            if (this.params && this.params.expanded) return eval(this.params.expanded);
-            return true
-        },
     },
 })
-plugin.set(['field', 'Form'], {Selection: 'furet-ui-form-field-selection'});

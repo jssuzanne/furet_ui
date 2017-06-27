@@ -8,24 +8,18 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
-import plugin from '../plugin';
-import {FormMixin, ThumbnailMixin} from './common';
+import {FormMixin, ThumbnailMixin, ListMixin} from './common';
 
 
-plugin.set(['field', 'List'], {String: (header) => {
-    const res = {
-        label: header.label,
-        field: header.name,
-        render: (row) => {
-            return row[header.name] || '';
-        },
-    }
-    if (header.sortable) res.sortable = header.sortable;
-    return res;
-}})
+export const FieldListString = Vue.component('furet-ui-list-field-string', {
+    mixins: [ListMixin],
+    template: `
+        <span v-if="isInvisible" />
+        <span v-else>{{value}}</span>`,
+})
 
 export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-string', {
-    props: ['name', 'label', 'params', 'data'],
+    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -42,10 +36,10 @@ export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-stri
             </b-field>
         </b-tooltip>`,
 })
-plugin.set(['field', 'Thumbnail'], {String: 'furet-ui-thumbnail-field-string'});
 
 export const FieldFormString = Vue.component('furet-ui-form-field-string', {
-    props: ['name', 'label', 'params', 'config'],
+    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
+            'readonly', 'required', 'maxlength', 'placeholder', 'icon'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -74,16 +68,4 @@ export const FieldFormString = Vue.component('furet-ui-form-field-string', {
                 </b-input>
             </b-field>
         </b-tooltip>`,
-    computed: {
-        maxlength () {
-            return this.params && this.params.maxlength || 64;
-        },
-        placeholder () {
-            return this.params && this.params.placeholder || "";
-        },
-        icon () {
-            return this.params && this.params.placeholder || "";
-        },
-    },
 })
-plugin.set(['field', 'Form'], {String: 'furet-ui-form-field-string'});

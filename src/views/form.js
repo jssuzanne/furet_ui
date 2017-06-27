@@ -223,7 +223,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 }
             } else {
                     this.$router.push({
-                        name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
+                        name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
                         params: {
                             spaceId: this.spaceId,
                             menuId: this.menuId,
@@ -285,64 +285,3 @@ export const FormView = Vue.component('furet-ui-form-view', {
 });
 
 plugin.set(['views', 'type'], {Form: 'furet-ui-form-view'});
-
-/**
- * return the component for viewType and fieldType
-**/
-export const Field = Vue.component('furet-ui-form-field', {
-    props: ['name', 'label', 'widget', 'params', 'config'],
-    render: function(createElement) {
-        let field = plugin.get(['field', 'Form', this.widget]);
-        const props = {
-            name: this.name,
-            label: this.label,
-            params: this.params,
-            config: this.config,
-        }
-        
-        if (!field) {
-            field = plugin.get(['field', 'Form', 'Unknown']);
-            props.widget = this.widget
-            console.log('furet-ui-form-field', this.widget)
-        }
-        return createElement(field, {props});
-    },
-});
-
-export const FieldUnknown = Vue.component('furet-ui-form-field-unknown', {
-    props: ['name', 'label', 'params', 'config', 'widget'],
-    template: `
-        <b-field v-bind:label="getLabel">
-            <div 
-                v-if="isReadonly"
-                v-bind:style="{maxWidth: '300px', display: 'inline-block', maxHeight: '100px', overflowY: 'auto'}"
-            >
-                <span v-bind:style="{maxWidth: '300px', display: 'inline-block', wordBreak: 'break-word'}"> 
-                    {{data}} 
-                </span>
-            </div>
-            <b-input v-else v-bind:value="data" v-on:change="updateValue"></b-input>
-        </b-field>`,
-    computed: {
-        data () {
-            return this.config && this.config.data && this.config.data[this.name] || '';
-        },
-        isReadonly () {
-            return this.config && this.config.mode == 'readonly';
-        },
-        getLabel () {
-            return this.label + ' (' + this.widget + ' widget missing)';
-        }
-    },
-    methods: {
-        updateValue (value) {
-            this.$store.commit('UPDATE_CHANGE', {
-                model: this.config.view.model,
-                dataId: this.config.dataId,
-                fieldname: this.name,
-                value
-            })
-        }
-    }
-})
-plugin.set(['field', 'Form'], {Unknown: 'furet-ui-form-field-unknown'});

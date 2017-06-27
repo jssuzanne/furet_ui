@@ -17,7 +17,7 @@ import './selection';
 import './integer';
 import './float';
 // import './url';
-// import './password';
+import './password';
 // import './color';
 // import './text';
 import './boolean';
@@ -25,23 +25,3 @@ import './boolean';
 // import './x2one';
 // import './x2many';
 // import './largebinary';
-
-/**
- * Unknown field, used only if the wanted field is not available
-**/
-const Field = Vue.component('furet-ui-field-unknown', {
-    props: ['config', 'values'],
-    template: `
-        <div>
-            {{ config }}
-            {{ values }}
-        </div>
-    `,
-    computed: {
-        value () {
-            return this.parentProps.row[this.config.name];
-        }
-    }
-});
-
-plugin.set(['field'], {Unknown: 'furet-ui-field-unknown'});

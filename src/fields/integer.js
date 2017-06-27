@@ -8,26 +8,17 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
-import plugin from '../plugin';
-import {FormMixin, ThumbnailMixin} from './common';
+import {FormMixin, ThumbnailMixin, ListMixin} from './common';
 
+export const FieldListInteger = Vue.component('furet-ui-list-field-integer', {
+    mixins: [ListMixin],
+    template: `
+        <span v-if="isInvisible" />
+        <span v-else>{{value}}</span>`,
+})
 
-plugin.set(['field', 'List'], {Integer: (header) => {
-    const res = {
-        label: header.label,
-        field: header.name,
-        numeric: true,
-        width: 40,
-        render: (row) => {
-            return row[header.name] || '';
-        },
-    }
-    if (header.sortable) res.sortable = header.sortable;
-    return res;
-}})
-
-export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-integer', {
-    props: ['name', 'label', 'params', 'data'],
+export const FieldThumbnailInteger = Vue.component('furet-ui-thumbnail-field-integer', {
+    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -45,10 +36,10 @@ export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-inte
             </b-field>
         </b-tooltip>`,
 })
-plugin.set(['field', 'Thumbnail'], {Integer: 'furet-ui-thumbnail-field-integer'});
 
-export const FieldFormString = Vue.component('furet-ui-form-field-integer', {
-    props: ['name', 'label', 'params', 'config'],
+export const FieldFormInteger = Vue.component('furet-ui-form-field-integer', {
+    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
+            'readonly', 'required'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -76,4 +67,3 @@ export const FieldFormString = Vue.component('furet-ui-form-field-integer', {
             </b-field>
         </b-tooltip>`,
 })
-plugin.set(['field', 'Form'], {Integer: 'furet-ui-form-field-integer'});

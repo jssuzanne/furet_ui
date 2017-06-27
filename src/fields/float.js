@@ -8,8 +8,7 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
-import plugin from '../plugin';
-import {FormMixin, ThumbnailMixin} from './common';
+import {FormMixin, ThumbnailMixin, ListMixin} from './common';
 
 
 const round = (value, step) => {
@@ -20,22 +19,22 @@ const round = (value, step) => {
 }
 
 
-plugin.set(['field', 'List'], {Float: (header) => {
-    const res = {
-        label: header.label,
-        field: header.name,
-        numeric: true,
-        width: 40,
-        render: (row) => {
-            return round(row[header.name], header.step);
+export const FieldListFloat = Vue.component('furet-ui-list-field-float', {
+    mixins: [ListMixin],
+    template: `
+        <span v-if="isInvisible" />
+        <span v-else>{{value}}</span>`,
+    computed: {
+        value () {
+            return round(this.row[this.header.name], this.header.step);
         },
     }
-    if (header.sortable) res.sortable = header.sortable;
-    return res;
-}})
+})
+
 
 export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float', {
     props: ['name', 'label', 'params', 'data'],
+    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position', 'step'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -54,14 +53,14 @@ export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float
         </b-tooltip>`,
     computed: {
         value () {
-            return round(this.data[this.name], this.params && this.params.step);
+            return round(this.data[this.name], this.step);
         },
     }
 })
-plugin.set(['field', 'Thumbnail'], {Float: 'furet-ui-thumbnail-field-float'});
 
 export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
-    props: ['name', 'label', 'params', 'config'],
+    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
+            'readonly', 'required', 'step'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -90,12 +89,11 @@ export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
         </b-tooltip>`,
     computed: {
         getStep () {
-            return this.params && this.params.step || '0.01';
+            return this.step || '0.01';
         },
         data () {
-            const value = this.config && this.config.data && this.config.data[this.name] || '';
-            return round(value, this.params && this.params.step);
+            const value = this.config.data && this.config.data[this.name] || '';
+            return round(value, this.step);
         },
     },
 })
-plugin.set(['field', 'Form'], {Float: 'furet-ui-form-field-float'});
