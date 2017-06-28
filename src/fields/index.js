@@ -16,7 +16,7 @@ import './selection';
 // import './time';
 import './integer';
 import './float';
-// import './url';
+import './url';
 import './password';
 // import './color';
 // import './text';

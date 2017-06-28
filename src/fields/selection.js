@@ -82,7 +82,7 @@ export const FieldFormSelection = Vue.component('furet-ui-form-field-selection',
                     v-on:change="updateValue"
                 >
                     <option 
-                        v-for="option in selections"
+                        v-for="option in getSelections"
                         v-bind:key="option.value"
                         v-bind:value="option.value"
                     >
@@ -97,6 +97,9 @@ export const FieldFormSelection = Vue.component('furet-ui-form-field-selection',
             const value = this.config && this.config.data && this.config.data[this.name] || '';
             if (selections[value] == undefined) return ' --- ';
             return selections[value];
+        },
+        getSelections () {
+            return _.map(this.selections, (label, value) => ({value, label}));
         },
     },
 })

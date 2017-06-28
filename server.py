@@ -667,6 +667,11 @@ def getView1():
                 'component': 'furet-ui-list-field-password',
             },
             {
+                'name': 'url',
+                'label': 'URL',
+                'component': 'furet-ui-list-field-url',
+            },
+            {
                 'name': 'file',
                 'label': 'File',
                 'filename': 'filename',
@@ -699,7 +704,7 @@ def getView1():
         ],
         'fields': ["id", "name", "state", "creation_date", "number", "bool",
                    "color", "text", "time", "file", 'filename', 'filesize',
-                   "password"],
+                   "password", 'url'],
     }
 
 
@@ -872,6 +877,7 @@ def getView3():
                         v-bind:config="config"
                         name="number"
                         label="Number"
+                        max="2"
                     />
                 </div>
                 <div class="column is-6">

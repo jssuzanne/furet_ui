@@ -33,7 +33,6 @@ export const FieldListFloat = Vue.component('furet-ui-list-field-float', {
 
 
 export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float', {
-    props: ['name', 'label', 'params', 'data'],
     props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position', 'step'],
     mixins: [ThumbnailMixin],
     template: `
@@ -60,7 +59,7 @@ export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float
 
 export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
     props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'step'],
+            'readonly', 'required', 'step', 'min', 'max'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -80,9 +79,11 @@ export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
                 <b-input 
                     v-else 
                     type="number"
-                    step="getStep"
+                    v-bind:step="getStep"
                     v-bind:value="data" 
                     v-on:change="updateValue"
+                    v-bind:min="min"
+                    v-bind:max="max"
                 >
                 </b-input>
             </b-field>
