@@ -4,9 +4,9 @@ var path = require('path');
 
 const plugins = [
     new webpack.ProvidePlugin({   
-        // jQuery: 'jquery',
-        // $: 'jquery',
-        // jquery: 'jquery',
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery',
         _: 'underscore',
     }),
 ];

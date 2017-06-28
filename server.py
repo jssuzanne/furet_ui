@@ -5,10 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import (
     create_engine, Column, Integer, String, DateTime, Float, Text, Time,
-    Boolean, or_, ForeignKey, Table, LargeBinary
+    Boolean, or_, ForeignKey, Table, LargeBinary, Date
 )
 from sqlalchemy.orm import relationship, sessionmaker
-from datetime import datetime, time
+from datetime import datetime, time, date
 
 
 engine = create_engine('postgresql+psycopg2:///furetui', echo=True)
@@ -21,6 +21,7 @@ class Test(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     creation_date = Column(DateTime)
+    creation_date2 = Column(Date)
     state = Column(String)
     number = Column(Float)
     url = Column(String)
@@ -246,7 +247,7 @@ MODELS = {
 
 
 def json_serial(obj):
-    if isinstance(obj, (datetime, time)):
+    if isinstance(obj, (datetime, time, date)):
         serial = obj.isoformat()
         return serial
 
@@ -636,11 +637,6 @@ def getView1():
                 'component': 'furet-ui-list-field-selection',
             },
             {
-                'name': 'creation_date',
-                'label': 'Creation date',
-                'component': 'furet-ui-list-field-datetime',
-            },
-            {
                 'name': 'number',
                 'label': 'Number',
                 'numeric': True,
@@ -702,7 +698,7 @@ def getView1():
                 'buttonId': '2',
             },
         ],
-        'fields': ["id", "name", "state", "creation_date", "number", "bool",
+        'fields': ["id", "name", "state", "creation_date2", "number", "bool",
                    "color", "text", "time", "file", 'filename', 'filesize',
                    "password", 'url'],
     }
@@ -753,10 +749,10 @@ def getView2():
                     />
                 </div>
                 <div class="column is-6">
-                    <furet-ui-thumbnail-field-datetime
+                    <furet-ui-thumbnail-field-date
                         v-bind:data="card"
-                        name="creation_date"
-                        label="Creation date"
+                        name="creation_date2"
+                        label="Creation date2"
                     />
                 </div>
                 <div class="column is-6">
@@ -819,7 +815,7 @@ def getView2():
             },
         ],
         'fields': [
-            "id", "name", "state", "creation_date", "number", "url",
+            "id", "name", "state", "creation_date2", "number", "url",
             "uuid", "password", "color", "text", "bool", "time", 'json', "file",
             "filename", "filesize",
         ],
@@ -870,6 +866,13 @@ def getView3():
                         v-bind:config="config"
                         name="creation_date"
                         label="Creation date"
+                    />
+                </div>
+                <div class="column is-6">
+                    <furet-ui-form-field-date
+                        v-bind:config="config"
+                        name="creation_date2"
+                        label="Creation date2"
                     />
                 </div>
                 <div class="column is-6">
@@ -947,9 +950,9 @@ def getView3():
             },
         ],
         'fields': [
-            "id", "name", "json", "state", "creation_date", "number",
+            "id", "name", "json", "state", "creation_date2", "number",
             "url", "uuid", "password", "color", "text", "bool", "time",
-            'file', 'filename', 'filesize',
+            'file', 'filename', 'filesize', "creation_date",
         ],
     }
 
@@ -1657,12 +1660,13 @@ if session.query(Test).count() == 0:
         Test(**dict({
             'name': "todo 1",
             'creation_date': datetime.now(),
+            'creation_date2': date.today(),
             'state': 'new',
             'number': 1.2345678,
             'url': 'http://furet-ui.readthedocs.io',
             'uuid': 'uuid---',
             'password': 'password',
-            'color': '#36c',
+            'color': '#3366cc',
             'text': '<div><p><em>Plop</em></p></div>',
             'bool': True,
             'time': time(1, 2, 3),

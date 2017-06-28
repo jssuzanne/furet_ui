@@ -15,6 +15,7 @@ import * as getters from './getters';
 import modules from './modules';
 import {i18n} from '../i18n';
 import {router} from '../routes';
+import moment from 'moment';
 
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
@@ -37,6 +38,7 @@ export const dispatchAll = (datas) => {
                     break
                 case 'SET_LOCALE':
                     i18n.locale = data.locale;
+                    moment.locale(data.locale);
                     break
                 case 'UPDATE_ROUTE':
                     if (data.name) router.push({name: data.name, params: data.params});
