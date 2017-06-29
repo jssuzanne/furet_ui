@@ -36,7 +36,7 @@ export const FieldThumbnailTime = Vue.component('furet-ui-thumbnail-field-time',
 })
 
 export const FieldFormTime = Vue.component('furet-ui-form-field-time', {
-    props: ['min', 'max'],
+    props: ['min', 'max', 'icon'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

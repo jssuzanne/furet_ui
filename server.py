@@ -620,15 +620,9 @@ def getView1():
                 'component': 'furet-ui-list-field-selection',
             },
             {
-                'name': 'number',
-                'label': 'Number',
-                'numeric': True,
-                'component': 'furet-ui-list-field-float',
-            },
-            {
-                'name': 'color',
-                'label': 'Color',
-                'component': 'furet-ui-list-field-color',
+                'name': 'json',
+                'label': 'JSON',
+                'component': 'furet-ui-list-field-json',
             },
             {
                 'name': 'text',
@@ -679,7 +673,7 @@ def getView1():
         ],
         'fields': ["id", "name", "state", "creation_date2", "number", "bool",
                    "color", "text", "time", "file", 'filename', 'filesize',
-                   "password", 'url'],
+                   "password", 'url', 'json'],
     }
 
 
@@ -782,7 +776,15 @@ def getView2():
                         v-bind:data="card"
                         name="file"
                         label="File"
-                        v-bind:params="{'filename':'filename','filesize':'filesize'}"
+                        filename="filename"
+                        filesize="filesize"
+                    />
+                </div>
+                <div class="column is-6">
+                    <furet-ui-thumbnail-field-json
+                        v-bind:data="card"
+                        name="json"
+                        label="Json"
                     />
                 </div>
             </div>

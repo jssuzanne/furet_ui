@@ -21,7 +21,7 @@ import './password';
 import './color';
 // import './text';
 import './boolean';
-// import './json';
+import './json';
 // import './x2one';
 // import './x2many';
 import './file';
