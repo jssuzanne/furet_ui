@@ -19,7 +19,7 @@ import './float';
 import './url';
 import './password';
 import './color';
-// import './text';
+import './text';
 import './boolean';
 import './json';
 // import './x2one';
