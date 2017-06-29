@@ -7,7 +7,6 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-console.error('FIX ME, find a better way to load data')
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
@@ -124,6 +123,9 @@ export const FormView = Vue.component('furet-ui-form-view', {
             filter: {},
         };
     },
+    created: function () {
+        if (this.view) this.getData();
+    },
     computed: {
         config () {
             return {
@@ -139,21 +141,6 @@ export const FormView = Vue.component('furet-ui-form-view', {
         },
         form_card () {
             if (this.view) {
-                json_post(
-                    '/form/get', 
-                    {
-                        model: this.view.model,
-                        id: this.dataId,
-                        new: this.mode == 'new',
-                        fields: this.view.fields,
-                        viewId: this.viewId,
-                    },
-                    {
-                        onSuccess: (results) => {
-                            dispatchAll(results);
-                        },
-                    },
-                );
                 return {
                     template: this.view.template,
                     props: ['config'],
@@ -165,7 +152,24 @@ export const FormView = Vue.component('furet-ui-form-view', {
         },
     },
     methods: {
-        addNew: function () {
+        getData () {
+            json_post(
+                '/form/get', 
+                {
+                    model: this.view.model,
+                    id: this.dataId,
+                    new: this.mode == 'new',
+                    fields: this.view.fields,
+                    viewId: this.viewId,
+                },
+                {
+                    onSuccess: (results) => {
+                        dispatchAll(results);
+                    },
+                },
+            );
+        },
+        addNew () {
             this.$router.push({
                 name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
                 params: {
@@ -178,7 +182,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 }
             });
         },
-        openMode: function () {
+        openMode () {
             this.$router.push({
                 name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
                 params: {
@@ -191,7 +195,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 }
             });
         },
-        closeMode: function () {
+        closeMode () {
             if (this.view.onClose) {
                 this.$router.push({
                     name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
@@ -204,7 +208,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 });
             }
         },
-        cancelMode: function () {
+        cancelMode () {
             this.$store.commit('CLEAR_CHANGE', {
                 model: this.view.model,
                 dataId: this.dataId,
@@ -235,7 +239,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                     });
             }
         },
-        deleteData: function () {
+        deleteData () {
             json_post(
                 '/data/delete', 
                 { 
@@ -255,7 +259,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 }
             )
         },
-        saveData: function () {
+        saveData () {
             json_post(
                 this.mode == 'new' ? '/data/create' : '/data/update', 
                 {

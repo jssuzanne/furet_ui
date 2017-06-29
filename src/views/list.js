@@ -7,8 +7,6 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-console.error('FIX ME, find a better way to load data')
-console.error('FIX ME, search bar')
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
@@ -98,7 +96,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                     </div>
                 </div>
                 <div class="level-right">
-                    search bar
+                    <furet-ui-search-bar-view v-bind:search="search" v-model="filter"/>
                 </div>
             </nav>
             <b-table
@@ -142,6 +140,9 @@ export const ListView = Vue.component('furet-ui-list-view', {
             filter: {},
         };
     },
+    created: function () {
+        if (this.view) this.getData();
+    },
     computed: {
         headers () {
             return this.view && this.view.headers || [];
@@ -162,9 +163,14 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 (this.change || {})[dataId]
             ));
         },
+        search () {
+            if (this.view) {
+                return this.view.search;
+            }
+            return {};
+        },
         isCheckable () {
             if (this.view) {
-                this.getData()
                 return this.view.selectable;
             }
             return false;

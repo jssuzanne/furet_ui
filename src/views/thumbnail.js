@@ -7,8 +7,6 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-console.error('FIX ME, find a better way to load data')
-console.error('FIX ME, search bar')
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
@@ -64,7 +62,7 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
                     </div>
                 </div>
                 <div class="level-right">
-                    search bar
+                    <furet-ui-search-bar-view v-bind:search="search" v-model="filter"/>
                 </div>
             </nav>
             <div class="columns is-multiline is-mobile">
@@ -83,6 +81,9 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
             filter: {},
         };
     },
+    created: function () {
+        if (this.view) this.getData();
+    },
     computed: {
         tableData () {
             const dataIds = this.dataIds ? this.dataIds : _.keys(this.data || {});
@@ -94,20 +95,6 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
         },
         thumbnail_card () {
             if (this.view) {
-                json_post(
-                    '/thumbnail/get', 
-                    {
-                        model: this.view.model,
-                        filter: this.filter,
-                        fields: this.view.fields,
-                        viewId: this.viewId,
-                    },
-                    {
-                        onSuccess: (results) => {
-                            dispatchAll(results);
-                        },
-                    },
-                );
                 return {
                     template: this.view.template,
                     props: ['card'],
@@ -117,9 +104,31 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
                 template: '<div></div>'
             };
         },
+        search () {
+            if (this.view) {
+                return this.view.search;
+            }
+            return {};
+        },
     },
     methods: {
-        addNew: function () {
+        getData () {
+            json_post(
+                '/thumbnail/get', 
+                {
+                    model: this.view.model,
+                    filter: this.filter,
+                    fields: this.view.fields,
+                    viewId: this.viewId,
+                },
+                {
+                    onSuccess: (results) => {
+                        dispatchAll(results);
+                    },
+                },
+            );
+        },
+        addNew () {
             if (this.view.onSelect) {
                 this.$router.push({
                     name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
@@ -134,7 +143,7 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
                 });
             }
         },
-        selectCard: function (card) {
+        selectCard (card) {
             if (this.view.onSelect) {
                 this.$router.push({
                     name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
