@@ -24,4 +24,4 @@ import './boolean';
 // import './json';
 // import './x2one';
 // import './x2many';
-// import './largebinary';
+import './largebinary';

@@ -663,11 +663,6 @@ def getView1():
                 'component': 'furet-ui-list-field-password',
             },
             {
-                'name': 'url',
-                'label': 'URL',
-                'component': 'furet-ui-list-field-url',
-            },
-            {
                 'name': 'file',
                 'label': 'File',
                 'filename': 'filename',
