@@ -25,7 +25,6 @@ export const FieldListPassword = Vue.component('furet-ui-list-field-password', {
 
 
 export const FieldThumbnailPassword = Vue.component('furet-ui-thumbnail-field-password', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -49,8 +48,7 @@ export const FieldThumbnailPassword = Vue.component('furet-ui-thumbnail-field-pa
 })
 
 export const FieldFormPassword = Vue.component('furet-ui-form-field-password', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'maxlength', 'placeholder', 'icon', 'reveal'],
+    props: ['maxlength', 'placeholder', 'icon', 'reveal'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

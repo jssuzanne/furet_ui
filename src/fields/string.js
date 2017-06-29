@@ -19,7 +19,6 @@ export const FieldListString = Vue.component('furet-ui-list-field-string', {
 })
 
 export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-string', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -38,8 +37,7 @@ export const FieldThumbnailString = Vue.component('furet-ui-thumbnail-field-stri
 })
 
 export const FieldFormString = Vue.component('furet-ui-form-field-string', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'maxlength', 'placeholder', 'icon'],
+    props: ['maxlength', 'placeholder', 'icon'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

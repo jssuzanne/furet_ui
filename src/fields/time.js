@@ -18,7 +18,6 @@ export const FieldListTime = Vue.component('furet-ui-list-field-time', {
 })
 
 export const FieldThumbnailTime = Vue.component('furet-ui-thumbnail-field-time', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -37,8 +36,7 @@ export const FieldThumbnailTime = Vue.component('furet-ui-thumbnail-field-time',
 })
 
 export const FieldFormTime = Vue.component('furet-ui-form-field-time', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'icon', 'min', 'max'],
+    props: ['min', 'max'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

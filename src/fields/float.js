@@ -33,7 +33,6 @@ export const FieldListFloat = Vue.component('furet-ui-list-field-float', {
 
 
 export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position', 'step'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -58,8 +57,7 @@ export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float
 })
 
 export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'step', 'min', 'max'],
+    props: ['step', 'min', 'max'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

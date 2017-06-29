@@ -298,14 +298,6 @@ def _getInitOptionnalData():
                 {
                     'locale': 'fr-FR',
                     'messages': {
-                        'formats': {
-                            'date': {
-                                'default': '%d/%m/%Y',
-                            },
-                            'datetime': {
-                                'default': '%d/%m/%Y %H:%M:%S %z',
-                            },
-                        },
                         'menus': {
                             'close': 'Fermer',
                             'search': 'Filtrer par ...',

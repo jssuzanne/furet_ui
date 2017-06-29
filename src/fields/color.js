@@ -23,7 +23,6 @@ export const FieldListColor = Vue.component('furet-ui-list-field-color', {
 })
 
 export const FieldThumbnailColor = Vue.component('furet-ui-thumbnail-field-color', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -47,8 +46,7 @@ export const FieldThumbnailColor = Vue.component('furet-ui-thumbnail-field-color
 })
 
 export const FieldFormColor = Vue.component('furet-ui-form-field-color', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'icon', 'placeholder'],
+    props: ['icon', 'placeholder'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

@@ -29,7 +29,6 @@ export const FieldListDateTime = Vue.component('furet-ui-list-field-datetime', {
 })
 
 export const FieldThumbnailDateTime = Vue.component('furet-ui-thumbnail-field-datetime', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -56,8 +55,7 @@ export const FieldThumbnailDateTime = Vue.component('furet-ui-thumbnail-field-da
 })
 
 export const FieldFormDateTime = Vue.component('furet-ui-form-field-datetime', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'icon', 'min', 'max'],
+    props: ['icon', 'min', 'max'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

@@ -26,7 +26,7 @@ export const FieldListSelection = Vue.component('furet-ui-list-field-selection',
 })
 
 export const FieldThumbnailSelection = Vue.component('furet-ui-thumbnail-field-selection', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position', 'selections'],
+    props: ['selections'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -53,9 +53,7 @@ export const FieldThumbnailSelection = Vue.component('furet-ui-thumbnail-field-s
 })
 
 export const FieldFormSelection = Vue.component('furet-ui-form-field-selection', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'placeholder', 'icon', 'selections', 
-            'expanded'],
+    props: ['placeholder', 'icon', 'selections', 'expanded'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

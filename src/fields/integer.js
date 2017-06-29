@@ -18,7 +18,6 @@ export const FieldListInteger = Vue.component('furet-ui-list-field-integer', {
 })
 
 export const FieldThumbnailInteger = Vue.component('furet-ui-thumbnail-field-integer', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -38,8 +37,7 @@ export const FieldThumbnailInteger = Vue.component('furet-ui-thumbnail-field-int
 })
 
 export const FieldFormInteger = Vue.component('furet-ui-form-field-integer', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'min', 'max'],
+    props: ['min', 'max'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

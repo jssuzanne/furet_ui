@@ -19,7 +19,6 @@ export const FieldListUrl = Vue.component('furet-ui-list-field-url', {
 })
 
 export const FieldThumbnailUrl = Vue.component('furet-ui-thumbnail-field-url', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -41,8 +40,7 @@ export const FieldThumbnailUrl = Vue.component('furet-ui-thumbnail-field-url', {
 })
 
 export const FieldFormUrl = Vue.component('furet-ui-form-field-url', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'maxlength', 'placeholder', 'icon'],
+    props: ['maxlength', 'placeholder', 'icon'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

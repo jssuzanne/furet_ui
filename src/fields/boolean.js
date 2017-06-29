@@ -27,7 +27,6 @@ Vue.component('furet-ui-list-field-boolean', {
 })
 
 export const FieldThumbnailBoolean = Vue.component('furet-ui-thumbnail-field-boolean', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -46,8 +45,6 @@ export const FieldThumbnailBoolean = Vue.component('furet-ui-thumbnail-field-boo
 })
 
 export const FieldFormBoolean = Vue.component('furet-ui-form-field-boolean', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

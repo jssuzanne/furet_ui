@@ -42,8 +42,7 @@ export const FieldListFile = Vue.component('furet-ui-list-field-file', {
 })
 
 export const FieldThumbnailFile = Vue.component('furet-ui-thumbnail-field-file', {
-    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position',
-            'filename', 'width'],
+    props: ['filename', 'width'],
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -85,8 +84,7 @@ export const FieldThumbnailFile = Vue.component('furet-ui-thumbnail-field-file',
 })
 
 export const FieldFormFile = Vue.component('furet-ui-form-field-file', {
-    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
-            'readonly', 'required', 'filename', 'accept', 'filesize', 'width'],
+    props: ['filename', 'accept', 'filesize', 'width'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />

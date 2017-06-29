@@ -46,6 +46,9 @@ export const i18n = new VueI18n({
                 common: {
                     required: 'this field is required',
                 },
+                json: {
+                    invalid: 'Invalid JSON format',
+                },
                 file: {
                     upload: 'Upload',
                     download: 'Download',

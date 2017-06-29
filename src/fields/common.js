@@ -28,6 +28,7 @@ export const ListMixin = {
 
 
 export const ThumbnailMixin = {
+    props: ['name', 'label', 'data', 'invisible', 'tooltip', 'tooltip_position'],
     computed: {
         value () {
             return this.data && this.data[this.name] || '';
@@ -46,6 +47,8 @@ export const ThumbnailMixin = {
 
 
 export const FormMixin = {
+    props: ['name', 'label', 'config', 'invisible', 'tooltip', 'tooltip_position',
+            'readonly', 'required'],
     computed: {
         data () {
             return this.config && this.config.data && this.config.data[this.name] || '';
