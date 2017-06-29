@@ -336,22 +336,13 @@ def _getInitOptionnalData():
                                 'required': 'Ce champs est requis',
                                 'no-found': 'Aucune donnée trouvée',
                             },
-                            'date': {
-                                'invalid': 'Date invalide',
-                                'format': 'DD/MM/YYYY',
-                            },
-                            'time': {
-                                'invalid': 'Heure invalide',
-                            },
-                            'datetime': {
-                                'invalid': 'Date et heure invalide',
-                                'format': 'DD/MM/YYYY HH:mm:ss Z',
-                            },
-                            'url': {
-                                'invalid': 'URL invalide',
-                            },
                             'json': {
                                 'invalid': 'Format JSON invalide',
+                            },
+                            'file': {
+                                'upload': u'Sélectioner',
+                                'download': u'Télécharger',
+                                'delete': u'Supprimer',
                             },
                         },
                     },
@@ -668,6 +659,7 @@ def getView1():
                 'filename': 'filename',
                 'filesize': 'filesize',
                 'component': 'furet-ui-list-field-file',
+                'width': '200px',
             },
         ],
         'search': [
@@ -923,10 +915,11 @@ def getView3():
                 </div>
                 <div class="column is-6">
                     <furet-ui-form-field-file
+                        v-bind:config="config"
                         name="file"
-                       v-bind:config="config"
-                       label="File"
-                       v:bind:params="{'filename': 'filename', 'filesize': 'filesize'}"
+                        label="File"
+                        filename="filename"
+                        filesize="filesize"
                     />
                 </div>
                 <div class="column is-6">

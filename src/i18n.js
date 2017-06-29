@@ -46,6 +46,11 @@ export const i18n = new VueI18n({
                 common: {
                     required: 'this field is required',
                 },
+                file: {
+                    upload: 'Upload',
+                    download: 'Download',
+                    delete: 'Delete',
+                },
             },
         },
     },
