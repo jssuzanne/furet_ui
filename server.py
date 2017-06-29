@@ -620,11 +620,6 @@ def getView1():
                 'component': 'furet-ui-list-field-selection',
             },
             {
-                'name': 'json',
-                'label': 'JSON',
-                'component': 'furet-ui-list-field-json',
-            },
-            {
                 'name': 'text',
                 'label': 'Text',
                 'component': 'furet-ui-list-field-text',
@@ -1697,7 +1692,7 @@ if session.query(Test).count() == 0:
             'uuid': 'uuid---',
             'password': 'password',
             'color': '#36c',
-            'text': '<div><p><em>Plop</em></p><p>Other line</p></div>',
+            'text': '<p><em>Plop</em></p><p>Other line</p>',
             'bool': False,
             'time': time(1, 2, 3),
             'json': '{"a": {"b": [{"c": "d"}, {"e": "f"}]}}'
