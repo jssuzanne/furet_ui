@@ -18,6 +18,7 @@ export const defaultState = {
     title: '',
     modal_custom_view: '',
     spaces: {},
+    breadscrumbs: [],
 };
 
 // getters
@@ -45,10 +46,25 @@ export const mutations = {
         }
         state.spaces = spaces;
     },
+    'ADD_IN_BREADSCRUMB'(state, action) {
+        const breadscrumbs = state.breadscrumbs.slice(0);
+        breadscrumbs.push({
+            path: action.path,
+            label: action.label,
+            changes: action.changes,
+            position: breadscrumbs.length,
+        });
+        state.breadscrumbs = breadscrumbs;
+    },
+    'REMOVE_FROM_BREADSCRUMB'(state, action) {
+        const breadscrumbs = _.filter(state.breadscrumbs.slice(0), a => a.position < action.position);
+        state.breadscrumbs = _.sortBy(breadscrumbs, a => a.position);
+    },
     'CLEAR_GLOBAL'(state, action) {
         state.title = '';
         state.modal_custom_view = '';
-        state.spaces = {}
+        state.spaces = {};
+        state.breadscrumbs = [];
     },
 };
 

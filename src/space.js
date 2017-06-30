@@ -7,8 +7,6 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-console.error('miss breadscrumbs')
-
 import Vue from 'vue';
 import {dispatchAll} from './store';
 import {json_post} from './server-call';
@@ -147,20 +145,6 @@ export const Space = Vue.component('furet-ui-space', {
             return this.space_state && this.space_state.right_menu || [];
         },
         actions () {
-            // return [
-            //     {
-            //         path: '/space/2/menu/3/action/3/view/2',
-            //         label: "PLop 2"
-            //     },
-            //     {
-            //         path: '/space/2/menu/3/action/3/view/3',
-            //         label: "PLop 3"
-            //     },
-            //     {
-            //         path: '/space/2/menu/3/action/3/view/4',
-            //         label: "PLop 4"
-            //     },
-            // ]
             return this.$store.state.global.breadscrumbs || [];
         },
         action () {
@@ -183,6 +167,11 @@ export const Space = Vue.component('furet-ui-space', {
                     viewId
                 }
             });
-        }
+        },
+        onClick (action) {
+            this.$store.commit('REMOVE_FROM_BREADSCRUMB', {position: action.position});
+            this.$store.commit('REPLACE_CHANGE', {changes: action.changes});
+            this.$router.push({path: action.path});
+        },
     },
 });

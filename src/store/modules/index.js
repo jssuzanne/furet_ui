@@ -11,7 +11,6 @@ import global from './global';
 import client from './client';
 import rightmenu from './right-menu';
 import leftmenu from './left-menu';
-import action_manager from './action_manager';
 import data from './data';
 
 export default {
@@ -19,6 +18,5 @@ export default {
     client,
     rightmenu,
     leftmenu,
-    action_manager,
     data,
 }

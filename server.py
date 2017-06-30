@@ -1110,7 +1110,7 @@ def getView12():
                 'name': 'customer',
                 'label': 'Customer',
                 'model': 'Customer',
-                'field': 'name',
+                'display': "'super : ' + fields.name",
                 'actionId': '5',
                 'component': 'furet-ui-list-field-many2one',
             },

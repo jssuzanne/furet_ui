@@ -63,11 +63,8 @@ export const mutations = {
         changes[action.model][action.dataId][action.fieldname] = action.value;
         state.changes = changes
     },
-    'CLEAR_DATA'(state, action) {
-        state.actions = {};
-        state.views = {};
-        state.data = {};
-        state.changes = {};
+    'REPLACE_CHANGE'(state, action) {
+        state.changes = Object.assign({}, actions.changes);
     },
     'CLEAR_CHANGE'(state, action) {
         const changes = Object.assign({}, state.changes);
@@ -77,6 +74,12 @@ export const mutations = {
         }
     },
     'CLEAR_ALL_CHANGE'(state, action) {
+        state.changes = {};
+    },
+    'CLEAR_DATA'(state, action) {
+        state.actions = {};
+        state.views = {};
+        state.data = {};
         state.changes = {};
     },
 };
