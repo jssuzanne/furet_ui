@@ -75,11 +75,15 @@ class Category(Base):
         }]
         for field in fields:
             if isinstance(field, (list, tuple)):
-                field, subfield = field
-                for entry in getattr(self, field):
-                    res.extend(entry.read([subfield]))
+                if field[0] == 'customers':
+                    field, subfield = field
+                    for entry in getattr(self, field):
+                        res.extend(entry.read([subfield]))
 
-                res[0]['data'][str(self.id)][field] = [str(x.id) for x in getattr(self, field)]
+                    res[0]['data'][str(self.id)][field] = [str(x.id) for x in getattr(self, field)]
+                else:
+                    for f in field:
+                        res[0]['data'][str(self.id)][f] = getattr(self, f)
 
             else:
                 res[0]['data'][str(self.id)][field] = getattr(self, field)
@@ -135,13 +139,21 @@ class Customer(Base):
         }]
         for field in fields:
             if isinstance(field, (list, tuple)):
-                field, subfield = field
-                for entry in getattr(self, field):
-                    res.extend(entry.read([subfield]))
-            if field in ('categories', 'addresses'):
-                res[0]['data'][str(self.id)][field] = [str(x.id) for x in getattr(self, field)]
+                if field[0] in ('categories', 'addresses'):
+                    field, subfield = field
+                    for entry in getattr(self, field):
+                        res.extend(entry.read([subfield]))
+
+                    res[0]['data'][str(self.id)][field] = [str(x.id) for x in getattr(self, field)]
+                else:
+                    for f in field:
+                        res[0]['data'][str(self.id)][f] = getattr(self, f)
+
             else:
-                res[0]['data'][str(self.id)][field] = getattr(self, field)
+                if field in ('categories', 'addresses'):
+                    res[0]['data'][str(self.id)][field] = [str(x.id) for x in getattr(self, field)]
+                else:
+                    res[0]['data'][str(self.id)][field] = getattr(self, field)
 
         return res
 
@@ -202,25 +214,27 @@ class Address(Base):
         }]
         for field in fields:
             if isinstance(field, (list, tuple)):
-                field, subfield = field
-                entry = getattr(self, field)
-                res.extend(entry.read([subfield]))
+                if field[0] == 'customer':
+                    field, subfield = field
+                    entry = getattr(self, field)
+                    res.extend(entry.read([subfield]))
+                    res[0]['data'][self.id][field] = str(self.customer.id)
+                else:
+                    for f in field:
+                        res[0]['data'][self.id][f] = getattr(self, f)
 
-            if field == 'customer':
-                res[0]['data'][self.id][field] = str(self.customer.id)
             else:
-                res[0]['data'][self.id][field] = getattr(self, field)
+                if field == 'customer':
+                    res[0]['data'][self.id][field] = str(self.customer.id)
+                else:
+                    res[0]['data'][self.id][field] = getattr(self, field)
 
         return res
 
     def update(self, session, val):
         for k, v in val.items():
             if k == 'customer':
-                pass
-                ## if v in mapping:
-                ##     self.customer = mapping[v]
-                ## else:
-                ##     self.customer_id = int(v)
+                self.customer_id = int(v)
             else:
                 setattr(self, k, v)
 
@@ -974,7 +988,7 @@ def getView8():
         ],
         'onSelect_buttons': [
         ],
-        'fields': ["name", ["addresses", "complete_name"], ["categories", "name"]],
+        'fields': ["name", ["addresses", ["complete_name"]], ["categories", ["name"]]],
     }
 
 
@@ -1026,7 +1040,7 @@ def getView9():
             </div>
         ''',
         'buttons': [],
-        'fields': ["name", "email", "addresses", ["categories", "name"]],
+        'fields': ["name", "email", "addresses", ["categories", ["name"]]],
     }
 
 
@@ -1090,7 +1104,7 @@ def getView11():
             </div>
         ''',
         'buttons': [],
-        'fields': ["name", ["customers", "name"]],
+        'fields': ["name", ["customers", ["name"]]],
     }
 
 
@@ -1136,7 +1150,7 @@ def getView12():
         ],
         'onSelect_buttons': [
         ],
-        'fields': [["customer", 'name'], "street", "zip", "city"],
+        'fields': [["customer", ['name']], "street", "zip", "city"],
     }
 
 
@@ -1159,7 +1173,13 @@ def getView13():
                             v-bind:config="config"
                             name="customer"
                             label="Customer"
-                            params='{"model": "Customer", "field": "name", "limit": "10", "actionId": "5", "required": "1"}'
+                            model="Customer"
+                            display="fields.name"
+                            v-bind:fields="['name']"
+                            limit="10"
+                            actionId="5"
+                            required="1"
+                            mode="readwrite"
                         />
                     </div>
                     <div class="column">
@@ -1192,7 +1212,7 @@ def getView13():
             </div>
         ''',
         'buttons': [],
-        'fields': ["street", "zip", "city", ["customer", "name"]],
+        'fields': ["street", "zip", "city", ["customer", ["name"]]],
     }
 
 
@@ -1421,7 +1441,6 @@ def getViewInformation(viewId=None):
 
 def getMultiView():
     data = loads(request.body.read())
-    print(data)
     ids = getIdsFromFilter(data['model'], data['filter'])
     fields = data.get('fields')
     if fields is None:
@@ -1442,25 +1461,24 @@ def getM2OSearch():
     response.set_header('Content-Type', 'application/json')
     data = loads(request.body.read())
     _data = []
+    ids = []
     try:
         session = Session()
         Model = MODELS[data['model']]
         query = session.query(Model)
         if data['value']:
-            query = query.filter(getattr(Model, data['field']).ilike('%{}%'.format(data['value'])))
-
-        if data.get('limit'):
-            query = query.limit(int(data['limit']))
+            query = query.filter(or_(*[getattr(Model, field).ilike('%{}%'.format(data['value']))
+                                       for field in data['fields']]))
 
         ids = [x.id for x in query.all()]
-        _data = _getData(session, data['model'], ids, [data['field']])
+        _data = _getData(session, data['model'], ids, data['fields'])
     except:
         session.rollback()
         raise
     finally:
         session.close()
 
-    return superDumps(_data)
+    return superDumps({'ids': ids, 'data': _data})
 
 
 @route('/furetui/list/get', method='POST')
@@ -1538,7 +1556,6 @@ def createData():
     finally:
         session.close()
 
-    print (_data)
     return superDumps(_data)
 
 
@@ -1573,7 +1590,6 @@ def updateData():
     finally:
         session.close()
 
-    print(_data)
     return superDumps(_data)
 
 
