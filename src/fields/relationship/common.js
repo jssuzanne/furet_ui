@@ -11,8 +11,6 @@ import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
 
 export const RelationShip = {
-    computed: {
-    },
     methods: {
         format (condition, fields) {
             return eval(condition);
@@ -38,6 +36,93 @@ export const RelationShip = {
                 },
             })
             this.$store.commit('CLEAR_ALL_CHANGE', {});
+        },
+    },
+}
+
+export const RelationShipX2MList = {
+    template: `
+        <span v-if="isInvisible" />
+        <div v-else>
+            <span class="tag" v-for="value in values">
+                <a 
+                    v-on:click.stop="onClick(value.dataId)">{{value.label}}
+                </a>
+            </span>
+        </div>`,
+    computed: {
+        values () {
+            const values = this.row[this.header.name] || '';
+            const model = this.header.model; 
+            if (model) {
+                let data = this.$store.state.data.data;
+                if (data[model]) {
+                    data = data[model];
+                    return _.map(values, dataId => {
+                        return {dataId, label: this.format(this.header.display, data[String(dataId)])}
+                    })
+                }
+            }
+            return [];
+        }
+    },
+    methods: {
+        onClick (dataId) {
+            this.addInBreadscrumb({
+                spaceId: this.header.spaceId,
+                menuId: this.header.menuId,
+                actionId: this.header.actionId,
+                dataId,
+                mode: this.header.mode,
+            });
+        },
+    },
+}
+
+export const RelationShipX2MThumbnail = {
+    props: ['model', 'spaceId', 'menuId', 'actionId', 'mode', 'display'],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
+            v-else
+        >
+            <b-field 
+                v-bind:label="this.label"
+                v-bind:style="{'width': 'inherit'}"
+            >
+                <span class="tag" v-for="value in values">
+                    <a 
+                        v-on:click.stop="onClick(value.dataId)">{{value.label}}
+                    </a>
+                </span>
+            </b-field>
+        </b-tooltip>`,
+    computed: {
+        values () {
+            const values = this.data && this.data[this.name] || '';
+            if (this.model) {
+                let data = this.$store.state.data.data;
+                if (data[this.model]) {
+                    data = data[this.model];
+                    return _.map(values, dataId => {
+                        return {dataId, label: this.format(this.display, data[String(dataId)])}
+                    })
+                }
+            }
+            return [];
+        }
+    },
+    methods: {
+        onClick (dataId) {
+            this.addInBreadscrumb({
+                spaceId: this.spaceId,
+                menuId: this.menuId,
+                actionId: this.actionId,
+                dataId: dataId,
+                mode: this.mode,
+            });
         },
     },
 }

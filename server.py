@@ -155,6 +155,7 @@ class Customer(Base):
                 else:
                     res[0]['data'][str(self.id)][field] = getattr(self, field)
 
+        print res
         return res
 
     def update(self, session, val):
@@ -201,10 +202,6 @@ class Address(Base):
     city = Column(String)
     customer_id = Column(Integer, ForeignKey('customer.id'))
     customer = relationship("Customer", back_populates="addresses")
-
-    @hybrid_property
-    def complete_name(self):
-        return "%s %s %s" % (self.street, self.zip, self.city)
 
     def read(self, fields):
         res = [{
@@ -969,7 +966,7 @@ def getView8():
                 'name': 'addresses',
                 'label': 'Addresses',
                 'model': 'Address',
-                'field': 'complete_name',
+                'display': "fields.street + ' ' + fields.zip + ' ' + fields.city",
                 'actionId': '7',
                 'component': 'furet-ui-list-field-one2many',
             },
@@ -977,7 +974,7 @@ def getView8():
                 'name': 'categories',
                 'label': 'Categories',
                 'model': 'Category',
-                'field': 'name',
+                'display': 'fields.name',
                 'actionId': '6',
                 'component': 'furet-ui-list-field-many2many',
             },
@@ -988,7 +985,7 @@ def getView8():
         ],
         'onSelect_buttons': [
         ],
-        'fields': ["name", ["addresses", ["complete_name"]], ["categories", ["name"]]],
+        'fields': ["name", ["addresses", ["street", "zip", "city"]], ["categories", ["name"]]],
     }
 
 

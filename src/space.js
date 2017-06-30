@@ -54,8 +54,8 @@ Vue.component('furet-ui-space-menu', {
                 });
             }
             dispatchAll([
-                {type: 'RESET_ACTION_MANAGER'},
-                {type: 'CLEAR_ALL_CHANGES'},
+                {type: 'CLEAR_BREADSCRUMB'},
+                {type: 'CLEAR_ALL_CHANGE'},
             ]);
         }
     }

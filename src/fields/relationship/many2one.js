@@ -176,9 +176,7 @@ export const FieldFormMany2One = Vue.component('furet-ui-form-field-many2one', {
         onSelect (value) {
             if (value) {
                 const v = this.config && this.config.data && this.config.data[this.name];
-                console.log(v, value)
                 if (v != value.dataId) {
-                    console.log('updateValue')
                     this.updateValue(value.dataId);
                 }
             }

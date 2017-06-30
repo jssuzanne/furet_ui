@@ -123,6 +123,8 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                     });
                     break;
             }
+            this.$store.commit('CLEAR_BREADSCRUMB');
+            this.$store.commit('CLEAR_ALL_CHANGE');
             this.isModalActive = false;
         }
     }

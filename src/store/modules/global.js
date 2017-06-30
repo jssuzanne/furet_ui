@@ -60,6 +60,9 @@ export const mutations = {
         const breadscrumbs = _.filter(state.breadscrumbs.slice(0), a => a.position < action.position);
         state.breadscrumbs = _.sortBy(breadscrumbs, a => a.position);
     },
+    'CLEAR_BREADSCRUMB'(state, action) {
+        state.breadscrumbs = [];
+    },
     'CLEAR_GLOBAL'(state, action) {
         state.title = '';
         state.modal_custom_view = '';
