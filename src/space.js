@@ -150,7 +150,10 @@ export const Space = Vue.component('furet-ui-space', {
         action () {
             if (this.actionId) {
                 const action = this.$store.state.data.actions[String(this.actionId)];
-                if (action) return {label: action.label, views: action.views || []}
+                if (action) {
+                    const views = _.filter(action.views || [], view => (view.viewId == this.viewId || !view.unclickable))
+                    return {label: action.label, views};
+                }
            }
            return {label: '', views: []};
         }

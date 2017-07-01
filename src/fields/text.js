@@ -66,7 +66,7 @@ export const FieldFormText = Vue.component('furet-ui-form-field-text', {
     computed: {
         data: {
             get: function () {
-                return this.config && this.config.data && this.config.data[this.name] || '';
+                return this.config && this.config.data && this.config.data[this.name] || null;
             },
             set: function (value) {
                 this.updateValue(value);

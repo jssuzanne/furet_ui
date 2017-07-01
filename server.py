@@ -373,6 +373,7 @@ def getAction1():
                 {
                     'viewId': '3',
                     'type': 'Form',
+                    'unclickable': True,
                 },
                 {
                     'viewId': '4',
@@ -410,6 +411,7 @@ def getAction2():
                 {
                     'viewId': '9',
                     'type': 'Form',
+                    'unclickable': True,
                 },
             ],
         }
@@ -431,6 +433,7 @@ def getAction3():
                 {
                     'viewId': '11',
                     'type': 'Form',
+                    'unclickable': True,
                 },
             ],
         }
@@ -452,6 +455,7 @@ def getAction4():
                 {
                     'viewId': '13',
                     'type': 'Form',
+                    'unclickable': True,
                 },
             ],
         }
@@ -469,6 +473,7 @@ def getAction5():
                 {
                     'viewId': '9',
                     'type': 'Form',
+                    'unclickable': True,
                 },
             ],
         }
@@ -486,6 +491,7 @@ def getAction6():
                 {
                     'viewId': '11',
                     'type': 'Form',
+                    'unclickable': True,
                 },
             ],
             'model': 'Category',
@@ -504,6 +510,7 @@ def getAction7():
                 {
                     'viewId': '13',
                     'type': 'Form',
+                    'unclickable': True,
                 },
             ],
             'model': 'Address',
@@ -1687,7 +1694,7 @@ if session.query(Test).count() == 0:
             'uuid': 'uuid---',
             'password': 'password',
             'color': '#3366cc',
-            'text': '<div><p><em>Plop</em></p></div>',
+            'text': '<p><em>Plop</em></p>',
             'bool': True,
             'time': time(1, 2, 3),
             'json': '{"a": {"b": [{"c": "d"}, {"e": "f"}]}}'
@@ -1703,7 +1710,7 @@ if session.query(Test).count() == 0:
             'uuid': 'uuid---',
             'password': 'password',
             'color': '#36c',
-            'text': '<div><p><em>Plop</em></p></div>',
+            'text': '<p><em>Plop</em></p>',
             'bool': True,
             'time': time(1, 2, 3),
             'json': '{"a": {"b": [{"c": "d"}, {"e": "f"}]}}'
@@ -1719,7 +1726,7 @@ if session.query(Test).count() == 0:
             'uuid': 'uuid---',
             'password': 'password',
             'color': '#36c',
-            'text': '<div><p><em>Plop</em></p></div>',
+            'text': '<p><em>Plop</em></p>',
             'bool': False,
             'time': time(1, 2, 3),
             'json': '{"a": {"b": [{"c": "d"}, {"e": "f"}]}}'
