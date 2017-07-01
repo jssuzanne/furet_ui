@@ -44,7 +44,11 @@ export const RelationShipX2MList = {
     template: `
         <span v-if="isInvisible" />
         <div v-else>
-            <span class="tag" v-for="value in values">
+            <span 
+                v-for="value in values"
+                class="tag" 
+                v-bind:style="getStyle(value.dataId)"
+            >
                 <a 
                     v-on:click.stop="onClick(value.dataId)">{{value.label}}
                 </a>
@@ -64,9 +68,16 @@ export const RelationShipX2MList = {
                 }
             }
             return [];
-        }
+        },
     },
     methods: {
+        getStyle (dataId) {
+            if (this.header.fieldcolor) {
+                const data = this.$store.state.data.data[this.header.model][dataId];
+                if (data[this.header.fieldcolor]) return {border: '4px solid ' + data[this.header.fieldcolor]};
+            }
+            return {};
+        },
         onClick (dataId) {
             this.addInBreadscrumb({
                 spaceId: this.header.spaceId,
@@ -80,7 +91,7 @@ export const RelationShipX2MList = {
 }
 
 export const RelationShipX2MThumbnail = {
-    props: ['model', 'spaceId', 'menuId', 'actionId', 'mode', 'display'],
+    props: ['model', 'spaceId', 'menuId', 'actionId', 'mode', 'display', 'fieldcolor'],
     template: `
         <div v-if="this.isInvisible" />
         <b-tooltip 
@@ -92,7 +103,11 @@ export const RelationShipX2MThumbnail = {
                 v-bind:label="this.label"
                 v-bind:style="{'width': 'inherit'}"
             >
-                <span class="tag" v-for="value in values">
+                <span 
+                    v-for="value in values"
+                    class="tag" 
+                    v-bind:style="getStyle(value.dataId)"
+                >
                     <a 
                         v-on:click.stop="onClick(value.dataId)">{{value.label}}
                     </a>
@@ -115,6 +130,13 @@ export const RelationShipX2MThumbnail = {
         }
     },
     methods: {
+        getStyle (dataId) {
+            if (this.fieldcolor) {
+                const data = this.$store.state.data.data[this.model][dataId];
+                if (data[this.fieldcolor]) return {border: '4px solid ' + data[this.fieldcolor]};
+            }
+            return {};
+        },
         onClick (dataId) {
             this.addInBreadscrumb({
                 spaceId: this.spaceId,

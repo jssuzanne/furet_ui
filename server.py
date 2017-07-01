@@ -2,7 +2,6 @@
 from bottle import route, run, static_file, response, request
 from simplejson import dumps, loads
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import (
     create_engine, Column, Integer, String, DateTime, Float, Text, Time,
     Boolean, or_, ForeignKey, Table, LargeBinary, Date
@@ -64,6 +63,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    color = Column(String)
     customers = relationship(
         "Customer", secondary=association_table, back_populates="categories")
 
@@ -127,6 +127,7 @@ class Customer(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     email = Column(String)
+    color = Column(String)
     addresses = relationship("Address", back_populates='customer')
     categories = relationship(
         "Category", secondary=association_table, back_populates="customers")
@@ -162,12 +163,9 @@ class Customer(Base):
         for k, v in val.items():
             if k == 'categories':
                 categories = []
-                ## for dataId in v:
-                ##     if dataId in mapping:
-                ##         categories.append(mapping[dataId])
-                ##     else:
-                ##         categories.append(session.query(Customer).filter(
-                ##             Customer.id == int(dataId)).one())
+                for dataId in v:
+                    categories.append(session.query(Category).filter(
+                        Category.id == int(dataId)).one())
 
                 self.categories = categories
             elif k == 'addresses':
@@ -177,18 +175,15 @@ class Customer(Base):
 
     @classmethod
     def insert(cls, session, data):
-        ##if 'categories' in data:
-        ##    categories = []
-        ##    for dataId in data['categories']:
-        ##        if dataId in mapping:
-        ##            categories.append(mapping[dataId])
-        ##        else:
-        ##            categories.append(session.query(Category).filter(
-        ##                Category.id == int(dataId)).one())
+        if 'categories' in data:
+            categories = []
+            for dataId in data['categories']:
+                categories.append(session.query(Category).filter(
+                    Category.id == int(dataId)).one())
 
-        ##    data['categories'] = categories
-        ##if 'addresses' in data:
-        ##    del data['addresses']
+            data['categories'] = categories
+        if 'addresses' in data:
+            del data['addresses']
 
         return cls(**data)
 
@@ -959,8 +954,13 @@ def getView8():
         'headers': [
             {
                 'name': 'name',
-                'label': 'Name',
+                'label': 'name',
                 'component': 'furet-ui-list-field-string',
+            },
+            {
+                'name': 'color',
+                'label': 'Color',
+                'component': 'furet-ui-list-field-color',
             },
             {
                 'name': 'addresses',
@@ -975,6 +975,7 @@ def getView8():
                 'label': 'Categories',
                 'model': 'Category',
                 'display': 'fields.name',
+                'fieldcolor': 'color',
                 'actionId': '6',
                 'component': 'furet-ui-list-field-many2many',
             },
@@ -985,7 +986,11 @@ def getView8():
         ],
         'onSelect_buttons': [
         ],
-        'fields': ["name", ["addresses", ["street", "zip", "city"]], ["categories", ["name"]]],
+        'fields': [
+            "name", "color",
+            ["addresses", ["street", "zip", "city"]],
+            ["categories", ["name", "color"]],
+        ],
     }
 
 
@@ -1002,7 +1007,7 @@ def getView9():
         'model': 'Customer',
         'template': '''
             <div class="columns is-mobile is-multiline">
-                <div class="column is-6">
+                <div class="column is-4">
                     <furet-ui-form-field-string
                         v-bind:config="config"
                         required="1"
@@ -1010,7 +1015,7 @@ def getView9():
                         label="Name"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-4">
                     <furet-ui-form-field-string
                         v-bind:config="config"
                         required="1"
@@ -1018,12 +1023,21 @@ def getView9():
                         label="E-mail"
                     />
                 </div>
+                <div class="column is-4">
+                    <furet-ui-form-field-color
+                        v-bind:config="config"
+                        name="color"
+                        label="Color"
+                    />
+                </div>
                 <div class="column is-6">
                     <furet-ui-form-field-one2many
                         v-bind:config="config"
                         name="addresses"
                         label="Addresses"
-                        params='{"model": "Address", "actionId": "4", "many2oneField": "customer"}'
+                        model="Address"
+                        actionId="4"
+                        many2oneField="customer"
                     />
                 </div>
                 <div class="column is-6">
@@ -1031,13 +1045,17 @@ def getView9():
                         v-bind:config="config"
                         name="categories"
                         label="Categories"
-                        params='{"model": "Category", "field": "name", "checkbox_class": "is-12-mobile is-6-tablette is-3"}'
+                        model="Category"
+                        display="fields.name"
+                        fieldcolor="color"
+                        v-bind:fields="['name', 'color']"
+                        checkbox_class="is-half-tablet is-one-quarter-desktop"
                     />
                 </div>
             </div>
         ''',
         'buttons': [],
-        'fields': ["name", "email", "addresses", ["categories", ["name"]]],
+        'fields': ["name", "email", "color", "addresses", "categories"],
     }
 
 
@@ -1058,6 +1076,11 @@ def getView10():
                 'label': 'Name',
                 'component': 'furet-ui-list-field-string',
             },
+            {
+                'name': 'color',
+                'label': 'Color',
+                'component': 'furet-ui-list-field-color',
+            },
         ],
         'search': [
         ],
@@ -1065,7 +1088,7 @@ def getView10():
         ],
         'onSelect_buttons': [
         ],
-        'fields': ["name"],
+        'fields': ["name", "color"],
     }
 
 
@@ -1082,12 +1105,19 @@ def getView11():
         'model': 'Category',
         'template': '''
             <div class="columns is-mobile is-multiline">
-                <div class="column is-6">
+                <div class="column is-8">
                     <furet-ui-form-field-string
                         v-bind:config="config"
                         required="1"
                         name="name"
                         label="Name"
+                    />
+                </div>
+                <div class="column is-4">
+                    <furet-ui-form-field-color
+                        v-bind:config="config"
+                        name="color"
+                        label="Color"
                     />
                 </div>
                 <div class="column is-12">
@@ -1101,7 +1131,7 @@ def getView11():
             </div>
         ''',
         'buttons': [],
-        'fields': ["name", ["customers", ["name"]]],
+        'fields': ["name", "color", ["customers", ["name"]]],
     }
 
 
@@ -1463,7 +1493,7 @@ def getM2OSearch():
         session = Session()
         Model = MODELS[data['model']]
         query = session.query(Model)
-        if data['value']:
+        if data.get('value'):
             query = query.filter(or_(*[getattr(Model, field).ilike('%{}%'.format(data['value']))
                                        for field in data['fields']]))
 
@@ -1714,9 +1744,9 @@ if session.query(Test).count() == 0:
     session.commit()
 
 if session.query(Category).count() == 0:
-    session.add(Category(name="Categ 1"))
-    session.add(Category(name="Categ 2"))
-    session.add(Category(name="Categ 3"))
+    session.add(Category(name="Categ 1", color="#ff0000"))
+    session.add(Category(name="Categ 2", color="#00ff00"))
+    session.add(Category(name="Categ 3", color="#0000ff"))
     session.add(Category(name="Categ 4"))
     session.add(Category(name="Categ 4"))
     session.add(Category(name="Categ 6"))
@@ -1724,7 +1754,7 @@ if session.query(Category).count() == 0:
     session.commit()
 
 if session.query(Customer).count() == 0:
-    customer = Customer(name="JS Suzanne", email="jssuzanne@anybox.fr")
+    customer = Customer(name="JS Suzanne", email="jssuzanne@anybox.fr", color="#00FF00")
     categories = session.query(Category).all()
     customer.categories = categories
     session.add(customer)

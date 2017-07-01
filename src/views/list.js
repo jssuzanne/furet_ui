@@ -26,6 +26,83 @@ plugin.set(['views', 'icon'], {List: 'furet-ui-list-view-icon'})
  * List view
  *
 **/
+export const ListViewBase = Vue.component('furet-ui-list-view-base', {
+    props: ['dataIds', 'data', 'change', 'view'],
+    template: `
+        <b-table
+            v-bind:data="tableData"
+            v-bind:narrowed="narrowed"
+            v-bind:checkable="isCheckable"
+            v-bind:mobile-cards="mobileCard"
+            v-bind:paginated="paginated"
+            v-bind:per-page="perPage"
+            v-bind:selected.sync="selected"
+            v-bind:checked-rows.sync="checkedRows"
+            v-on:dblclick="selectRow"
+            v-on:check="updateCheck"
+        >
+            <template scope="props">
+                <b-table-column v-for="header in headers"
+                    v-bind:key="header.name"
+                    v-bind:field="header.name"
+                    v-bind:label="header.label"
+                    v-bind:width="header.width"
+                    v-bind:numeric="header.numeric"
+                    v-bind:sortable="header.sortable"
+                >
+                    <component 
+                        v-bind:is="header.component" 
+                        v-bind:row="props.row" 
+                        v-bind:index="props.index" 
+                        v-bind:header="header"
+                    />
+                </b-table-column>
+            </template>
+        </b-table>
+    `,
+    data: () => {
+        return {
+            selected: {},
+            checkedRows: [],
+            narrowed: true,
+            mobileCard: true,
+            paginated: true,
+        };
+    },
+    computed: {
+        tableData () {
+            const dataIds = this.dataIds ? this.dataIds : _.keys(this.data || {});
+            return _.map(dataIds, dataId => Object.assign(
+                {__dataId: dataId}, 
+                (this.data || {})[dataId], 
+                (this.change || {})[dataId]
+            ));
+        },
+        headers () {
+            return this.view && this.view.headers || [];
+        },
+        isCheckable () {
+            if (this.view) {
+                return this.view.selectable;
+            }
+            return false;
+        },
+        perPage () {
+            const defaultPerPage = 20;
+            if (this.view) return this.view.perPage || defaultPerPage;
+            return defaultPerPage;
+        },
+    },
+    methods: {
+        selectRow (row) {
+            this.$emit('selectRow', row);
+        },
+        updateCheck (checkedList, row) {
+            this.$emit('updateCheck', checkedList);
+        },
+    },
+});
+
 export const ListView = Vue.component('furet-ui-list-view', {
     props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change'],
     template: `
@@ -99,44 +176,20 @@ export const ListView = Vue.component('furet-ui-list-view', {
                     <furet-ui-search-bar-view v-bind:search="search" v-model="filter"/>
                 </div>
             </nav>
-            <b-table
-                v-bind:data="tableData"
-                v-bind:narrowed="narrowed"
-                v-bind:checkable="isCheckable"
-                v-bind:mobile-cards="mobileCard"
-                v-bind:paginated="paginated"
-                v-bind:per-page="perPage"
-                v-bind:selected.sync="selected"
-                v-bind:checked-rows.sync="checkedRows"
-                v-on:dblclick="selectRow"
-            >
-                <template scope="props">
-                    <b-table-column v-for="header in headers"
-                        v-bind:key="header.name"
-                        v-bind:field="header.name"
-                        v-bind:label="header.label"
-                        v-bind:width="header.width"
-                        v-bind:numeric="header.numeric"
-                        v-bind:sortable="header.sortable"
-                    >
-                        <component 
-                            v-bind:is="header.component" 
-                            v-bind:row="props.row" 
-                            v-bind:index="props.index" 
-                            v-bind:header="header"
-                        />
-                    </b-table-column>
-                </template>
-            </b-table>
+            <furet-ui-list-view-base
+                ref="listView"
+                v-bind:dataId="dataId"
+                v-bind:data="data"
+                v-bind:change="change"
+                v-bind:view="view"
+                v-on:selectRow="selectRow"
+                v-on:updateCheck="updateCheck"
+            />
         </div>
     `,
     data: () => {
         return {
-            selected: {},
             checkedRows: [],
-            narrowed: true,
-            mobileCard: true,
-            paginated: true,
             filter: {},
         };
     },
@@ -144,41 +197,11 @@ export const ListView = Vue.component('furet-ui-list-view', {
         if (this.view) this.getData();
     },
     computed: {
-        headers () {
-            return this.view && this.view.headers || [];
-            if (this.view) {
-                return _.map(this.view.headers || [], header => {
-                    let field = plugin.get(['field', 'List', header.type]);
-                    if (!field) field = plugin.get(['field', 'List', 'Unknown']);
-                    return field(header);
-                });
-            }
-            return [];
-        },
-        tableData () {
-            const dataIds = this.dataIds ? this.dataIds : _.keys(this.data || {});
-            return _.map(dataIds, dataId => Object.assign(
-                {__dataId: dataId}, 
-                (this.data || {})[dataId], 
-                (this.change || {})[dataId]
-            ));
-        },
         search () {
             if (this.view) {
                 return this.view.search;
             }
             return {};
-        },
-        isCheckable () {
-            if (this.view) {
-                return this.view.selectable;
-            }
-            return false;
-        },
-        perPage () {
-            const defaultPerPage = 20;
-            if (this.view) return this.view.perPage || defaultPerPage;
-            return defaultPerPage;
         },
         hasChecked () {
             return this.checkedRows.length > 0;
@@ -201,7 +224,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 },
             );
         },
-        addNew: function () {
+        addNew () {
             if (this.view.onSelect) {
                 this.$router.push({
                     name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
@@ -216,7 +239,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 });
             }
         },
-        deleteData: function () {
+        deleteData () {
             const dataIds = _.map(this.checkedRows, row => row.__dataId);
             json_post('/data/delete', {model: this.view.model, dataIds}, {
                 onSuccess: (result) => {
@@ -225,7 +248,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 },
             });
         },
-        selectRow: function (row) {
+        selectRow (row) {
             if (this.view.onSelect) {
                 this.$router.push({
                     name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
@@ -239,7 +262,10 @@ export const ListView = Vue.component('furet-ui-list-view', {
                     }
                 });
             }
-        }
+        },
+        updateCheck (checkedRows) {
+            this.checkedRows = checkedRows;
+        },
     }
 });
 
