@@ -94,12 +94,9 @@ class Category(Base):
         for k, v in val.items():
             if k == 'customers':
                 customers = []
-                ## for dataId in v:
-                ##     if dataId in mapping:
-                ##         customers.append(mapping[dataId])
-                ##     else:
-                ##         customers.append(session.query(Customer).filter(
-                ##             Customer.id == int(dataId)).one())
+                for dataId in v:
+                    customers.append(session.query(Customer).filter(
+                        Customer.id == int(dataId)).one())
 
                 self.customers = customers
             else:
@@ -1132,13 +1129,19 @@ def getView11():
                         v-bind:config="config"
                         name="customers"
                         label="Customers"
-                        params='{"model": "Customer", "field": "name"}'
+                        model="Customer"
+                        v-bind:fields="['name', 'color']"
+                        display="fields.name"
+                        fieldcolor="color"
+                        actionId="5"
+                        required="1"
+                        mode="readwrite"
                     />
                 </div>
             </div>
         ''',
         'buttons': [],
-        'fields': ["name", "color", ["customers", ["name"]]],
+        'fields': ["name", "color", ["customers", ["name", "color"]]],
     }
 
 

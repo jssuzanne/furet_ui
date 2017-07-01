@@ -9,7 +9,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
 import {FormMixin, ThumbnailMixin, ListMixin} from '../common';
-import {RelationShip, RelationShipX2MList, RelationShipX2MThumbnail} from './common';
+import {RelationShip, RelationShipX2MList, RelationShipX2MThumbnail, RelationShipX2MForm} from './common';
 import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
 
@@ -21,7 +21,7 @@ export const FieldThumbnailMany2Many = Vue.component('furet-ui-thumbnail-field-m
     mixins: [ThumbnailMixin, RelationShip, RelationShipX2MThumbnail],
 })
 
-export const FieldFormMany2Many = Vue.component('furet-ui-form-field-many2many-checkbox', {
+export const FieldFormMany2ManyCheckbox = Vue.component('furet-ui-form-field-many2many-checkbox', {
     props: ['checkbox_class', 'model', 'display', 'fields', 'fieldcolor'],
     mixins: [FormMixin, RelationShip],
     template: `
@@ -106,6 +106,107 @@ export const FieldFormMany2Many = Vue.component('furet-ui-form-field-many2many-c
                 if (index > -1) values.splice(index, 1);
             }
             this.updateValue(values);
+        },
+    },
+})
+
+export const FieldFormMany2ManyTags = Vue.component('furet-ui-form-field-many2many-tags', {
+    props: ['placeholder', 'icon', 'model', 'fields'],
+    mixins: [FormMixin, RelationShip, RelationShipX2MForm],
+    template: `
+        <div v-if="this.isInvisible" />
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
+            v-bind:style="{'width': '100%'}"
+            v-else
+        >
+            <b-field 
+                v-bind:label="this.label"
+                v-bind:type="getType"
+                v-bind:message="getMessage"
+                v-bind:style="{'width': 'inherit'}"
+            >
+                <div class="field has-addons" >
+                    <p class="control" v-if="values.length > 0">
+                        <a class="button">
+                            <span 
+                                v-for="value in values"
+                                class="tag" 
+                                v-bind:style="getStyle(value.dataId)"
+                            >
+                                <a 
+                                    v-on:click.stop="onClick(value.dataId)">{{value.label}}
+                                </a>
+                                <button 
+                                    v-if="!isReadonly" 
+                                    class="delete is-small" 
+                                    v-on:click="removeTag(value.dataId)"
+                                />
+                            </span>
+                        </a>
+                    </p>
+                    <p class="control is-expanded" v-if="!isReadonly">
+                        <b-autocomplete
+                            v-model="value"
+                            v-bind:data="data"
+                            field="label"
+                            v-bind:placeholder="placeholder"
+                            icon-pack="fa"
+                            v-bind:icon="icon"
+                            v-on:change="onChange"
+                            v-on:select="onSelect"
+                        />
+                    </p>
+                </div>
+            </b-field>
+        </b-tooltip>`,
+    data () {
+        return {
+            ids: null,
+            value: '',
+        };
+    },
+    computed: {
+        data () {
+            if (this.model) {
+                const values = ({}, this.config && this.config.data && this.config.data[this.name] || []).slice(0);
+                let data = this.$store.state.data.data;
+                if (data[this.model]) {
+                    data = data[this.model];
+                    data = _.map(_.keys(data), dataId => ({dataId, label: this.format(this.display, data[dataId])}))
+                    if (this.ids) {
+                        data = _.filter(data, d => this.ids.indexOf(d.dataId) != -1);
+                    }
+                    data = _.filter(data, d => values.indexOf(d.dataId) == -1);
+                    return data;
+                }
+            }
+            return [];
+        }
+    },
+    methods: {
+        removeTag (dataId) {
+            const values = ({}, this.config && this.config.data && this.config.data[this.name] || []).slice(0);
+            const index = values.indexOf(dataId);
+            if (index > -1) values.splice(index, 1);
+            this.updateValue(values);
+        },
+        onSelect (value) {
+            if (value) {
+                const values = ({}, this.config && this.config.data && this.config.data[this.name] || []).slice(0);
+                values.push(value.dataId)
+                this.updateValue(values);
+                this.value = '';
+            }
+        },
+        onChange (value) {
+            json_post('/field/x2x/search', {model: this.model, fields:this.fields, value}, {
+                onSuccess: (result) => {
+                    this.ids = _.map(result.ids || [], id => String(id));
+                    dispatchAll(result.data);
+                }
+            });
         },
     },
 })

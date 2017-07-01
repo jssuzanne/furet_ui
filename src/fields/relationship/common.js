@@ -148,3 +148,40 @@ export const RelationShipX2MThumbnail = {
         },
     },
 }
+
+export const RelationShipX2MForm = {
+    props: ['model', 'spaceId', 'menuId', 'actionId', 'mode', 'display', 'fieldcolor'],
+    computed: {
+        values () {
+            const values = this.config && this.config.data && this.config.data[this.name] || '';
+            if (this.model) {
+                let data = this.$store.state.data.data;
+                if (data[this.model]) {
+                    data = data[this.model];
+                    return _.map(values, dataId => {
+                        return {dataId, label: this.format(this.display, data[String(dataId)])}
+                    })
+                }
+            }
+            return [];
+        }
+    },
+    methods: {
+        getStyle (dataId) {
+            if (this.fieldcolor) {
+                const data = this.$store.state.data.data[this.model][dataId];
+                if (data[this.fieldcolor]) return {border: '4px solid ' + data[this.fieldcolor]};
+            }
+            return {};
+        },
+        onClick (dataId) {
+            this.addInBreadscrumb({
+                spaceId: this.spaceId,
+                menuId: this.menuId,
+                actionId: this.actionId,
+                dataId: dataId,
+                mode: this.mode,
+            });
+        },
+    },
+}
