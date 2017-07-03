@@ -13,6 +13,22 @@ import {RelationShip} from './common';
 import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
 
+const getRemoteValue = (state, model, dataId) => {
+    let data = {},
+        change = {},
+        change_new = {};
+    try {
+        data = state.data[model][dataId];
+    } catch (e) {};
+    try {
+        change = state.changes[model][dataId];
+    } catch (e) {};
+    try {
+        change_new = state.changes.new[model][dataId];
+    } catch (e) {};
+    return Object.assign({}, data, change, change_new);
+}
+
 export const FieldListMany2One = Vue.component('furet-ui-list-field-many2one', {
     mixins: [ListMixin, RelationShip],
     template: `
@@ -22,14 +38,7 @@ export const FieldListMany2One = Vue.component('furet-ui-list-field-many2one', {
         value () {
             const value = this.row[this.header.name] || '';
             const model = this.header.model; 
-            if (model) {
-                let data = this.$store.state.data.data;
-                if (data[model]) {
-                    data = data[model];
-                    if (data[String(value)]) return this.format(this.header.display, data[String(value)]);
-                }
-            }
-            return value;
+            return this.format(this.header.display, getRemoteValue(this.$store.state.data, model, value));
         }
     },
     methods: {
@@ -65,14 +74,7 @@ export const FieldThumbnailMany2One = Vue.component('furet-ui-thumbnail-field-ma
     computed: {
         value () {
             const value = this.data && this.data[this.name] || '';
-            if (this.model) {
-                let data = this.$store.state.data.data;
-                if (data[this.model]) {
-                    data = data[this.model];
-                    if (data[String(value)]) return this.format(this.display, data[String(value)]);
-                }
-            }
-            return value;
+            return this.format(this.display, getRemoteValue(this.$store.state.data, this.model, value));
         }
     },
     methods: {
@@ -139,21 +141,16 @@ export const FieldFormMany2One = Vue.component('furet-ui-form-field-many2one', {
     computed: {
         value () {
             const value = this.config && this.config.data && this.config.data[this.name] || ''; 
-            if (this.model) {
-                let data = this.$store.state.data.data;
-                if (data[this.model]) {
-                    data = data[this.model];
-                    if (data[String(value)]) return this.format(this.display, data[String(value)]);
-                }
-            }
-            return value;
+            return this.format(this.display, getRemoteValue(this.$store.state.data, this.model, value));
         },
         data () {
             if (this.model) {
                 let data = this.$store.state.data.data;
                 if (data[this.model]) {
                     data = data[this.model];
-                    data = _.map(_.keys(data), dataId => ({dataId, label: this.format(this.display, data[dataId])}))
+                    data = _.map(_.keys(data), dataId => (
+                        {dataId, label: this.format(this.display, getRemoteValue(this.$store.state.data, this.model, dataId))}
+                    ))
                     if (this.ids) {
                         data = _.filter(data, d => this.ids.indexOf(d.dataId) != -1);
                     }

@@ -273,7 +273,7 @@ plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});
 
 
 export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
-    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField'],
+    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
     template: `
         <div>
             <nav class="level">
@@ -321,10 +321,16 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
         </div>
     `,
     created () {
-        json_post('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: this.dataIds}, {
-            onSuccess (result) {
-                dispatchAll(result);
-            }
+        const changes = this.$store.state.data.changes.new || {};
+        const newIds = _.keys(changes[this.model] || {});
+        json_post('/list/x2m/get', 
+                  {model: this.model, 
+                   fields: this.view.fields, 
+                   dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1),
+                  }, {
+                    onSuccess (result) {
+                        dispatchAll(result);
+                    }
         });
     },
     data: () => {
@@ -343,8 +349,9 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
                 const newId = getNewID(this.view.model)
                 const dataIds = this.dataIds.slice(0);
                 dataIds.push(newId);
-                this.updateValueX2M(newId, {x2oField: this.x2oField, dataId: newId}, true);
-
+                const values = {dataId: newId};
+                if (this.x2oField != undefined) values[this.x2oField] = this.x2oFieldId;
+                this.updateValueX2M(newId, values, true);
                 this.$emit('updateDataIds', dataIds);
                 this.$emit('changeView', this.view.onSelect, newId);
             }

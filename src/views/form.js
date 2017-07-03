@@ -132,6 +132,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 viewId: this.viewId,
                 dataId: this.dataId,
                 mode: this.mode,
+                store_key: 'UPDATE_CHANGE',
             }
         },
         form_card () {
@@ -255,12 +256,15 @@ export const FormView = Vue.component('furet-ui-form-view', {
             )
         },
         saveData () {
+            const changes = Object.assign({}, this.$store.state.data.changes)
+            if (changes[this.view.model] && changes[this.view.model][this.dataId]) delete changes[this.view.model][this.dataId];
             json_post(
                 this.mode == 'new' ? '/data/create' : '/data/update', 
                 {
                     model: this.view.model,
                     dataId: this.dataId,
                     data: this.change,
+                    changes,
                     fields: this.view.fields,
                     path: {
                         spaceId: this.spaceId,
@@ -286,7 +290,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
 plugin.set(['views', 'type'], {Form: 'furet-ui-form-view'});
 
 export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
-    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField'],
+    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
     template: `
         <div>
             <nav class="level">
@@ -338,10 +342,16 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
         </div>
     `,
     created: function () {
-        json_post('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: [this.dataId]}, {
-            onSuccess (result) {
-                dispatchAll(result);
-            }
+        const changes = this.$store.state.data.changes.new || {};
+        const newIds = _.keys(changes[this.model] || {});
+        json_post('/list/x2m/get', 
+                  {model: this.model, 
+                   fields: this.view.fields, 
+                   dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1),
+                  }, {
+                    onSuccess (result) {
+                        dispatchAll(result);
+                    }
         });
     },
     computed: {
@@ -352,6 +362,7 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
                 viewId: this.viewId,
                 dataId: this.dataId,
                 mode: this.isReadonly ? 'readonly' : 'readwrite',
+                store_key: 'UPDATE_CHANGE_X2M',
             }
         },
         form_card () {
@@ -371,7 +382,9 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
             const newId = getNewID(this.view.model)
             const dataIds = this.dataIds.slice(0);
             dataIds.push(newId);
-            this.updateValueX2M(newId, {x2oField: this.x2oField, dataId: newId}, true);
+            const values = {dataId: newId};
+            if (this.x2oField != undefined) values[this.x2oField] = this.x2oFieldId;
+            this.updateValueX2M(newId, values, true);
             this.$emit('updateDataIds', dataIds);
             this.$emit('changeView', this.viewId, newId);
         },
@@ -387,8 +400,10 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
             this.$emit('updateDataIds', dataIds);
             this.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
                 model: this.view.model,
-                dataIds: [dataId],
+                dataIds: [this.dataId],
             });
+            if (this.view.onClose) this.$emit('changeView', this.view.onClose);
+            else this.$emit('changeView', this.viewId, dataIds.length ? dataIds[0] : null);
         },
         changeView(viewId) {
             this.$emit('changeView', viewId);

@@ -23,7 +23,7 @@ export const ThumbnailViewIcon = Vue.component('furet-ui-thumbnail-view-icon', {
 plugin.set(['views', 'icon'], {Thumbnail: 'furet-ui-thumbnail-view-icon'})
 
 export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
-    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change'],
+    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change', 'column_size'],
     template: `
         <div>
             <nav class="level">
@@ -66,7 +66,7 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
                 </div>
             </nav>
             <div class="columns is-multiline is-mobile">
-                <div class="column is-12-mobile is-one-third-tablet is-one-quarter-desktop"
+                <div v-bind:class="['column', view.column_size || 'is-12-mobile is-one-third-tablet is-one-quarter-desktop']"
                      v-for="card in tableData"
                 >
                     <article class="box" v-on:click.stop="selectCard(card)">
@@ -164,7 +164,7 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
 plugin.set(['views', 'type'], {Thumbnail: 'furet-ui-thumbnail-view'});
 
 export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
-    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField'],
+    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
     template: `
         <div>
             <nav class="level">
@@ -191,7 +191,7 @@ export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
                 </div>
             </nav>
             <div class="columns is-multiline is-mobile">
-                <div class="['column', view.column_size]"
+                <div v-bind:class="['column', view.column_size || 'is-12-mobile is-one-half-tablet is-one-third-desktop']"
                      v-for="card in tableData"
                 >
                     <article class="box" v-on:click.stop="selectCard(card)">
@@ -202,10 +202,16 @@ export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
         </div>
     `,
     created () {
-        json_post('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: this.dataIds}, {
-            onSuccess (result) {
-                dispatchAll(result);
-            }
+        const changes = this.$store.state.data.changes.new || {};
+        const newIds = _.keys(changes[this.model] || {});
+        json_post('/list/x2m/get', 
+                  {model: this.model, 
+                   fields: this.view.fields, 
+                   dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1),
+                  }, {
+                    onSuccess (result) {
+                        dispatchAll(result);
+                    }
         });
     },
     computed: {
@@ -234,7 +240,9 @@ export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
                 const newId = getNewID(this.view.model)
                 const dataIds = this.dataIds.slice(0);
                 dataIds.push(newId);
-                this.updateValueX2M(newId, {x2oField: this.x2oField, dataId: newId}, true);
+                const values = {dataId: newId};
+                if (this.x2oField != undefined) values[this.x2oField] = this.x2oFieldId;
+                this.updateValueX2M(newId, values, true);
                 this.$emit('updateDataIds', dataIds);
                 this.$emit('changeView', this.view.onSelect, newId);
             }

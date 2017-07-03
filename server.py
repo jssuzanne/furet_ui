@@ -36,8 +36,10 @@ class Test(Base):
     filesize = Column(Integer)
 
     @classmethod
-    def insert(cls, session, data):
-        return cls(**data)
+    def insert(cls, session, data, changes):
+        obj = cls(**data)
+        session.add(obj)
+        return obj
 
     def read(self, fields):
         return [{
@@ -46,7 +48,7 @@ class Test(Base):
             'data': {self.id: {y: getattr(self, y) for y in fields}},
         }]
 
-    def update(self, session, val):
+    def update(self, session, val, changes):
         for k, v in val.items():
             setattr(self, k, v)
 
@@ -90,7 +92,7 @@ class Category(Base):
 
         return res
 
-    def update(self, session, val):
+    def update(self, session, val, changes):
         for k, v in val.items():
             if k == 'customers':
                 customers = []
@@ -103,19 +105,18 @@ class Category(Base):
                 setattr(self, k, v)
 
     @classmethod
-    def insert(cls, session, data):
+    def insert(cls, session, data, changes):
         if 'customers' in data:
             customers = []
-            ##for dataId in data['customers']:
-            ##    if dataId in mapping:
-            ##        customers.append(mapping[dataId])
-            ##    else:
-            ##        customers.append(session.query(Customer).filter(
-            ##            Customer.id == int(dataId)).one())
+            for dataId in data['customers']:
+                customers.append(session.query(Customer).filter(
+                    Customer.id == int(dataId)).one())
 
             data['customers'] = customers
 
-        return cls(**data)
+        obj = cls(**data)
+        session.add(obj)
+        return obj
 
 
 class Customer(Base):
@@ -156,7 +157,11 @@ class Customer(Base):
         print res
         return res
 
-    def update(self, session, val):
+    def update(self, session, val, changes):
+        newAddresses = []
+        if 'new' in changes and 'Address' in changes['new']:
+            newAddresses = [x for x in changes['new']['Address']]
+
         for k, v in val.items():
             if k == 'categories':
                 categories = []
@@ -166,12 +171,18 @@ class Customer(Base):
 
                 self.categories = categories
             elif k == 'addresses':
-                pass
+                for dataId in v:
+                    if dataId in newAddresses:
+                        data = changes['new']['Address'][dataId]
+                        del data['dataId']
+                        obj = Address.insert(session, data, changes)
+                        session.add(obj)
             else:
                 setattr(self, k, v)
 
     @classmethod
-    def insert(cls, session, data):
+    def insert(cls, session, data, changes):
+        addresses = []
         if 'categories' in data:
             categories = []
             for dataId in data['categories']:
@@ -180,9 +191,25 @@ class Customer(Base):
 
             data['categories'] = categories
         if 'addresses' in data:
+            addresses = data['addresses']
             del data['addresses']
 
-        return cls(**data)
+        obj = cls(**data)
+        session.add(obj)
+        newAddresses = []
+        if 'new' in changes and 'Address' in changes['new']:
+            newAddresses = [x for x in changes['new']['Address']]
+
+        for dataId in addresses:
+            if dataId in newAddresses:
+                _data = changes['new']['Address'][dataId]
+                del _data['dataId']
+                del _data['customer']
+                _obj = Address.insert(session, _data, changes)
+                _obj.customer = obj
+                session.add(_obj)
+
+        return obj
 
 
 class Address(Base):
@@ -220,7 +247,7 @@ class Address(Base):
 
         return res
 
-    def update(self, session, val):
+    def update(self, session, val, changes):
         for k, v in val.items():
             if k == 'customer':
                 self.customer_id = int(v)
@@ -228,15 +255,15 @@ class Address(Base):
                 setattr(self, k, v)
 
     @classmethod
-    def insert(cls, session, data):
-        ##customer = data['customer']
-        ##if customer in mapping:
-        ##    data['customer'] = mapping[customer]
-        ##else:
-        ##    data['customer_id'] = int(customer)
-        ##    del data['customer']
+    def insert(cls, session, data, changes):
+        if 'customer' in data:
+            customer = data['customer']
+            data['customer_id'] = int(customer)
+            del data['customer']
 
-        return cls(**data)
+        obj = cls(**data)
+        session.add(obj)
+        return obj
 
 
 Base.metadata.create_all()
@@ -1649,6 +1676,22 @@ def getInitOptionnalData():
     return _getInitOptionnalData()
 
 
+def updateChanges(session, changes):
+    for model in changes:
+        if model == 'new':
+            continue
+
+        Model = MODELS[model]
+        for dataId in changes[model]:
+            query = session.query(Model)
+            query = query.filter(Model.id == int(dataId))
+            if changes[model][dataId] == 'DELETED':
+                query.delete(synchronize_session='fetch')
+            else:
+                obj = query.one()
+                obj.update(session, changes[model][dataId], changes)
+
+
 @route('/furetui/data/create', method='POST')
 def createData():
     response.set_header('Content-Type', 'application/json')
@@ -1657,8 +1700,8 @@ def createData():
     try:
         data = loads(request.body.read())
         Model = MODELS[data['model']]
-        obj = Model.insert(session, data['data'])
-        session.add(obj)
+        obj = Model.insert(session, data['data'], data['changes'])
+        updateChanges(session, data['changes'])
         session.commit()
         _data.extend(_getData(session, data['model'], [obj.id], data['fields']))
         path = ['', 'space', data['path']['spaceId']]
@@ -1692,7 +1735,8 @@ def updateData():
         Model = MODELS[data['model']]
         query = session.query(Model).filter(Model.id == int(data['dataId']))
         obj = query.one()
-        obj.update(session, data['data'])
+        obj.update(session, data['data'], data['changes'])
+        updateChanges(session, data['changes'])
         session.commit()
         _data.extend(_getData(session, data['model'], [obj.id], data['fields']))
         path = ['', 'space', data['path']['spaceId']]

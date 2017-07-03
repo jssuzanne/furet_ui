@@ -133,7 +133,7 @@ export const FieldFormJson = Vue.component('furet-ui-form-field-json', {
     },
     methods: {
         updateValue (e) {
-            this.$store.commit('UPDATE_CHANGE', {
+            this.$store.commit(this.config.store_key, {
                 model: this.config.view.model,
                 dataId: this.config.dataId,
                 fieldname: this.name,

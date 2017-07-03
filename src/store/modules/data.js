@@ -77,10 +77,11 @@ export const mutations = {
         state.changes = {};
     },
     'CREATE_CHANGE_X2M'(state, action) {
-        const _new = Object.assign({}, state.new);
-        if (_new[action.model] == undefined) _new[action.model] = {};
-        if (_new[action.model][action.dataId] == undefined) _new[action.model][action.dataId] = {};
-        state.new = _new;
+        const changes = Object.assign({}, state.changes);
+        if (changes.new == undefined) changes.new = {};
+        if (changes.new[action.model] == undefined) changes.new[action.model] = {};
+        if (changes.new[action.model][action.dataId] == undefined) changes.new[action.model][action.dataId] = {};
+        state.changes = changes;
     },
     'UPDATE_CHANGE_X2M'(state, action) {
         const changes = Object.assign({}, state.changes);
@@ -91,7 +92,24 @@ export const mutations = {
             if (changes[action.model][action.dataId] == undefined) changes[action.model][action.dataId] = {};
             changes[action.model][action.dataId][action.fieldname] = action.value;
         }
-        state.changes = changes
+        state.changes = changes;
+    },
+    'UPDATE_CHANGE_X2M_DELETE'(state, action) {
+        const changes = Object.assign({}, state.changes);
+        const model = action.model;
+        _.each(action.dataIds, dataId => {
+            if (changes.new && changes.new[model] && changes.new[model][dataId] != undefined) delete changes.new[model][dataId];
+            else {
+                if (changes[model] == undefined) changes[model] = {};
+                changes[model][dataId] = 'DELETED';
+                if (state.data && state.data[model] && state.data[model][dataId] != undefined) {
+                    const data = Object.assign({}, state.data);
+                    delete state.data[model][dataId];
+                    state.data = data;
+                }
+            }
+        });
+        state.changes = changes;
     },
     'CLEAR_DATA'(state, action) {
         state.actions = {};

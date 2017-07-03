@@ -86,7 +86,7 @@ export const FormMixin = {
     },
     methods: {
         updateValue (value, fieldname) {
-            this.$store.commit('UPDATE_CHANGE', {
+            this.$store.commit(this.config.store_key, {
                 model: this.config.view.model,
                 dataId: this.config.dataId,
                 fieldname: fieldname || this.name,

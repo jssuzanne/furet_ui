@@ -22,7 +22,7 @@ export const FieldThumbnailOne2Many = Vue.component('furet-ui-thumbnail-field-on
 })
 
 export const View = Vue.component('furet-ui-x2m-view', {
-    props: ['model', 'views', 'viewId', 'dataIds', 'dataId', 'isReadonly', 'x2oField'],
+    props: ['model', 'views', 'viewId', 'dataIds', 'dataId', 'isReadonly', 'x2oField', 'x2oFieldId'],
     render: function(createElement) {
         let view = plugin.get(['views', 'x2m-type', this.view.viewType]);
         if (!view) view = plugin.get(['views', 'Unknown']).vue;
@@ -39,6 +39,7 @@ export const View = Vue.component('furet-ui-x2m-view', {
                 change: this.change,
                 isReadonly: this.isReadonly,
                 x2oField: this.x2oField,
+                x2oFieldId: this.x2oFieldId,
             },
             on: {
                 changeView: this.changeView,
@@ -64,11 +65,17 @@ export const View = Vue.component('furet-ui-x2m-view', {
                     else changes = {};
                     return Object.assign({}, data, changes);
                 }
-
-                return data[this.model] || {};
+                const d = {};
+                _.each(this.dataIds, dataId => {
+                    const _data = (data[this.model]) ? data[this.model][String(dataId)] || {} : {};
+                    let _changes = {};
+                    if (changes[this.model] && changes[this.model][String(dataId)] != undefined) _changes = changes[this.model][String(dataId)];
+                    else if (changes.new && changes.new[this.model] && changes.new[this.model][String(dataId)] != undefined) _changes = changes.new[this.model][String(dataId)];
+                    d[dataId] = Object.assign({}, _data, _changes);
+                });
+                return d;
             }
-            if (this.dataId) return {};
-            return [];
+            return {};
         },
         change () {
             if (this.dataId) {
@@ -114,6 +121,7 @@ export const FieldFormOne2Many = Vue.component('furet-ui-form-field-one2many', {
                     v-bind:dataId="dataId"
                     v-bind:isReadonly="isReadonly"
                     v-bind:x2oField="x2oField"
+                    v-bind:x2oFieldId="config.dataId"
                     v-on:changeView="changeView"
                     v-on:updateDataIds="updateDataIds"
                 />
