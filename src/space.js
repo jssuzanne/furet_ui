@@ -11,6 +11,35 @@ import Vue from 'vue';
 import {dispatchAll} from './store';
 import {json_post} from './server-call';
 
+export const ViewSelector = Vue.component('furet-ui-view-selector', {
+    props: ['views', 'viewId'],
+    template: `
+        <div class="field has-addons" v-if="views.length > 0">
+            <p class="control" 
+                v-for="view in views"
+                v-if="!view.unclickable || view.viewId == viewId"
+            >
+                <b-tooltip v-bind:label="view.type" position="is-left" type="is-info">
+                    <a class="button" 
+                        v-on:click.stop="changeView(view.viewId)"
+                        v-bind:disabled="view.viewId == viewId"
+                        v-bind:class="[view.viewId == viewId ? 'is-primary': '']"
+                    >
+                        <span class="icon is-small">
+                            <furet-ui-view-icon v-bind:type="view.type" />
+                        </span>
+                    </a>
+                </b-tooltip>
+            </p>
+        </div>
+    `,
+    methods: {
+        changeView (viewId) {
+            this.$emit('changeView', viewId);
+        },
+    },
+});
+
 Vue.component('furet-ui-space-menu', {
     template: `
         <ul class="menu-list">
@@ -94,21 +123,11 @@ export const Space = Vue.component('furet-ui-space', {
                         </ul>
                     </div>
                     <div class="nav-right">
-                        <div class="field has-addons" v-if="action.views.length > 0">
-                            <p class="control" v-for="view in action.views">
-                                <b-tooltip v-bind:label="view.type" position="is-left" type="is-info">
-                                    <a class="button" 
-                                        v-on:click.stop="changeView(view.viewId)"
-                                        v-bind:disabled="view.viewId == viewId"
-                                        v-bind:class="[view.viewId == viewId ? 'is-primary': '']"
-                                    >
-                                        <span class="icon is-small">
-                                            <furet-ui-view-icon v-bind:type="view.type" />
-                                        </span>
-                                    </a>
-                                </b-tooltip>
-                            </p>
-                        </div>
+                        <furet-ui-view-selector
+                            v-bind:views="action.views"
+                            v-bind:viewId="viewId"
+                            v-on:changeView="changeView"
+                        />
                         <a class="button" v-on:click="isOpenRight = !isOpenRight" v-if="right_menu.length > 0">
                             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
                         </a>

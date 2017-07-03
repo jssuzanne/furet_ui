@@ -64,7 +64,7 @@ export const mutations = {
         state.changes = changes
     },
     'REPLACE_CHANGE'(state, action) {
-        state.changes = Object.assign({}, actions.changes);
+        state.changes = Object.assign({}, action.changes);
     },
     'CLEAR_CHANGE'(state, action) {
         const changes = Object.assign({}, state.changes);
@@ -75,6 +75,23 @@ export const mutations = {
     },
     'CLEAR_ALL_CHANGE'(state, action) {
         state.changes = {};
+    },
+    'CREATE_CHANGE_X2M'(state, action) {
+        const _new = Object.assign({}, state.new);
+        if (_new[action.model] == undefined) _new[action.model] = {};
+        if (_new[action.model][action.dataId] == undefined) _new[action.model][action.dataId] = {};
+        state.new = _new;
+    },
+    'UPDATE_CHANGE_X2M'(state, action) {
+        const changes = Object.assign({}, state.changes);
+        if (changes.new && changes.new[action.model] && changes.new[action.model][action.dataId] != undefined) {
+            changes.new[action.model][action.dataId][action.fieldname] = action.value;
+        } else {
+            if (changes[action.model] == undefined) changes[action.model] = {}
+            if (changes[action.model][action.dataId] == undefined) changes[action.model][action.dataId] = {};
+            changes[action.model][action.dataId][action.fieldname] = action.value;
+        }
+        state.changes = changes
     },
     'CLEAR_DATA'(state, action) {
         state.actions = {};

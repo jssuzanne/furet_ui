@@ -128,27 +128,23 @@ export const FieldFormMany2ManyTags = Vue.component('furet-ui-form-field-many2ma
                 v-bind:style="{'width': 'inherit'}"
             >
                 <div class="field has-addons" >
-                    <p class="control" v-if="values.length > 0">
-                        <a class="button">
-                            <span 
-                                v-for="value in values"
-                                class="tag" 
-                                v-bind:style="getStyle(value.dataId)"
-                            >
-                                <a 
-                                    v-on:click.stop="onClick(value.dataId)">{{value.label}}
-                                </a>
-                                <button 
-                                    v-if="!isReadonly" 
-                                    class="delete is-small" 
-                                    v-on:click="removeTag(value.dataId)"
-                                />
-                            </span>
-                        </a>
-                    </p>
-                    <p class="control is-expanded" v-if="!isReadonly">
+                    <p class="control is-expanded">
+                        <span 
+                            v-for="value in values"
+                            class="tag" 
+                            v-bind:style="getStyle(value.dataId)"
+                        >
+                            <a 
+                                v-on:click.stop="onClick(value.dataId)">{{value.label}}
+                            </a>
+                            <button 
+                                v-if="!isReadonly" 
+                                class="delete is-small" 
+                                v-on:click="removeTag(value.dataId)"
+                            />
+                        </span>
                         <b-autocomplete
-                            v-model="value"
+                            v-model="value" v-if="!isReadonly"
                             v-bind:data="data"
                             field="label"
                             v-bind:placeholder="placeholder"
@@ -183,7 +179,20 @@ export const FieldFormMany2ManyTags = Vue.component('furet-ui-form-field-many2ma
                 }
             }
             return [];
-        }
+        },
+        getType () {
+            if (this.isRequired) {
+                if (this.values.length > 0) return 'is-info';
+                return 'is-danger';
+            }
+            return '';
+        },
+        getMessage () {
+            if (this.isRequired) {
+                if (this.values.length == 0) return this.$i18n.t('fields.common.required');
+            }
+            return ''
+        },
     },
     methods: {
         removeTag (dataId) {

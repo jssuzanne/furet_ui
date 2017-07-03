@@ -635,9 +635,9 @@ def getView1():
                 'component': 'furet-ui-list-field-text',
             },
             {
-                'name': 'time',
-                'label': 'Time',
-                'component': 'furet-ui-list-field-time',
+                'name': 'creation_date',
+                'label': 'Date time',
+                'component': 'furet-ui-list-field-datetime',
             },
             {
                 'name': 'password',
@@ -676,7 +676,7 @@ def getView1():
                 'buttonId': '2',
             },
         ],
-        'fields': ["id", "name", "state", "creation_date2", "number", "bool",
+        'fields': ["id", "name", "state", "creation_date", "number", "bool",
                    "color", "text", "time", "file", 'filename', 'filesize',
                    "password", 'url', 'json'],
     }
@@ -837,6 +837,7 @@ def getView3():
                         tooltip="Plop"
                         name="name"
                         label="Label"
+                        icon="envelope"
                     />
                 </div>
                 <div class="column is-6">
@@ -1040,8 +1041,12 @@ def getView9():
                         name="addresses"
                         label="Addresses"
                         model="Address"
-                        actionId="4"
-                        many2oneField="customer"
+                        x2oField="customer"
+                        v-bind:views="[
+                            {'viewId': '12', 'type': 'List'},
+                            {'viewId': '14', 'type': 'Thumbnail'},
+                            {'viewId': '13', 'type': 'Form', 'unclickable': 1}
+                        ]"
                     />
                 </div>
                 <div class="column is-6">
@@ -1115,6 +1120,7 @@ def getView11():
                         required="1"
                         name="name"
                         label="Name"
+                        maxlength="64"
                     />
                 </div>
                 <div class="column is-4">
@@ -1253,6 +1259,67 @@ def getView13():
     }
 
 
+def getView14():
+    return {
+        'type': 'UPDATE_VIEW',
+        'viewId': '14',
+        'viewType': 'Thumbnail',
+        'label': 'Category',
+        'creatable': True,
+        'onSelect': '13',
+        'model': 'Address',
+        'column_size': 'is-12-mobile is-one-half-tablet is-one-third-desktop',
+        'template': '''
+            <div>
+                <div class="columns">
+                    <div class="column">
+                        <furet-ui-thumbnail-field-many2one
+                            v-bind:data="card"
+                            name="customer"
+                            label="Customer"
+                            model="Customer"
+                            display="fields.name"
+                            v-bind:fields="['name']"
+                            limit="10"
+                            actionId="5"
+                            required="1"
+                            mode="readwrite"
+                        />
+                    </div>
+                    <div class="column">
+                        <furet-ui-thumbnail-field-string
+                            v-bind:data="card"
+                            required="1"
+                            name="street"
+                            label="Street"
+                        />
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <furet-ui-thumbnail-field-string
+                            v-bind:data="card"
+                            required="1"
+                            name="zip"
+                            label="Zip"
+                        />
+                    </div>
+                    <div class="column">
+                        <furet-ui-thumbnail-field-string
+                            v-bind:data="card"
+                            required="1"
+                            name="city"
+                            label="City"
+                        />
+                    </div>
+                </div>
+            </div>
+        ''',
+        'buttons': [],
+        'fields': ["street", "zip", "city", ["customer", ["name"]]],
+    }
+
+
 def getView(viewId):
     if viewId == '1':
         view = getView1()
@@ -1272,6 +1339,8 @@ def getView(viewId):
         view = getView12()
     elif viewId == '13':
         view = getView13()
+    elif viewId == '14':
+        view = getView14()
     else:
         raise Exception("Unknown view %r" % viewId)
 
@@ -1431,11 +1500,15 @@ def getSpaceInformation(spaceId=None):
     return superDumps(res)
 
 
-@route('/furetui/field/x2x/open', method='POST')
-def getM2OAction():
+@route('/furetui/field/x2m/get/views', method='POST')
+def getx2MViews():
     response.set_header('Content-Type', 'application/json')
     data = loads(request.body.read())
-    return superDumps(getAction(data['actionId'])[0])
+    res = []
+    for viewId in data['viewIds']:
+        res.append(getView(viewId))
+
+    return superDumps(res)
 
 
 @route('/furetui/action/<actionId>', method='POST')
@@ -1516,6 +1589,19 @@ def getM2OSearch():
         session.close()
 
     return superDumps({'ids': ids, 'data': _data})
+
+
+@route('/furetui/list/x2m/get', method='POST')
+def getListX2MView():
+    response.set_header('Content-Type', 'application/json')
+    data = loads(request.body.read())
+    fields = data.get('fields')
+    if fields is None:
+        view = getView(data['viewId'])
+        fields = view['fields']
+
+    _data = getData(data['model'], data['dataIds'], fields)
+    return superDumps(_data)
 
 
 @route('/furetui/list/get', method='POST')

@@ -118,11 +118,6 @@ export const FormView = Vue.component('furet-ui-form-view', {
             </section>
         </div>
     `,
-    data: () => {
-        return {
-            filter: {},
-        };
-    },
     created: function () {
         if (this.view) this.getData();
     },
@@ -289,3 +284,127 @@ export const FormView = Vue.component('furet-ui-form-view', {
 });
 
 plugin.set(['views', 'type'], {Form: 'furet-ui-form-view'});
+
+export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
+    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField'],
+    template: `
+        <div>
+            <nav class="level">
+                <div class="level-left">
+                    <div class="field has-addons">
+                        <p class="control" v-if="!isReadonly && view && view.creatable">
+                            <a  class="button"
+                                v-on:click="addNew"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>{{$t('views.common.create')}}</span>
+                            </a>
+                        </p>
+                        <p class="control" v-if="!isReadonly && view && view.deletable">
+                            <a  class="button"
+                                v-on:click="deleteData"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                                <span>{{$t('views.common.delete')}}</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a  class="button"
+                                v-on:click="closeMode"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                                <span>{{$t('views.common.close')}}</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <furet-ui-view-selector
+                        v-bind:views="views"
+                        v-bind:viewId="viewId"
+                        v-on:changeView="changeView"
+                    />
+                </div>
+            </nav>
+            <section class="box">
+                <component v-bind:is="form_card" v-bind:config="config"/>
+            </section>
+        </div>
+    `,
+    created: function () {
+        json_post('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: [this.dataId]}, {
+            onSuccess (result) {
+                dispatchAll(result);
+            }
+        });
+    },
+    computed: {
+        config () {
+            return {
+                data: this.data,
+                view: this.view,
+                viewId: this.viewId,
+                dataId: this.dataId,
+                mode: this.isReadonly ? 'readonly' : 'readwrite',
+            }
+        },
+        form_card () {
+            if (this.view) {
+                return {
+                    template: this.view.template,
+                    props: ['config'],
+                };
+            }
+            return {
+                template: '<div></div>'
+            };
+        },
+    },
+    methods: {
+        addNew () {
+            const newId = getNewID(this.view.model)
+            const dataIds = this.dataIds.slice(0);
+            dataIds.push(newId);
+            this.updateValueX2M(newId, {x2oField: this.x2oField, dataId: newId}, true);
+            this.$emit('updateDataIds', dataIds);
+            this.$emit('changeView', this.viewId, newId);
+        },
+        closeMode () {
+            if (this.view.onClose) {
+                this.$emit('changeView', this.view.onClose);
+            }
+        },
+        deleteData () {
+            const dataIds = this.dataIds.slice(0);
+            const index = dataIds.indexOf(this.dataId);
+            dataIds.splice(index, 1);
+            this.$emit('updateDataIds', dataIds);
+            this.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
+                model: this.view.model,
+                dataIds: [dataId],
+            });
+        },
+        changeView(viewId) {
+            this.$emit('changeView', viewId);
+        },
+        updateValueX2M(dataId, values, create) {
+            if (create) this.$store.commit('CREATE_CHANGE_X2M', {model: this.view.model, dataId});
+            _.each(_.keys(values), fieldname => {
+                this.$store.commit('UPDATE_CHANGE_X2M', {
+                    model: this.view.model,
+                    dataId,
+                    fieldname,
+                    value: values[fieldname],
+                });
+            });
+        },
+    }
+});
+
+plugin.set(['views', 'x2m-type'], {Form: 'furet-ui-x2m-form-view'});

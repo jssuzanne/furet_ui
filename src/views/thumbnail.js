@@ -162,3 +162,103 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
 });
 
 plugin.set(['views', 'type'], {Thumbnail: 'furet-ui-thumbnail-view'});
+
+export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
+    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField'],
+    template: `
+        <div>
+            <nav class="level">
+                <div class="level-left">
+                    <div class="field has-addons" v-if="!isReadonly">
+                        <p class="control" v-if="view && view.creatable">
+                            <a  class="button"
+                                v-on:click="addNew"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>{{$t('views.common.create')}}</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <furet-ui-view-selector
+                        v-bind:views="views"
+                        v-bind:viewId="viewId"
+                        v-on:changeView="changeView"
+                    />
+                </div>
+            </nav>
+            <div class="columns is-multiline is-mobile">
+                <div class="['column', view.column_size]"
+                     v-for="card in tableData"
+                >
+                    <article class="box" v-on:click.stop="selectCard(card)">
+                        <component v-bind:is="thumbnail_card" v-bind:card="card"/>
+                    </article>
+                </div>
+            </div>
+        </div>
+    `,
+    created () {
+        json_post('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: this.dataIds}, {
+            onSuccess (result) {
+                dispatchAll(result);
+            }
+        });
+    },
+    computed: {
+        tableData () {
+            return _.map(this.dataIds, dataId => Object.assign(
+                {__dataId: dataId}, 
+                (this.data || {})[dataId], 
+                (this.change || {})[dataId]
+            ));
+        },
+        thumbnail_card () {
+            if (this.view) {
+                return {
+                    template: this.view.template,
+                    props: ['card'],
+                };
+            }
+            return {
+                template: '<div></div>'
+            };
+        },
+    },
+    methods: {
+        addNew () {
+            if (this.view.onSelect) {
+                const newId = getNewID(this.view.model)
+                const dataIds = this.dataIds.slice(0);
+                dataIds.push(newId);
+                this.updateValueX2M(newId, {x2oField: this.x2oField, dataId: newId}, true);
+                this.$emit('updateDataIds', dataIds);
+                this.$emit('changeView', this.view.onSelect, newId);
+            }
+        },
+        selectCard (card) {
+            if (this.view.onSelect) {
+                this.$emit('changeView', this.view.onSelect, card.__dataId);
+            }
+        },
+        changeView(viewId) {
+            this.$emit('changeView', viewId);
+        },
+        updateValueX2M(dataId, values, create) {
+            if (create) this.$store.commit('CREATE_CHANGE_X2M', {model: this.view.model, dataId});
+            _.each(_.keys(values), fieldname => {
+                this.$store.commit('UPDATE_CHANGE_X2M', {
+                    model: this.view.model,
+                    dataId,
+                    fieldname,
+                    value: values[fieldname],
+                });
+            });
+        },
+    }
+});
+
+plugin.set(['views', 'x2m-type'], {Thumbnail: 'furet-ui-x2m-thumbnail-view'});

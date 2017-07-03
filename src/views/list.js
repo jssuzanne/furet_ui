@@ -270,3 +270,117 @@ export const ListView = Vue.component('furet-ui-list-view', {
 });
 
 plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});
+
+
+export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
+    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField'],
+    template: `
+        <div>
+            <nav class="level">
+                <div class="level-left">
+                    <div class="field has-addons" v-if="!isReadonly">
+                        <p class="control" v-if="view && view.creatable">
+                            <a  class="button"
+                                v-on:click="addNew"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>{{$t('views.common.create')}}</span>
+                            </a>
+                        </p>
+                        <p class="control" v-if="hasChecked && view && view.deletable">
+                            <a class="button"
+                               v-on:click="deleteData"
+                            >
+                                <span class="icon is-small">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                                <span>{{$t('views.common.delete')}}</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <furet-ui-view-selector
+                        v-bind:views="views"
+                        v-bind:viewId="viewId"
+                        v-on:changeView="changeView"
+                    />
+                </div>
+            </nav>
+            <furet-ui-list-view-base
+                ref="listView"
+                v-bind:dataIds="dataIds"
+                v-bind:data="data"
+                v-bind:change="change"
+                v-bind:view="view"
+                v-on:selectRow="selectRow"
+                v-on:updateCheck="updateCheck"
+            />
+        </div>
+    `,
+    created () {
+        json_post('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: this.dataIds}, {
+            onSuccess (result) {
+                dispatchAll(result);
+            }
+        });
+    },
+    data: () => {
+        return {
+            checkedRows: [],
+        };
+    },
+    computed: {
+        hasChecked () {
+            return this.checkedRows.length > 0;
+        },
+    },
+    methods: {
+        addNew () {
+            if (this.view.onSelect) {
+                const newId = getNewID(this.view.model)
+                const dataIds = this.dataIds.slice(0);
+                dataIds.push(newId);
+                this.updateValueX2M(newId, {x2oField: this.x2oField, dataId: newId}, true);
+
+                this.$emit('updateDataIds', dataIds);
+                this.$emit('changeView', this.view.onSelect, newId);
+            }
+        },
+        deleteData () {
+            const dataIds = _.map(this.checkedRows, row => row.__dataId);
+            const removeIds = _.filter(this.dataIds, dataId => dataIds.indexOf(dataId) == -1);
+            this.$emit('updateDataIds', dataIds);
+            this.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
+                model: this.view.model,
+                dataIds: removeIds,
+            });
+        },
+        selectRow (row) {
+            if (this.view.onSelect) {
+                this.$emit('changeView', this.view.onSelect, row.__dataId);
+            }
+        },
+        updateCheck (checkedRows) {
+            this.checkedRows = checkedRows;
+        },
+        changeView(viewId) {
+            this.$emit('changeView', viewId);
+        },
+        updateValueX2M(dataId, values, create) {
+            if (create) this.$store.commit('CREATE_CHANGE_X2M', {model: this.view.model, dataId});
+            _.each(_.keys(values), fieldname => {
+                this.$store.commit('UPDATE_CHANGE_X2M', {
+                    model: this.view.model,
+                    dataId,
+                    fieldname,
+                    value: values[fieldname],
+                });
+            });
+        },
+    }
+});
+
+plugin.set(['views', 'x2m-type'], {List: 'furet-ui-x2m-list-view'});

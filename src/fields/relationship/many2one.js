@@ -59,7 +59,7 @@ export const FieldThumbnailMany2One = Vue.component('furet-ui-thumbnail-field-ma
                 v-bind:label="this.label"
                 v-bind:style="{'width': 'inherit'}"
             >
-                <a v-else v-on:click.stop="onClick">{{value}}</a>
+                <a v-on:click.stop="onClick">{{value}}</a>
             </b-field>
         </b-tooltip>`,
     computed: {
