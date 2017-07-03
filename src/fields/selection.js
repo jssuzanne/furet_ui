@@ -53,7 +53,7 @@ export const FieldThumbnailSelection = Vue.component('furet-ui-thumbnail-field-s
 })
 
 export const FieldFormSelection = Vue.component('furet-ui-form-field-selection', {
-    props: ['placeholder', 'icon', 'selections', 'expanded'],
+    props: ['placeholder', 'icon', 'selections'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -76,7 +76,7 @@ export const FieldFormSelection = Vue.component('furet-ui-form-field-selection',
                     icon-pack="fa"
                     v-bind:icon="icon"
                     v-model="data"
-                    v-bind:expanded="expanded"
+                    expanded
                     v-on:change="updateValue"
                 >
                     <option 

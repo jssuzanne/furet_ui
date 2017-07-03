@@ -15,11 +15,12 @@ export const FieldListColor = Vue.component('furet-ui-list-field-color', {
     template: `
         <span v-if="isInvisible" />
         <b-input 
-            v-else
+            v-else-if="value"
             type="color"
             v-bind:value="value" 
             disabled
-        />`,
+        />
+        <span v-else />`,
 })
 
 export const FieldThumbnailColor = Vue.component('furet-ui-thumbnail-field-color', {
@@ -37,6 +38,7 @@ export const FieldThumbnailColor = Vue.component('furet-ui-thumbnail-field-color
                 v-bind:style="{'width': 'inherit'}"
             >
                 <b-input 
+                    v-if="value"
                     type="color"
                     v-bind:value="value" 
                     disabled

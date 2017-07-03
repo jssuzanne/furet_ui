@@ -102,7 +102,7 @@ export const Space = Vue.component('furet-ui-space', {
                     />
                 </aside>
             </div>
-            <div class="column">
+            <div class="column" v-bind:style="{paddingLeft: '10px', paddingRight: '10px'}">
                 <nav class="nav">
                     <div class="nav-left">
                         <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">

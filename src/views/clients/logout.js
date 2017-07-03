@@ -11,7 +11,7 @@ import plugin from '../../plugin';
 import {json_post} from '../../server-call';
 import {dispatchAll} from '../../store';
 
-plugin.set(['views', 'type', 'client'], {Logout: {function: () => {
+plugin.set(['views', 'type', 'client'], {Logout: {function: ({router}) => {
     router.push('/');
     json_post('/client/logout', {}, {
         onSuccess: (result) => {

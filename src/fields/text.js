@@ -15,7 +15,12 @@ export const FieldListText = Vue.component('furet-ui-list-field-text', {
     mixins: [ListMixin],
     template: `
         <span v-if="isInvisible" />
-        <div v-else v-html="value" v-bind:style="{width: '100%'}"/>`,
+        <div 
+            v-else 
+            class="content is-small"
+            v-html="value" 
+            v-bind:style="{width: '100%'}"
+        />`,
 })
 
 export const FieldThumbnailText = Vue.component('furet-ui-thumbnail-field-text', {
@@ -25,13 +30,18 @@ export const FieldThumbnailText = Vue.component('furet-ui-thumbnail-field-text',
         <b-tooltip 
             v-bind:label="getTooltip" 
             v-bind:position="tooltipPosition"
+            v-bind:style="{'width': '100%'}"
             v-else
         >
             <b-field 
                 v-bind:label="this.label"
                 v-bind:style="{'width': 'inherit'}"
             >
-                <div v-html="value" v-bind:style="{width: '100%'}"/>
+                <div 
+                    class="box content is-small"
+                    v-html="value" 
+                    v-bind:style="{width: '100%'}"
+                />
             </b-field>
         </b-tooltip>`,
 })
@@ -53,10 +63,15 @@ export const FieldFormText = Vue.component('furet-ui-form-field-text', {
                 v-bind:message="getMessage"
                 v-bind:style="{'width': 'inherit'}"
             >
+                <div
+                    class="box content is-small"
+                    v-if="isReadonly"
+                    v-html="data"
+                />
                 <vue-editor 
+                    v-else
                     v-bind:placeholder="placeholder"
                     v-model="data"
-                    v-bind:disabled="isReadonly"
                 />
             </b-field>
         </b-tooltip>`,

@@ -109,6 +109,6 @@ export const CustomView = Vue.component('furet-ui-custom-view', {
         if (!view) view = plugin.get(['views', 'Unknown']);
         if (view.vue) return createElement(view.vue, {props: {viewName: this.viewName}});
         else if (view.function) return view.function({
-            createElement, store: this.$store, router:this.$router});
+            createElement, store: this.$store, router: this.$router});
     }
 });
