@@ -60,6 +60,9 @@
     },
     "snapshotSerializers": [
       "<rootDir>/jest/htmlSnapshotBeautifier.js"
-    ]
+    ],
+    "transform": {
+      ".*": "babel-jest"
+    }
   }
 }

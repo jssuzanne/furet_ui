@@ -20,12 +20,14 @@ import moment from 'moment';
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
-export const store = new Vuex.Store({
+export const storeDef = {
     actions,
     getters,
     modules,
     strict: debug,
-});
+};
+
+export const store = new Vuex.Store(storeDef);
 
 export const dispatchAll = (datas) => {
     _.each(datas, data => {

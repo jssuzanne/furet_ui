@@ -29,12 +29,6 @@ export const App = Vue.component('furet-ui', {
             <router-view></router-view>
         </div>`,
     computed: {
-        spaceId () {
-            return this.$store.state.global.spaceId;
-        },
-        custom_view () {
-            return this.$store.state.global.custom_view;
-        },
         title () {
             return this.$store.state.global.title;
         }

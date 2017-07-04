@@ -9,6 +9,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
 import {FormMixin, ThumbnailMixin, ListMixin} from './common';
+import _ from 'underscore';
 
 export const FieldListSelection = Vue.component('furet-ui-list-field-selection', {
     mixins: [ListMixin],

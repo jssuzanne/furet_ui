@@ -12,6 +12,7 @@ import plugin from '../plugin';
 import {dispatchAll} from '../store';
 import {json_post} from '../server-call';
 import {getNewID} from '../view';
+import _ from 'underscore';
 
 /**
  * Add Icon for Form view

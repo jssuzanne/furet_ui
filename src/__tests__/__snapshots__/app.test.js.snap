@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Render App with default value from store 1`] = `
+exports[`App component Render App with default value from store 1`] = `
 <div data-server-rendered="true">
     <nav class="nav">
         <div class="nav-left">
@@ -17,7 +17,7 @@ exports[`Render App with default value from store 1`] = `
 </div>
 `;
 
-exports[`Render App with default value from store 2`] = `
+exports[`App component Render App with value from store 1`] = `
 <div data-server-rendered="true">
     <nav class="nav">
         <div class="nav-left">
@@ -34,7 +34,7 @@ exports[`Render App with default value from store 2`] = `
 </div>
 `;
 
-exports[`Render App with default value from store 3`] = `
+exports[`App component Render App with value from store 2`] = `
 <div data-server-rendered="true">
     <nav class="nav">
         <div class="nav-left">

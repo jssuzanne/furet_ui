@@ -12,6 +12,26 @@ import './picture';
 import _ from 'underscore';
 import {dispatchAll} from './store';
 import {json_post} from './server-call';
+        
+export const selectCard = (type, router, store, card) => {
+    const key = 'UPDATE_' + (type || '').toUpperCase() + '_MENU';
+    switch (card.type) {
+        case 'client':
+            router.push({name: 'custom_view', params: {viewName: card.id}}); 
+            break;
+        case 'space':
+            router.push({name: 'space', params: {spaceId: card.id}});
+            store.commit(key, {
+                value: {
+                    label: card.label,
+                    image: card.image,
+                },
+            });
+            break;
+    }
+    store.commit('CLEAR_BREADSCRUMB');
+    store.commit('CLEAR_ALL_CHANGE');
+}
 
 export const Menu = Vue.component('furet-ui-appbar-menu', {
     template: `
@@ -78,15 +98,14 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                 </div>
             </b-modal>
         </a>`,
-    props: ['type'],
-    data: () => {
-        const data = {isModalActive: false, searchText: ''};
-        return data
+    props: ['type', 'unittest_active', 'unittest_search'],
+    data () {
+        return {
+            isModalActive: this.unittest_active || false, 
+            searchText: this.unittest_search || '',
+        };
     },
     computed: {
-        url () {
-            return 'appbar/' + this.type + '/dialog';
-        },
         value () {
             return this.$store.state[this.type + 'menu'].value;
         },
@@ -108,23 +127,7 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
     },
     methods: {
         selectCard (card) {
-            const key = 'UPDATE_' + (this.type || '').toUpperCase() + '_MENU';
-            switch (card.type) {
-                case 'client':
-                    this.$router.push({name: 'custom_view', params: {viewName: card.id}}); 
-                    break;
-                case 'space':
-                    this.$router.push({name: 'space', params: {spaceId: card.id}});
-                    this.$store.commit(key, {
-                        value: {
-                            label: card.label,
-                            image: card.image,
-                        },
-                    });
-                    break;
-            }
-            this.$store.commit('CLEAR_BREADSCRUMB');
-            this.$store.commit('CLEAR_ALL_CHANGE');
+            selectCard(this.type, this.$router, this.$store, card);
             this.isModalActive = false;
         }
     }

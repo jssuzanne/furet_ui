@@ -7,31 +7,164 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-
 import Vue from 'vue';
-import sinon from 'sinon';
-import chai from 'chai';
-import '../views';
-import '../fields';
+import Buefy from 'buefy';
+Vue.use(Buefy, {defaultIconPack: 'fa',});
 import {store} from '../store';
 import {router} from '../routes';
 import {i18n} from '../i18n';
+import '../view';
+import '../views';
+import '../fields';
+import {ViewSelector, SpaceMenu, Space} from '../space';
 
+jest.mock('../server-call')
+const menus = [
+    {
+        label: 'Customer',
+        image: {'type': 'font-icon', 'value': 'fa-user'},
+        actionId: '2',
+        id: '1',
+        submenus: [],
+    },
+    {
+        label: 'Setting',
+        image: {'type': 'font-icon', 'value': 'fa-user'},
+        actionId: '',
+        id: '2',
+        submenus: [
+            {
+                label: 'Category',
+                image: {'type': '', 'value': ''},
+                actionId: '3',
+                id: '3',
+                submenus: [],
+            },
+            {
+                label: 'Address',
+                image: {'type': '', 'value': ''},
+                actionId: '4',
+                id: '4',
+                submenus: [],
+            },
+        ],
+    },
+]
 
-test('Render Space with default value from redux store', () => {
-    const store = createStore(combineReducers(reducers));
-    updateGlobal();
-    const space = require('../space'),
-          Space = space.default;
-    const component = renderer.create(
-        <Provider store={store}>
-            <MuiThemeProvider>
-                <Space />
-            </MuiThemeProvider>
-        </Provider>
-    );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+describe('View Selector component', () => {
+    const renderer = require('vue-server-renderer').createRenderer();
+    beforeEach(() => {
+        store.dispatch('UNITEST_CLEAR');
+        router.push({path: '/'});
+    });
+    it('Render', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {params: {
+                viewId: '1',
+                views: [
+                    {viewId: '1', type: 'List'},
+                    {viewId: '2', type: 'Form', unclickable: true},
+                ],
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render unclickable selected', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {params: {
+                viewId: '2',
+                views: [
+                    {viewId: '1', type: 'List'},
+                    {viewId: '2', type: 'Form', unclickable: true},
+                ],
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+});
+
+describe('SpaceMenu component', () => {
+    const renderer = require('vue-server-renderer').createRenderer();
+    beforeEach(() => {
+        store.dispatch('UNITEST_CLEAR');
+        router.push({path: '/'});
+    });
+    it('Render', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(SpaceMenu),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with submenu', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(SpaceMenu, {props: {
+                menuId: '1',
+                menus,
+                spaceId: '1',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with submenu other selected menu', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(SpaceMenu, {props: {
+                menuId: '3',
+                menus,
+                spaceId: '1',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+});
+
+describe('Space component', () => {
+    const renderer = require('vue-server-renderer').createRenderer();
+    beforeEach(() => {
+        store.dispatch('UNITEST_CLEAR');
+        router.push({path: '/'});
+    });
+    it('Render App with default path', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
 });
 
 // test('Render Space with default value from redux store with spaceId', () => {

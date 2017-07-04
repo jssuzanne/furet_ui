@@ -10,6 +10,8 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import {dispatchAll} from './store';
 import {json_post} from './server-call';
+import _ from 'underscore';
+import './picture';
 
 export const ViewSelector = Vue.component('furet-ui-view-selector', {
     props: ['views', 'viewId'],
@@ -40,7 +42,7 @@ export const ViewSelector = Vue.component('furet-ui-view-selector', {
     },
 });
 
-Vue.component('furet-ui-space-menu', {
+export const SpaceMenu = Vue.component('furet-ui-space-menu', {
     template: `
         <ul class="menu-list">
             <li v-for="menu in menus">

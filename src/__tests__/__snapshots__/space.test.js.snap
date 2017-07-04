@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Space component Render App with default path 1`] = `
+<div data-server-rendered="true" class="columns is-gapless">
+    <!---->
+    <div class="column" style="padding-left:10px;padding-right:10px;">
+        <nav class="nav">
+            <div class="nav-left">
+                <!---->
+                <ul style="padding:10px 0px;list-style:none;">
+                    <li style="display:inline;">
+
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <!---->
+                <!---->
+            </div>
+        </nav>
+        <!---->
+    </div>
+    <!---->
+</div>
+`;
+
+exports[`SpaceMenu component Render 1`] = `<ul data-server-rendered="true" class="menu-list"></ul>`;
+
+exports[`SpaceMenu component Render with submenu 1`] = `
+<ul data-server-rendered="true" class="menu-list">
+    <li>
+        <!---->
+        <!----><a class="is-active"><span class="icon"><i class="fa fa-user"></i></span>
+                    Customer
+                </a></li>
+    <li><span><span class="icon"><i class="fa fa-user"></i></span> Setting
+        </span>
+        <ul class="menu-list">
+            <li>
+                <!---->
+                <!---->
+                <a>
+                    <!---->
+                    Category
+                </a>
+            </li>
+            <li>
+                <!---->
+                <!---->
+                <a>
+                    <!---->
+                    Address
+                </a>
+            </li>
+        </ul>
+        <!---->
+    </li>
+</ul>
+`;
+
+exports[`SpaceMenu component Render with submenu other selected menu 1`] = `
+<ul data-server-rendered="true" class="menu-list">
+    <li>
+        <!---->
+        <!----><a><span class="icon"><i class="fa fa-user"></i></span>
+                    Customer
+                </a></li>
+    <li><span><span class="icon"><i class="fa fa-user"></i></span> Setting
+        </span>
+        <ul class="menu-list">
+            <li>
+                <!---->
+                <!---->
+                <a class="is-active">
+                    <!---->
+                    Category
+                </a>
+            </li>
+            <li>
+                <!---->
+                <!---->
+                <a>
+                    <!---->
+                    Address
+                </a>
+            </li>
+        </ul>
+        <!---->
+    </li>
+</ul>
+`;
+
+exports[`View Selector component Render 1`] = `
+<div data-server-rendered="true" class="columns is-gapless">
+    <!---->
+    <div class="column" style="padding-left:10px;padding-right:10px;">
+        <nav class="nav">
+            <div class="nav-left">
+                <!---->
+                <ul style="padding:10px 0px;list-style:none;">
+                    <li style="display:inline;">
+
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <!---->
+                <!---->
+            </div>
+        </nav>
+        <!---->
+    </div>
+    <!---->
+</div>
+`;
+
+exports[`View Selector component Render unclickable selected 1`] = `
+<div data-server-rendered="true" class="columns is-gapless">
+    <!---->
+    <div class="column" style="padding-left:10px;padding-right:10px;">
+        <nav class="nav">
+            <div class="nav-left">
+                <!---->
+                <ul style="padding:10px 0px;list-style:none;">
+                    <li style="display:inline;">
+
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <!---->
+                <!---->
+            </div>
+        </nav>
+        <!---->
+    </div>
+    <!---->
+</div>
+`;
