@@ -90,6 +90,7 @@ exports[`Route component Render App with space and action 1`] = `
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -118,6 +119,7 @@ exports[`Route component Render App with space and action 2`] = `
                     <p class="control"><span data-label="List" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-list"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -149,6 +151,7 @@ exports[`Route component Render App with space and action and custome view 1`] =
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -184,6 +187,7 @@ exports[`Route component Render App with space and action and view 1`] = `
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -292,6 +296,7 @@ exports[`Route component Render App with space and action and view 2`] = `
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a disabled="disabled" class="button is-primary"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -312,9 +317,11 @@ exports[`Route component Render App with space and action and view 2`] = `
                 <div class="column is-12-mobile is-one-third-tablet is-one-quarter-desktop">
                     <article class="box">
                         <div class="columns is-multiline is-mobile">
-                            <div class="column is-4"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Boolean
-        </span></label></div>
+                            <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span>                                <span class="control-label">
+                Boolean
+            </span></label>
+                                </span>
+                            </div>
                             <div class="column is-8"><span data-label="" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><label class="label">Label</label> <span> Label </span>
                                 <!---->
                             </div>
@@ -336,9 +343,11 @@ exports[`Route component Render App with space and action and view 2`] = `
     <div class="column is-12-mobile is-one-third-tablet is-one-quarter-desktop">
         <article class="box">
             <div class="columns is-multiline is-mobile">
-                <div class="column is-4"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Boolean
-        </span></label></div>
+                <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
+                Boolean
+            </span></label>
+                    </span>
+                </div>
                 <div class="column is-8"><span data-label="" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><label class="label">Label</label> <span> Label 2 </span>
                     <!---->
                 </div>
@@ -434,9 +443,11 @@ exports[`Route component Render App with space and action and view 3`] = `
 </div>
 </span>
 </div>
-<div class="column is-6"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Bool
-        </span></label></div>
+<div class="column is-6"><span data-label="" class="tooltip is-primary is-top is-medium"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
+                Bool
+            </span></label>
+    </span>
+</div>
 </div>
 </section>
 </div>
@@ -515,9 +526,11 @@ exports[`Route component Render App with space and action and view 4`] = `
 </div>
 </span>
 </div>
-<div class="column is-6"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Bool
-        </span></label></div>
+<div class="column is-6"><span data-label="" class="tooltip is-primary is-top is-medium"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
+                Bool
+            </span></label>
+    </span>
+</div>
 </div>
 </section>
 </div>
@@ -595,6 +608,7 @@ exports[`Route component Render App with space and menu and action 1`] = `
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -623,6 +637,7 @@ exports[`Route component Render App with space and menu and action 2`] = `
                     <p class="control"><span data-label="List" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-list"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -654,6 +669,7 @@ exports[`Route component Render App with space and menu and action and custome v
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -689,6 +705,7 @@ exports[`Route component Render App with space and menu and action and view 1`] 
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a class="button"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -797,6 +814,7 @@ exports[`Route component Render App with space and menu and action and view 2`] 
                     <p class="control"><span data-label="Thumbnail" class="tooltip is-info is-left is-medium"><a disabled="disabled" class="button is-primary"><span class="icon is-small"><i class="fa fa-th"></i></span></a>
                         </span>
                     </p>
+                    <!---->
                 </div>
                 <!---->
             </div>
@@ -817,9 +835,11 @@ exports[`Route component Render App with space and menu and action and view 2`] 
                 <div class="column is-12-mobile is-one-third-tablet is-one-quarter-desktop">
                     <article class="box">
                         <div class="columns is-multiline is-mobile">
-                            <div class="column is-4"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Boolean
-        </span></label></div>
+                            <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span>                                <span class="control-label">
+                Boolean
+            </span></label>
+                                </span>
+                            </div>
                             <div class="column is-8"><span data-label="" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><label class="label">Label</label> <span> Label </span>
                                 <!---->
                             </div>
@@ -841,9 +861,11 @@ exports[`Route component Render App with space and menu and action and view 2`] 
     <div class="column is-12-mobile is-one-third-tablet is-one-quarter-desktop">
         <article class="box">
             <div class="columns is-multiline is-mobile">
-                <div class="column is-4"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Boolean
-        </span></label></div>
+                <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium"><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
+                Boolean
+            </span></label>
+                    </span>
+                </div>
                 <div class="column is-8"><span data-label="" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><label class="label">Label</label> <span> Label 2 </span>
                     <!---->
                 </div>
@@ -939,9 +961,11 @@ exports[`Route component Render App with space and menu and action and view 3`] 
 </div>
 </span>
 </div>
-<div class="column is-6"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Bool
-        </span></label></div>
+<div class="column is-6"><span data-label="" class="tooltip is-primary is-top is-medium"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
+                Bool
+            </span></label>
+    </span>
+</div>
 </div>
 </section>
 </div>
@@ -1020,9 +1044,11 @@ exports[`Route component Render App with space and menu and action and view 4`] 
 </div>
 </span>
 </div>
-<div class="column is-6"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
-            Bool
-        </span></label></div>
+<div class="column is-6"><span data-label="" class="tooltip is-primary is-top is-medium"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label">
+                Bool
+            </span></label>
+    </span>
+</div>
 </div>
 </section>
 </div>

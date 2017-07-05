@@ -9,8 +9,9 @@
 // **/
 import Vue from 'vue';
 import {FormMixin, ThumbnailMixin, ListMixin} from './common';
+import _ from 'underscore';
 
-Vue.component('furet-ui-list-field-boolean', {
+export const FieldListBoolean = Vue.component('furet-ui-list-field-boolean', {
     mixins: [ListMixin],
     template: `
         <span v-if="isInvisible" />
@@ -30,13 +31,18 @@ export const FieldThumbnailBoolean = Vue.component('furet-ui-thumbnail-field-boo
     mixins: [ThumbnailMixin],
     template: `
         <div v-if="this.isInvisible" />
-        <b-checkbox 
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
             v-else
-            v-bind:checked="value" 
-            disabled
         >
-            {{this.label}}
-        </b-checkbox>`,
+            <b-checkbox 
+                v-bind:checked="value" 
+                disabled
+            >
+                {{this.label}}
+            </b-checkbox>
+        </b-tooltip>`,
     computed: {
         value () {
             return eval(this.data[this.name]) ? true : false;
@@ -48,13 +54,18 @@ export const FieldFormBoolean = Vue.component('furet-ui-form-field-boolean', {
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
-        <b-checkbox 
+        <b-tooltip 
+            v-bind:label="getTooltip" 
+            v-bind:position="tooltipPosition"
             v-else
-            v-bind:checked="data" 
-            v-bind:disabled="isReadonly"
         >
-            {{this.label}}
-        </b-checkbox>`,
+            <b-checkbox 
+                v-bind:checked="data" 
+                v-bind:disabled="isReadonly"
+            >
+                {{this.label}}
+            </b-checkbox>
+        </b-tooltip>`,
     computed: {
         data () {
             const value = this.config && this.config.data && this.config.data[this.name] || '';

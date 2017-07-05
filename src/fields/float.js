@@ -57,7 +57,7 @@ export const FieldThumbnailFloat = Vue.component('furet-ui-thumbnail-field-float
 })
 
 export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
-    props: ['step', 'min', 'max'],
+    props: ['icon', 'placeholder', 'step', 'min', 'max'],
     mixins: [FormMixin],
     template: `
         <div v-if="this.isInvisible" />
@@ -80,6 +80,9 @@ export const FieldFormFloat = Vue.component('furet-ui-form-field-float', {
                     v-bind:step="getStep"
                     v-bind:value="data" 
                     v-on:change="updateValue"
+                    v-bind:placeholder="placeholder"
+                    icon-pack="fa"
+                    v-bind:icon="icon"
                     v-bind:min="min"
                     v-bind:max="max"
                 >

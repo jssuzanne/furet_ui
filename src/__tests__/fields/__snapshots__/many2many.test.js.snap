@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Many2Many Thumbnail component Render 1`] = `
+<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!----> <span class="tag"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render invisible condition is false 1`] = `
+<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!----> <span class="tag"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render invisible condition is true 1`] = `<div data-server-rendered="true"></div>`;
+
+exports[`Many2Many Thumbnail component Render invisible is True 1`] = `<div data-server-rendered="true"></div>`;
+
+exports[`Many2Many Thumbnail component Render invisible is false 1`] = `
+<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!----> <span class="tag"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render label 1`] = `
+<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><label class="label">The label</label> <span class="tag"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render tooltip left 1`] = `
+<span data-label="The left tooltip" data-server-rendered="true" class="tooltip is-primary is-left is-medium"><div class="field" style="width:inherit;"><!----> <span class="tag"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render tooltip up 1`] = `
+<span data-label="The tooltip" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!----> <span class="tag"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render with fieldcolor 1`] = `
+<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!----> <span class="tag" style="border:4px solid #123456;"><a>Test
+                    </a></span>
+<!---->
+</div>
+</span>
+`;
+
+exports[`Many2Many Thumbnail component Render without data 1 1`] = `<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!---->  <!----></div></span>`;
+
+exports[`Many2Many Thumbnail component Render without data 1 2`] = `<span data-label="" data-server-rendered="true" class="tooltip is-primary is-top is-medium"><div class="field" style="width:inherit;"><!---->  <!----></div></span>`;
+
+exports[`Many2Many list component Render fieldcolor 1`] = `
+<div data-server-rendered="true"><span class="tag" style="border:4px solid #123456;"><a>Test
+                </a></span></div>
+`;
+
+exports[`Many2Many list component Render invisible condition is false 1`] = `
+<div data-server-rendered="true"><span class="tag"><a>Test
+                </a></span></div>
+`;
+
+exports[`Many2Many list component Render invisible condition is true 1`] = `<span data-server-rendered="true"></span>`;
+
+exports[`Many2Many list component Render invisible is True 1`] = `<span data-server-rendered="true"></span>`;
+
+exports[`Many2Many list component Render invisible is false 1`] = `
+<div data-server-rendered="true"><span class="tag"><a>Test
+                </a></span></div>
+`;
+
+exports[`Many2Many list component Render with data 1`] = `
+<div data-server-rendered="true"><span class="tag"><a>Test
+                </a></span></div>
+`;
+
+exports[`Many2Many list component Render without data 1 1`] = `<div data-server-rendered="true"></div>`;
+
+exports[`Many2Many list component Render without data 2 1`] = `<div data-server-rendered="true"></div>`;

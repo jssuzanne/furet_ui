@@ -14,9 +14,9 @@ Vue.use(Buefy, {defaultIconPack: 'fa',});
 import {store} from '../../store';
 import {router} from '../../routes';
 import {i18n} from '../../i18n';
-import {FieldListFloat, FieldThumbnailFloat, FieldFormFloat} from '../../fields/float'
+import {FieldListMany2One, FieldThumbnailMany2One, FieldFormMany2One} from '../../fields/relationship/many2one'
 
-describe('Float list component', () => {
+describe('Many2One list component', () => {
     const renderer = require('vue-server-renderer').createRenderer();
     beforeEach(() => {
         store.dispatch('UNITEST_CLEAR');
@@ -27,39 +27,49 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4},
-                header: {name: 'fieldname'},
+            render: h => h(FieldListMany2One, {props: {
+                row: {fieldname: '1'},
+                header: {name: 'fieldname', model: 'Test', display: 'fields.name'},
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render with step', () => {
+    it('Render without data 1', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.123456},
-                header: {name: 'fieldname', step: '0.1'},
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render without data', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldListFloat, {props: {
+            render: h => h(FieldListMany2One, {props: {
                 row: {},
-                header: {name: 'fieldname'},
+                header: {name: 'fieldname', model: 'Test', display: 'fields.name'},
+            }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render without data 2', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldListMany2One, {props: {
+                row: {fieldname: '1'},
+                header: {name: 'fieldname', model: 'Test', display: 'fields.name'},
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -72,10 +82,15 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4},
-                header: {name: 'fieldname', invisible: true},
+            render: h => h(FieldListMany2One, {props: {
+                row: {fieldname: '1'},
+                header: {name: 'fieldname', invisible: true, model: 'Test', display: 'fields.name'},
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -87,10 +102,15 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4},
-                header: {name: 'fieldname', invisible: false},
+            render: h => h(FieldListMany2One, {props: {
+                row: {fieldname: '1'},
+                header: {name: 'fieldname', invisible: false, model: 'Test', display: 'fields.name'},
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -102,10 +122,15 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4, invisible: true},
-                header: {name: 'fieldname', invisible: 'fields.invisible'},
+            render: h => h(FieldListMany2One, {props: {
+                row: {fieldname: '1', invisible: true},
+                header: {name: 'fieldname', invisible: 'fields.invisible', model: 'Test', display: 'fields.name'},
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -117,10 +142,15 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4, invisible: false},
-                header: {name: 'fieldname', invisible: 'fields.invisible'},
+            render: h => h(FieldListMany2One, {props: {
+                row: {fieldname: '1', invisible: false},
+                header: {name: 'fieldname', invisible: 'fields.invisible', model: 'Test', display: 'fields.name'},
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -128,7 +158,7 @@ describe('Float list component', () => {
     });
 });
 
-describe('Float Thumbnail component', () => {
+describe('Many2One Thumbnail component', () => {
     const renderer = require('vue-server-renderer').createRenderer();
     beforeEach(() => {
         store.dispatch('UNITEST_CLEAR');
@@ -139,40 +169,55 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1'},
                 name: 'fieldname',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render without data', () => {
+    it('Render without data 1', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
+            render: h => h(FieldThumbnailMany2One, {props: {
                 data: {},
                 name: 'fieldname',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render with step', () => {
+    it('Render without data 1', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.123456},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: 1},
                 name: 'fieldname',
-                step: '0.1'
+                model: 'Test',
+                display: 'fields.name',
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -185,11 +230,18 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1'},
                 name: 'fieldname',
                 invisible: true,
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -201,11 +253,18 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1'},
                 name: 'fieldname',
                 invisible: false,
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -217,11 +276,18 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4, invisible: true},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1', invisible: true},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -233,11 +299,18 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4, invisible: false},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1', invisible: false},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -249,11 +322,18 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1'},
                 name: 'fieldname',
                 label: 'The label',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -265,11 +345,18 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1'},
                 name: 'fieldname',
                 tooltip: 'The tooltip',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -281,12 +368,19 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailMany2One, {props: {
+                data: {fieldname: '1'},
                 name: 'fieldname',
                 tooltip: 'The left tooltip',
                 tooltip_position: 'is-left',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -294,7 +388,7 @@ describe('Float Thumbnail component', () => {
     });
 });
 
-describe('Float Form component', () => {
+describe('Many2One Form component', () => {
     const renderer = require('vue-server-renderer').createRenderer();
     beforeEach(() => {
         store.dispatch('UNITEST_CLEAR');
@@ -305,40 +399,55 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render without data', () => {
+    it('Render without data 1', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
+            render: h => h(FieldFormMany2One, {props: {
                 config: {data: {}},
                 name: 'fieldname',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render with step', () => {
+    it('Render without data 2', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.123456}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
-                step: '0.1'
+                model: 'Test',
+                display: 'fields.name',
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -351,11 +460,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 invisible: true,
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -367,11 +483,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 invisible: false,
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -383,11 +506,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, invisible: true}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1', invisible: true}},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -399,11 +529,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, invisible: false}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1', invisible: false}},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -415,11 +552,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 label: 'The label',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -431,11 +575,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 tooltip: 'The tooltip',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -447,12 +598,19 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 tooltip: 'The left tooltip',
                 tooltip_position: 'is-left',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -464,10 +622,17 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}, mode: 'readonly'},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}, mode: 'readonly'},
                 name: 'fieldname',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -479,11 +644,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 readonly: true,
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -495,11 +667,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, readonly: 1}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1', readonly: true}},
                 name: 'fieldname',
                 readonly: 'fields.readonly',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -511,11 +690,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1'}},
                 name: 'fieldname',
                 required: true,
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -527,11 +713,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, required: true}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {fieldname: '1', required: true}},
                 name: 'fieldname',
                 required: 'fields.required',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -543,27 +736,18 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
+            render: h => h(FieldFormMany2One, {props: {
                 config: {data: {}},
                 name: 'fieldname',
                 required: true,
+                model: 'Test',
+                display: 'fields.name',
             }}),
         });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render icon', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {}},
-                name: 'fieldname',
-                icon: 'user'
-            }}),
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
@@ -575,75 +759,41 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
+            render: h => h(FieldFormMany2One, {props: {
                 config: {data: {}},
                 name: 'fieldname',
-                placeholder: 'The placeholder'
+                placeholder: 'The placeholder',
+                model: 'Test',
+                display: 'fields.name',
             }}),
+        });
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render min (ok)', () => {
+    it('Render icon', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormMany2One, {props: {
+                config: {data: {}},
                 name: 'fieldname',
-                min: 1.3
+                icon: 'user',
+                model: 'Test',
+                display: 'fields.name',
             }}),
         });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render min (ko)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                min: 1.5
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render max (ok)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                max: 1.5
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render max (ko)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                min: 1.3
-            }}),
+        store.commit({
+            type: 'UPDATE_DATA',
+            model: 'Test',
+            data: {'1': {name: 'Test'}},
         });
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();

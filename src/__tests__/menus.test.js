@@ -11,8 +11,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import Buefy from 'buefy';
 Vue.use(Buefy, {defaultIconPack: 'fa',});
-import sinon from 'sinon';
-import chai from 'chai';
 import '../views';
 import '../fields';
 import {store} from '../store';

@@ -16,7 +16,7 @@ import {i18n} from '../i18n';
 import '../view';
 import '../views';
 import '../fields';
-import {ViewSelector, SpaceMenu, Space} from '../space';
+import {changeView, onClickBreadScrumb, onClickMenu, ViewSelector, SpaceMenu, Space} from '../space';
 
 jest.mock('../server-call')
 const menus = [
@@ -145,6 +145,66 @@ describe('SpaceMenu component', () => {
             expect(str).toMatchSnapshot();
         });
     });
+    it('Render change menu (with action)', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(SpaceMenu)
+        });
+        store.commit({type: 'REPLACE_CHANGE', changes: {test: 1}});
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/3',
+            label: 'Action 3',
+            changes: {action: 3}
+        });
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/4',
+            label: 'Action 4',
+            changes: {action: 4}
+        });
+        router.push({path: '/'});
+        expect(store.state.data.changes.test).toBe(1);
+        expect(store.state.global.breadscrumbs.length).toBe(2);
+        expect(vm.$route.path).toBe('/');
+        onClickMenu(router, '1', {id: '2', actionId: '3'})
+        expect(store.state.data.changes.test).toBe(undefined);
+        expect(vm.$route.path).toBe('/space/1/menu/2/action/3');
+        expect(store.state.global.breadscrumbs.length).toBe(0);
+    });
+    it('Render change menu (without action)', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(SpaceMenu)
+        });
+        store.commit({type: 'REPLACE_CHANGE', changes: {test: 1}});
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/3',
+            label: 'Action 3',
+            changes: {action: 3}
+        });
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/4',
+            label: 'Action 4',
+            changes: {action: 4}
+        });
+        router.push({path: '/'});
+        expect(store.state.data.changes.test).toBe(1);
+        expect(store.state.global.breadscrumbs.length).toBe(2);
+        expect(vm.$route.path).toBe('/');
+        onClickMenu(router, '1', {id: '2'})
+        expect(store.state.data.changes.test).toBe(undefined);
+        expect(vm.$route.path).toBe('/');
+        expect(store.state.global.breadscrumbs.length).toBe(0);
+    });
 });
 
 describe('Space component', () => {
@@ -153,7 +213,7 @@ describe('Space component', () => {
         store.dispatch('UNITEST_CLEAR');
         router.push({path: '/'});
     });
-    it('Render App with default path', () => {
+    it('Render', () => {
         const vm = new Vue({
             el: document.createElement('div'),
             store,
@@ -165,115 +225,274 @@ describe('Space component', () => {
             expect(str).toMatchSnapshot();
         });
     });
+    it('Render display left menu (close)', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {props: {
+                spaceId: '1',
+                menuId: '1',
+                actionId: '1',
+                viewId: '1',
+            }}),
+        });
+        store.commit({
+            type: 'UPDATE_SPACE',
+            spaceId: '1',
+            left_menu: menus,
+            right_menu: [],
+        });
+        store.commit({                                                                       
+            type: 'UPDATE_ACTION',
+            actionId: '1',
+            label: 'Action : 1',
+            views: [
+                {
+                    viewId: '1',
+                    type: 'List',
+                },
+                {
+                    viewId: '2',
+                    type: 'Thumbnail',
+                },
+                {
+                    viewId: '3',
+                    type: 'Form',
+                    unclickable: true,
+                },
+            ],
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render display left menu (open)', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {props: {
+                spaceId: '1',
+                menuId: '1',
+                actionId: '1',
+                viewId: '1',
+                defaultOpenLeft: true,
+            }}),
+        });
+        store.commit({
+            type: 'UPDATE_SPACE',
+            spaceId: '1',
+            left_menu: menus,
+            right_menu: [],
+        });
+        store.commit({                                                                       
+            type: 'UPDATE_ACTION',
+            actionId: '1',
+            label: 'Action : 1',
+            views: [
+                {
+                    viewId: '1',
+                    type: 'List',
+                },
+                {
+                    viewId: '2',
+                    type: 'Thumbnail',
+                },
+                {
+                    viewId: '3',
+                    type: 'Form',
+                    unclickable: true,
+                },
+            ],
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render display right menu (close)', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {props: {
+                spaceId: '1',
+                menuId: '1',
+                actionId: '1',
+                viewId: '1',
+            }}),
+        });
+        store.commit({
+            type: 'UPDATE_SPACE',
+            spaceId: '1',
+            left_menu: [],
+            right_menu: menus,
+        });
+        store.commit({                                                                       
+            type: 'UPDATE_ACTION',
+            actionId: '1',
+            label: 'Action : 1',
+            views: [
+                {
+                    viewId: '1',
+                    type: 'List',
+                },
+                {
+                    viewId: '2',
+                    type: 'Thumbnail',
+                },
+                {
+                    viewId: '3',
+                    type: 'Form',
+                    unclickable: true,
+                },
+            ],
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render display right menu (open)', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {props: {
+                spaceId: '1',
+                menuId: '1',
+                actionId: '1',
+                viewId: '1',
+                defaultOpenRight: true,
+            }}),
+        });
+        store.commit({
+            type: 'UPDATE_SPACE',
+            spaceId: '1',
+            left_menu: [],
+            right_menu: menus,
+        });
+        store.commit({                                                                       
+            type: 'UPDATE_ACTION',
+            actionId: '1',
+            label: 'Action : 1',
+            views: [
+                {
+                    viewId: '1',
+                    type: 'List',
+                },
+                {
+                    viewId: '2',
+                    type: 'Thumbnail',
+                },
+                {
+                    viewId: '3',
+                    type: 'Form',
+                    unclickable: true,
+                },
+            ],
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render breadscrumb', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space, {props: {
+                spaceId: '1',
+                menuId: '1',
+                actionId: '1',
+                viewId: '1',
+            }}),
+        });
+        store.commit({
+            type: 'UPDATE_SPACE',
+            spaceId: '1',
+            left_menu: [],
+            right_menu: [],
+        });
+        store.commit({                                                                       
+            type: 'UPDATE_ACTION',
+            actionId: '1',
+            label: 'Action : 1',
+            views: [
+                {
+                    viewId: '1',
+                    type: 'List',
+                },
+            ],
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/2',
+            label: 'Action 2',
+            changes: {action: 2}
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/3',
+            label: 'Action 3',
+            changes: {action: 3}
+        });
+        store.commit({
+            type: 'ADD_IN_BREADSCRUMB',
+            path: 'space/1/action/4',
+            label: 'Action 4',
+            changes: {action: 4}
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+        expect(store.state.global.breadscrumbs.length).toBe(3);
+        onClickBreadScrumb(router, store, {position: 1, changes: {action: 2}, path: '/space/1/action/2'})
+        expect(store.state.global.breadscrumbs.length).toBe(1);
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render change view without menuId', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space)
+        });
+        store.commit({type: 'REPLACE_CHANGE', changes: {test: 1}});
+        router.push({path: '/'});
+        expect(store.state.data.changes.test).toBe(1);
+        expect(vm.$route.path).toBe('/');
+        changeView(router, store, '1', null, '3', '4')
+        expect(store.state.data.changes.test).toBe(undefined);
+        expect(vm.$route.path).toBe('/space/1/action/3/view/4');
+    });
+    it('Render change view with menuId', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(Space)
+        });
+        store.commit({type: 'REPLACE_CHANGE', changes: {test: 1}});
+        router.push({path: '/'});
+        expect(store.state.data.changes.test).toBe(1);
+        expect(vm.$route.path).toBe('/');
+        changeView(router, store, '1', '2', '3', '4')
+        expect(store.state.data.changes.test).toBe(undefined);
+        expect(vm.$route.path).toBe('/space/1/menu/2/action/3/view/4');
+    });
 });
-
-// test('Render Space with default value from redux store with spaceId', () => {
-//     const store = createStore(combineReducers(reducers));
-//     updateGlobal();
-//     const space = require('../space'),
-//           Space = space.default;
-//     const component = renderer.create(
-//         <Provider store={store}>
-//             <MuiThemeProvider>
-//                 <Space spaceId='1'/>
-//             </MuiThemeProvider>
-//         </Provider>
-//     );
-//     store.dispatch({
-//         'type': 'UPDATE_SPACE',
-//         'spaceId': '1',
-//         'menuId': '1',
-//         'actionId': '1',
-//         'viewId': '1',
-//         'custom_view': '',
-//     });
-//     let tree = component.toJSON();
-//     expect(tree).toMatchSnapshot();
-// });
-// 
-// test('Render Space with default value from redux store with spaceId with menu', () => {
-//     const store = createStore(combineReducers(reducers));
-//     updateGlobal();
-//     const space = require('../space'),
-//           Space = space.default;
-//     const component = shallow(
-//         <Provider store={store}>
-//             <MuiThemeProvider>
-//                 <Space spaceId='1'/>
-//             </MuiThemeProvider>
-//         </Provider>
-//     );
-//     const getMenu = (label, spaceId) => {
-//         return [
-//             {
-//                 'label': 'Menu ' + label + ' 1 : ' + spaceId,
-//                 'image': {'type': 'font-icon', 'value': 'fa-user'},
-//                 'actionId': '1',
-//                 'custom_view': '',
-//                 'id': label + '1',
-//                 'submenus': [],
-//             },
-//             {
-//                 'label': 'Menu ' + label + ' 2 : ' + spaceId,
-//                 'image': {'type': '', 'value': ''},
-//                 'actionId': '',
-//                 'custom_view': 'Login',
-//                 'id': label + '3',
-//                 'submenus': [],
-//             },
-//             {
-//                 'label': 'Menu ' + label + ' 2 : ' + spaceId,
-//                 'image': {'type': '', 'value': ''},
-//                 'actionId': '',
-//                 'custom_view': '',
-//                 'id': label + '4',
-//                 'submenus': [
-//                     {
-//                         'label': 'Menu ' + label + ' 1 : ' + spaceId,
-//                         'image': {'type': 'font-icon', 'value': 'fa-user'},
-//                         'actionId': '2',
-//                         'custom_view': '',
-//                         'id': label + '41',
-//                         'submenus': [],
-//                     },
-//                 ],
-//             },
-//         ]
-//     }
-//     store.dispatch({
-//         'type': 'UPDATE_SPACE',
-//         'spaceId': '1',
-//         'left_menu': getMenu('left', '1'),
-//         'menuId': '1',
-//         'right_menu': getMenu('right', '1'),
-//         'actionId': '1',
-//         'viewId': '1',
-//         'custom_view': '',
-//     });
-//     let tree = toJson(component);
-//     expect(tree).toMatchSnapshot();
-// });
-// 
-// test('Render Space with default value from redux store with custom client', () => {
-//     const store = createStore(combineReducers(reducers));
-//     updateGlobal();
-//     const space = require('../space'),
-//           Space = space.default;
-//     const component = renderer.create(
-//         <Provider store={store}>
-//             <MuiThemeProvider>
-//                 <Space spaceId='1'/>
-//             </MuiThemeProvider>
-//         </Provider>
-//     );
-//     store.dispatch({
-//         'type': 'UPDATE_SPACE',
-//         'spaceId': '',
-//         'menuId': '1',
-//         'actionId': '',
-//         'viewId': '1',
-//         'custom_view': 'Login',
-//     });
-//     let tree = component.toJSON();
-//     expect(tree).toMatchSnapshot();
-// });

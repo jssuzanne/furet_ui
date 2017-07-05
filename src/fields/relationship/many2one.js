@@ -12,6 +12,7 @@ import {FormMixin, ThumbnailMixin, ListMixin} from '../common';
 import {RelationShip} from './common';
 import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
+import _ from 'underscore';
 
 const getRemoteValue = (state, model, dataId) => {
     let data = {},
@@ -58,7 +59,7 @@ export const FieldThumbnailMany2One = Vue.component('furet-ui-thumbnail-field-ma
     props: ['model', 'spaceId', 'menuId', 'actionId', 'mode', 'display'],
     mixins: [ThumbnailMixin, RelationShip],
     template: `
-        <div v-if="this.isInvisible" />
+        <div v-if="isInvisible" />
         <b-tooltip 
             v-bind:label="getTooltip" 
             v-bind:position="tooltipPosition"

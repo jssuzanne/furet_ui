@@ -69,6 +69,7 @@ export const FieldFormColor = Vue.component('furet-ui-form-field-color', {
                 >
                     <p class="control is-expanded">
                         <b-input 
+                            v-if="data || !isReadonly"
                             type="color"
                             v-bind:value="data" 
                             v-on:change="updateValue"

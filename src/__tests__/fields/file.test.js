@@ -14,9 +14,9 @@ Vue.use(Buefy, {defaultIconPack: 'fa',});
 import {store} from '../../store';
 import {router} from '../../routes';
 import {i18n} from '../../i18n';
-import {FieldListFloat, FieldThumbnailFloat, FieldFormFloat} from '../../fields/float'
+import {FieldListFile, FieldThumbnailFile, FieldFormFile} from '../../fields/file'
 
-describe('Float list component', () => {
+describe('File list component', () => {
     const renderer = require('vue-server-renderer').createRenderer();
     beforeEach(() => {
         store.dispatch('UNITEST_CLEAR');
@@ -27,24 +27,9 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4},
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new'},
                 header: {name: 'fieldname'},
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render with step', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.123456},
-                header: {name: 'fieldname', step: '0.1'},
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -57,9 +42,39 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
+            render: h => h(FieldListFile, {props: {
                 row: {},
                 header: {name: 'fieldname'},
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with filename', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new', filename_field: 'The file name'},
+                header: {name: 'fieldname', filename: 'filename_field'},
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with width', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new'},
+                header: {name: 'fieldname', width: '200px'},
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -72,8 +87,8 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4},
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new'},
                 header: {name: 'fieldname', invisible: true},
             }}),
         });
@@ -87,8 +102,8 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4},
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new'},
                 header: {name: 'fieldname', invisible: false},
             }}),
         });
@@ -102,8 +117,8 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4, invisible: true},
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new', invisible: true},
                 header: {name: 'fieldname', invisible: 'fields.invisible'},
             }}),
         });
@@ -117,8 +132,8 @@ describe('Float list component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldListFloat, {props: {
-                row: {fieldname: 1.4, invisible: false},
+            render: h => h(FieldListFile, {props: {
+                row: {fieldname: 'new', invisible: false},
                 header: {name: 'fieldname', invisible: 'fields.invisible'},
             }}),
         });
@@ -128,7 +143,7 @@ describe('Float list component', () => {
     });
 });
 
-describe('Float Thumbnail component', () => {
+describe('File Thumbnail component', () => {
     const renderer = require('vue-server-renderer').createRenderer();
     beforeEach(() => {
         store.dispatch('UNITEST_CLEAR');
@@ -139,9 +154,41 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
                 name: 'fieldname',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with filename', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new', filename_field: 'The file name'},
+                name: 'fieldname',
+                filename: 'filename_field',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with width', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
+                name: 'fieldname',
+                width: '200px',
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -154,25 +201,9 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
+            render: h => h(FieldThumbnailFile, {props: {
                 data: {},
                 name: 'fieldname',
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render with step', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.123456},
-                name: 'fieldname',
-                step: '0.1'
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -185,8 +216,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
                 name: 'fieldname',
                 invisible: true,
             }}),
@@ -201,8 +232,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
                 name: 'fieldname',
                 invisible: false,
             }}),
@@ -217,8 +248,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4, invisible: true},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new', invisible: true},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
             }}),
@@ -233,8 +264,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4, invisible: false},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new', invisible: false},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
             }}),
@@ -249,8 +280,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
                 name: 'fieldname',
                 label: 'The label',
             }}),
@@ -265,8 +296,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
                 name: 'fieldname',
                 tooltip: 'The tooltip',
             }}),
@@ -281,8 +312,8 @@ describe('Float Thumbnail component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldThumbnailFloat, {props: {
-                data: {fieldname: 1.4},
+            render: h => h(FieldThumbnailFile, {props: {
+                data: {fieldname: 'new'},
                 name: 'fieldname',
                 tooltip: 'The left tooltip',
                 tooltip_position: 'is-left',
@@ -294,7 +325,7 @@ describe('Float Thumbnail component', () => {
     });
 });
 
-describe('Float Form component', () => {
+describe('File Form component', () => {
     const renderer = require('vue-server-renderer').createRenderer();
     beforeEach(() => {
         store.dispatch('UNITEST_CLEAR');
@@ -305,9 +336,57 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with filename', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new', filename_field: 'The filename'}},
+                name: 'fieldname',
+                filename: 'filename_field',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with width', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
+                name: 'fieldname',
+                width: '200px',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render with accept', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
+                name: 'fieldname',
+                accept: 'images/*',
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -320,25 +399,9 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
+            render: h => h(FieldFormFile, {props: {
                 config: {data: {}},
                 name: 'fieldname',
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render with step', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.123456}},
-                name: 'fieldname',
-                step: '0.1'
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -351,8 +414,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 invisible: true,
             }}),
@@ -367,8 +430,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 invisible: false,
             }}),
@@ -383,8 +446,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, invisible: true}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new', invisible: true}},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
             }}),
@@ -399,8 +462,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, invisible: false}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new', invisible: false}},
                 name: 'fieldname',
                 invisible: 'fields.invisible',
             }}),
@@ -415,8 +478,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 label: 'The label',
             }}),
@@ -431,8 +494,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 tooltip: 'The tooltip',
             }}),
@@ -447,8 +510,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 tooltip: 'The left tooltip',
                 tooltip_position: 'is-left',
@@ -464,9 +527,41 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}, mode: 'readonly'},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}, mode: 'readonly'},
                 name: 'fieldname',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render mode readonly with filename', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new', filename_field: 'The filename'}, mode: 'readonly'},
+                name: 'fieldname',
+                filename: 'filename_field',
+            }}),
+        });
+        renderer.renderToString(vm, (err, str) => {
+            expect(str).toMatchSnapshot();
+        });
+    });
+    it('Render mode readonly with width', () => {
+        const vm = new Vue({
+            el: document.createElement('div'),
+            store,
+            router,
+            i18n,
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}, mode: 'readonly'},
+                name: 'fieldname',
+                width: '200px',
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -479,8 +574,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 readonly: true,
             }}),
@@ -495,8 +590,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, readonly: 1}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new', readonly: 1}},
                 name: 'fieldname',
                 readonly: 'fields.readonly',
             }}),
@@ -511,8 +606,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new'}},
                 name: 'fieldname',
                 required: true,
             }}),
@@ -527,8 +622,8 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4, required: true}},
+            render: h => h(FieldFormFile, {props: {
+                config: {data: {fieldname: 'new', required: true}},
                 name: 'fieldname',
                 required: 'fields.required',
             }}),
@@ -543,7 +638,7 @@ describe('Float Form component', () => {
             store,
             router,
             i18n,
-            render: h => h(FieldFormFloat, {props: {
+            render: h => h(FieldFormFile, {props: {
                 config: {data: {}},
                 name: 'fieldname',
                 required: true,
@@ -553,100 +648,5 @@ describe('Float Form component', () => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('Render icon', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {}},
-                name: 'fieldname',
-                icon: 'user'
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render placeholder', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {}},
-                name: 'fieldname',
-                placeholder: 'The placeholder'
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render min (ok)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                min: 1.3
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render min (ko)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                min: 1.5
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render max (ok)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                max: 1.5
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
-    it('Render max (ko)', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            render: h => h(FieldFormFloat, {props: {
-                config: {data: {fieldname: 1.4}},
-                name: 'fieldname',
-                min: 1.3
-            }}),
-        });
-        renderer.renderToString(vm, (err, str) => {
-            expect(str).toMatchSnapshot();
-        });
-    });
 });
+

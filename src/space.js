@@ -13,6 +13,35 @@ import {json_post} from './server-call';
 import _ from 'underscore';
 import './picture';
 
+export const changeView = (router, store, spaceId, menuId, actionId, viewId) => {
+    store.commit('CLEAR_ALL_CHANGE');
+    router.push({
+        name: menuId ? 'space_menu_action_view' : 'space_action_view',
+        params: {spaceId, menuId, actionId, viewId}
+    });
+};
+export const onClickBreadScrumb = (router, store, action) => {
+    store.commit('REMOVE_FROM_BREADSCRUMB', {position: action.position});
+    store.commit('REPLACE_CHANGE', {changes: action.changes});
+    router.push({path: action.path});
+};
+export const onClickMenu = (router, spaceId, menu) => {
+    if (menu.actionId) {
+        router.push({
+            name: 'space_menu_action',
+            params: {
+                spaceId: spaceId,
+                menuId: menu.id,
+                actionId: menu.actionId,
+            },
+        });
+    }
+    dispatchAll([
+        {type: 'CLEAR_BREADSCRUMB'},
+        {type: 'CLEAR_ALL_CHANGE'},
+    ]);
+}
+
 export const ViewSelector = Vue.component('furet-ui-view-selector', {
     props: ['views', 'viewId'],
     template: `
@@ -60,7 +89,7 @@ export const SpaceMenu = Vue.component('furet-ui-space-menu', {
                     v-bind:spaceId="spaceId"
                 />
                 <a v-if="menu.actionId || menu.custom_view"
-                   v-on:click="onClick(menu)"
+                   v-on:click="onClickMenu(menu)"
                    v-bind:class="[menu.id == menuId ? 'is-active' : '']"
                 >
                     <furet-ui-picture 
@@ -73,21 +102,8 @@ export const SpaceMenu = Vue.component('furet-ui-space-menu', {
         </ul>`,
     props: ['menus', 'menuId', 'spaceId'],
     methods: {
-        onClick (menu) {
-            if (menu.actionId) {
-                this.$router.push({
-                    name: 'space_menu_action',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: menu.id,
-                        actionId: menu.actionId,
-                    },
-                });
-            }
-            dispatchAll([
-                {type: 'CLEAR_BREADSCRUMB'},
-                {type: 'CLEAR_ALL_CHANGE'},
-            ]);
+        onClickMenu (menu) {
+            onClickMenu(this.$router, this.spaceId, menu);
         }
     }
 });
@@ -114,7 +130,7 @@ export const Space = Vue.component('furet-ui-space', {
                             <li v-bind:style="{display: 'inline'}" 
                                 v-for="a in actions"
                             >
-                                <a v-on:click="onClick(a)">
+                                <a v-on:click="onClickBreadScrumb(a)">
                                     {{a.label}}
                                 </a>
                                 /
@@ -147,13 +163,12 @@ export const Space = Vue.component('furet-ui-space', {
                 </aside>
             </div>
         </div>`,
-    props: ['spaceId', 'menuId', 'actionId', 'viewId'],
-    data: () => {
-        const data = {
-            isOpenLeft: false,
-            isOpenRight: false,
+    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'defaultOpenLeft', 'defaultOpenRight'],
+    data () {
+        return {
+            isOpenLeft: this.defaultOpenLeft || false,
+            isOpenRight: this.defaultOpenRight ||  false,
         }
-        return data
     },
     computed: {
         space_state () {
@@ -172,8 +187,7 @@ export const Space = Vue.component('furet-ui-space', {
             if (this.actionId) {
                 const action = this.$store.state.data.actions[String(this.actionId)];
                 if (action) {
-                    const views = _.filter(action.views || [], view => (view.viewId == this.viewId || !view.unclickable))
-                    return {label: action.label, views};
+                    return {label: action.label, views: action.views};
                 }
            }
            return {label: '', views: []};
@@ -181,21 +195,10 @@ export const Space = Vue.component('furet-ui-space', {
     },
     methods: {
         changeView (viewId) {
-            this.$store.commit('CLEAR_ALL_CHANGE');
-            this.$router.push({
-                name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
-                params: {
-                    spaceId: this.spaceId,
-                    menuId: this.menuId,
-                    actionId: this.actionId,
-                    viewId
-                }
-            });
+            changeView(this.$router, this.$store, this.spaceId, this.menuId, this.actionId, viewId);
         },
-        onClick (action) {
-            this.$store.commit('REMOVE_FROM_BREADSCRUMB', {position: action.position});
-            this.$store.commit('REPLACE_CHANGE', {changes: action.changes});
-            this.$router.push({path: action.path});
+        onClickBreadScrumb (action) {
+            onClickBreadScrumb(this.$router, this.$store, action);
         },
     },
 });

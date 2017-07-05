@@ -9,6 +9,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
+import _ from 'underscore';
 
 export const RelationShip = {
     methods: {

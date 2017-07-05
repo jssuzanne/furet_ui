@@ -7,7 +7,7 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-
+import _ from 'underscore';
 
 export const safe_eval = (condition, fields) => {
     return eval(condition) ? true : false;
@@ -34,7 +34,7 @@ export const ThumbnailMixin = {
             return this.data && this.data[this.name] || '';
         },
         isInvisible () {
-            return safe_eval(this.invisible, this.config && this.config.data || {});
+            return safe_eval(this.invisible, this.data || {});
         },
         getTooltip () {
             return this.tooltip || '';
