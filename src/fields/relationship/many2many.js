@@ -12,6 +12,7 @@ import {FormMixin, ThumbnailMixin, ListMixin} from '../common';
 import {RelationShip, RelationShipX2MList, RelationShipX2MThumbnail, RelationShipX2MForm} from './common';
 import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
+import _ from 'underscore';
 
 export const FieldListMany2Many = Vue.component('furet-ui-list-field-many2many', {
     mixins: [ListMixin, RelationShip, RelationShipX2MList],
@@ -20,6 +21,17 @@ export const FieldListMany2Many = Vue.component('furet-ui-list-field-many2many',
 export const FieldThumbnailMany2Many = Vue.component('furet-ui-thumbnail-field-many2many', {
     mixins: [ThumbnailMixin, RelationShip, RelationShipX2MThumbnail],
 })
+
+export const onChangeM2M = (config, name, dataId, value) => {
+    const values = (config && config.data && config.data[name] || []).slice(0);
+    if (value) {
+        values.push(dataId);
+    } else {
+        const index = values.indexOf(dataId);
+        if (index > -1) values.splice(index, 1);
+    }
+    return values;
+};
 
 export const FieldFormMany2ManyCheckbox = Vue.component('furet-ui-form-field-many2many-checkbox', {
     props: ['checkbox_class', 'model', 'display', 'fields', 'fieldcolor'],
@@ -98,20 +110,13 @@ export const FieldFormMany2ManyCheckbox = Vue.component('furet-ui-form-field-man
             return {'display': 'none'};
         },
         onChange (value, event) {
-            const values = ({}, this.config && this.config.data && this.config.data[this.name] || []).slice(0);
-            if (value) {
-                values.push(event.path[2].id);
-            } else {
-                const index = values.indexOf(event.path[2].id);
-                if (index > -1) values.splice(index, 1);
-            }
-            this.updateValue(values);
+            this.updateValue(onChangeM2M(this.config, this.name, event.path[2].id, value));
         },
     },
 })
 
 export const FieldFormMany2ManyTags = Vue.component('furet-ui-form-field-many2many-tags', {
-    props: ['placeholder', 'icon', 'model', 'fields'],
+    props: ['placeholder', 'icon', 'fields', 'defaultIds', 'defaultValue'],
     mixins: [FormMixin, RelationShip, RelationShipX2MForm],
     template: `
         <div v-if="this.isInvisible" />
@@ -159,8 +164,8 @@ export const FieldFormMany2ManyTags = Vue.component('furet-ui-form-field-many2ma
         </b-tooltip>`,
     data () {
         return {
-            ids: null,
-            value: '',
+            ids: this.defaultIds || null,
+            value: this.defaultValue || '',
         };
     },
     computed: {
@@ -196,16 +201,11 @@ export const FieldFormMany2ManyTags = Vue.component('furet-ui-form-field-many2ma
     },
     methods: {
         removeTag (dataId) {
-            const values = ({}, this.config && this.config.data && this.config.data[this.name] || []).slice(0);
-            const index = values.indexOf(dataId);
-            if (index > -1) values.splice(index, 1);
-            this.updateValue(values);
+            this.updateValue(onChangeM2M(this.config, this.name, dataId, false));
         },
         onSelect (value) {
             if (value) {
-                const values = ({}, this.config && this.config.data && this.config.data[this.name] || []).slice(0);
-                values.push(value.dataId)
-                this.updateValue(values);
+                this.updateValue(onChangeM2M(this.config, this.name, value.dataId, true));
                 this.value = '';
             }
         },

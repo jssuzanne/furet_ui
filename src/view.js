@@ -10,6 +10,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import plugin from './plugin';
 import uuid from 'uuid/v1';
+import _ from 'underscore';
 
 export const getNewID = (model) => {
     return 'new-' + model + '-' + uuid();
@@ -76,6 +77,81 @@ export const View = Vue.component('furet-ui-view', {
                 return (changes[this.model]) ? changes[this.model][String(this.dataId)] || {} : {};
             }
             return {};
+        },
+    },
+});
+
+export const X2MView = Vue.component('furet-ui-x2m-view', {
+    props: ['model', 'views', 'viewId', 'dataIds', 'dataId', 'isReadonly', 'x2oField', 'x2oFieldId'],
+    render: function(createElement) {
+        let view = plugin.get(['views', 'x2m-type', this.view.viewType]);
+        if (!view) view = plugin.get(['views', 'Unknown']).vue;
+        return createElement(view, {
+            props: {
+                model: this.model,
+                views: this.views,
+                viewId: this.viewId,
+                view: this.view,
+                viewName: this.view.viewType,
+                dataIds: this.dataIds,
+                dataId: this.dataId,
+                data: this.data,
+                change: this.change,
+                isReadonly: this.isReadonly,
+                x2oField: this.x2oField,
+                x2oFieldId: this.x2oFieldId,
+            },
+            on: {
+                changeView: this.changeView,
+                updateDataIds: this.updateDataIds,
+            },
+        });
+    },
+    computed: {
+        view () {
+            const views = this.$store.state.data.views;
+            if (this.viewId) return views[String(this.viewId)] || {};
+            return {};
+        },
+        data () {
+            if (this.model) {
+                let data = this.$store.state.data.data;
+                let changes = this.$store.state.data.changes;
+
+                if (this.dataId) {
+                    data = (data[this.model]) ? data[this.model][String(this.dataId)] || {} : {};
+                    if (changes[this.model] && changes[this.model][String(this.dataId)] != undefined) changes = changes[this.model][String(this.dataId)];
+                    else if (changes.new && changes.new[this.model] && changes.new[this.model][String(this.dataId)] != undefined) changes = changes.new[this.model][String(this.dataId)];
+                    else changes = {};
+                    return Object.assign({}, data, changes);
+                }
+                const d = {};
+                _.each(this.dataIds, dataId => {
+                    const _data = (data[this.model]) ? data[this.model][String(dataId)] || {} : {};
+                    let _changes = {};
+                    if (changes[this.model] && changes[this.model][String(dataId)] != undefined) _changes = changes[this.model][String(dataId)];
+                    else if (changes.new && changes.new[this.model] && changes.new[this.model][String(dataId)] != undefined) _changes = changes.new[this.model][String(dataId)];
+                    d[dataId] = Object.assign({}, _data, _changes);
+                });
+                return d;
+            }
+            return {};
+        },
+        change () {
+            if (this.dataId) {
+                const changes = this.$store.state.data.changes;
+                if (changes[this.model] && changes[this.model][String(this.dataId)] != undefined) return changes[this.model][String(this.dataId)];
+                else if (changes.new && changes.new[this.model] && changes.new[this.model][String(this.dataId)] != undefined) return changes.new[this.model][String(this.dataId)];
+            }
+            return {};
+        },
+    },
+    methods: {
+        changeView (viewId, dataId) {
+            this.$emit('changeView', viewId, dataId);
+        },
+        updateDataIds (dataIds) {
+            this.$emit('updateDataIds', dataIds);
         },
     },
 });

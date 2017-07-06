@@ -11,32 +11,42 @@ import {dispatchAll} from '../../store';
 import {json_post} from '../../server-call';
 import _ from 'underscore';
 
+export const addInBreadscrumb = (route, store, options) => {
+    const changes = Object.assign({}, store.state.data.changes);
+    const action = store.state.data.actions[String(route.params.actionId)];
+    store.commit('ADD_IN_BREADSCRUMB', {
+        path: route.path,
+        label: action.label,
+        changes,
+    });
+    const params = {
+        spaceId: options.spaceId || route.params.spaceId,
+        menuId: options.menuId,
+        dataId: options.dataId,
+        mode: options.mode || 'readonly',
+    }
+    json_post('/action/' + options.actionId, params, {
+        onSuccess: (results) => {
+            dispatchAll(results);
+        },
+    })
+    store.commit('CLEAR_ALL_CHANGE', {});
+};
+
 export const RelationShip = {
     methods: {
         format (condition, fields) {
             return eval(condition);
         },
         addInBreadscrumb (options) {
-            const changes = Object.assign({}, this.$store.state.data.changes);
-            const route = this.$route;
-            const action = this.$store.state.data.actions[String(route.params.actionId)];
-            this.$store.commit('ADD_IN_BREADSCRUMB', {
-                path: route.path,
-                label: action.label,
-                changes,
-            });
-            const params = {
-                spaceId: options.spaceId || route.params.spaceId,
-                menuId: options.menuId,
-                dataId: options.dataId,
-                mode: options.mode || 'readonly',
+            addInBreadscrumb(this.$route, this.$store, options);
+        },
+        getStyle (dataId) {
+            if (this.fieldcolor) {
+                const data = this.$store.state.data.data[this.model][dataId];
+                if (data[this.fieldcolor]) return {border: '4px solid ' + data[this.fieldcolor]};
             }
-            json_post('/action/' + options.actionId, params, {
-                onSuccess: (results) => {
-                    dispatchAll(results);
-                },
-            })
-            this.$store.commit('CLEAR_ALL_CHANGE', {});
+            return {};
         },
     },
 }
@@ -70,15 +80,14 @@ export const RelationShipX2MList = {
             }
             return [];
         },
+        model () {
+            return this.header.model;
+        },
+        fieldcolor () {
+            return this.header.fieldcolor;
+        },
     },
     methods: {
-        getStyle (dataId) {
-            if (this.header.fieldcolor) {
-                const data = this.$store.state.data.data[this.header.model][dataId];
-                if (data[this.header.fieldcolor]) return {border: '4px solid ' + data[this.header.fieldcolor]};
-            }
-            return {};
-        },
         onClick (dataId) {
             this.addInBreadscrumb({
                 spaceId: this.header.spaceId,
@@ -131,13 +140,6 @@ export const RelationShipX2MThumbnail = {
         }
     },
     methods: {
-        getStyle (dataId) {
-            if (this.fieldcolor) {
-                const data = this.$store.state.data.data[this.model][dataId];
-                if (data[this.fieldcolor]) return {border: '4px solid ' + data[this.fieldcolor]};
-            }
-            return {};
-        },
         onClick (dataId) {
             this.addInBreadscrumb({
                 spaceId: this.spaceId,
@@ -168,13 +170,6 @@ export const RelationShipX2MForm = {
         }
     },
     methods: {
-        getStyle (dataId) {
-            if (this.fieldcolor) {
-                const data = this.$store.state.data.data[this.model][dataId];
-                if (data[this.fieldcolor]) return {border: '4px solid ' + data[this.fieldcolor]};
-            }
-            return {};
-        },
         onClick (dataId) {
             this.addInBreadscrumb({
                 spaceId: this.spaceId,
