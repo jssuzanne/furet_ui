@@ -7,8 +7,7 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
-import {dispatchAll} from '../../store';
-import {json_post} from '../../server-call';
+import {json_post_dispatch_all} from '../../server-call';
 import _ from 'underscore';
 
 export const addInBreadscrumb = (route, store, options) => {
@@ -25,11 +24,7 @@ export const addInBreadscrumb = (route, store, options) => {
         dataId: options.dataId,
         mode: options.mode || 'readonly',
     }
-    json_post('/action/' + options.actionId, params, {
-        onSuccess: (results) => {
-            dispatchAll(results);
-        },
-    })
+    json_post_dispatch_all('/action/' + options.actionId, params);
     store.commit('CLEAR_ALL_CHANGE', {});
 };
 

@@ -16,15 +16,25 @@ export const getNewID = (model) => {
     return 'new-' + model + '-' + uuid();
 }
 
+
+const ViewMixin = {
+    props: ['viewId', 'dataId'],
+    computed: {
+        view () {
+            const views = this.$store.state.data.views;
+            if (this.viewId) return views[String(this.viewId)] || {};
+            return {};
+        },
+    },
+}
+
 /**
  * Return the stanadrd view
  *
- * @viewId: (string) id of the view
- * @params: object
- *
 **/
 export const View = Vue.component('furet-ui-view', {
-    props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId', 'mode'],
+    props: ['spaceId', 'menuId', 'actionId', 'mode'],
+    mixins: [ViewMixin],
     render: function(createElement) {
         let view = plugin.get(['views', 'type', this.view.viewType]);
         if (!view) view = plugin.get(['views', 'Unknown']).vue;
@@ -44,11 +54,6 @@ export const View = Vue.component('furet-ui-view', {
         });
     },
     computed: {
-        view () {
-            const views = this.$store.state.data.views;
-            if (this.viewId) return views[String(this.viewId)] || {};
-            return {};
-        },
         model () {
             if (this.view) {
                 return this.view.model;
@@ -81,8 +86,13 @@ export const View = Vue.component('furet-ui-view', {
     },
 });
 
+/**
+ * Return the stanadrd view for x2Many fields
+ *
+**/
 export const X2MView = Vue.component('furet-ui-x2m-view', {
-    props: ['model', 'views', 'viewId', 'dataIds', 'dataId', 'isReadonly', 'x2oField', 'x2oFieldId'],
+    props: ['model', 'views', 'dataIds', 'isReadonly', 'x2oField', 'x2oFieldId'],
+    mixins: [ViewMixin],
     render: function(createElement) {
         let view = plugin.get(['views', 'x2m-type', this.view.viewType]);
         if (!view) view = plugin.get(['views', 'Unknown']).vue;
@@ -108,11 +118,6 @@ export const X2MView = Vue.component('furet-ui-x2m-view', {
         });
     },
     computed: {
-        view () {
-            const views = this.$store.state.data.views;
-            if (this.viewId) return views[String(this.viewId)] || {};
-            return {};
-        },
         data () {
             if (this.model) {
                 let data = this.$store.state.data.data;

@@ -10,8 +10,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import {FormMixin, ThumbnailMixin, ListMixin} from '../common';
 import {RelationShip, RelationShipX2MList, RelationShipX2MThumbnail} from './common';
-import {dispatchAll} from '../../store';
-import {json_post} from '../../server-call';
+import {json_post_dispatch_all} from '../../server-call';
 import _ from 'underscore';
 
 export const FieldListOne2Many = Vue.component('furet-ui-list-field-one2many', {
@@ -60,11 +59,7 @@ export const FieldFormOne2Many = Vue.component('furet-ui-form-field-one2many', {
         }
     },
     created () {
-        json_post('/field/x2m/get/views', {viewIds: _.map(this.views, v => v.viewId)}, {
-            onSuccess: (result) => {
-                dispatchAll(result);
-            }
-        });
+        json_post_dispatch_all('/field/x2m/get/views', {viewIds: _.map(this.views, v => v.viewId)});
     },
     computed: {
         dataIds () {

@@ -9,8 +9,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
 import plugin from '../../plugin';
-import {json_post} from '../../server-call';
-import {dispatchAll} from '../../store';
+import {json_post_dispatch_all} from '../../server-call';
 
 export const Login = Vue.component('furet-ui-custom-view-login', {
     template: `
@@ -23,11 +22,7 @@ export const Login = Vue.component('furet-ui-custom-view-login', {
         </div>`,
     methods: {
         onCallServer () {
-            json_post('/client/login', {}, {
-                onSuccess: (result) => {
-                    dispatchAll(result);
-                },
-            });
+            json_post_dispatch_all('/client/login', {});
         }
     },
 });

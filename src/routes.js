@@ -10,28 +10,19 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
-import {dispatchAll} from './store';
-import {json_post} from './server-call';
+import {json_post_dispatch_all} from './server-call';
 
 
 const CustomeView = {
     template: '<furet-ui-custom-view v-bind:viewName="viewName" />',
     props: ['viewName'],
     beforeRouteEnter: (to, from, next) => {
-        json_post('/custom/view/' + to.params.viewName, {}, {
-            onSucess: (results) => {
-                dispatchAll(results);
-            },
-        })
+        json_post_dispatch_all('/custom/view/' + to.params.viewName, {});
         next();
     },
     beforeRouteUpdate: (to, from, next) => {
         if (to.params.viewName != from.params.viewName) {
-            json_post('/custom/view/' + to.params.viewName, {}, {
-                onSucess: (results) => {
-                    dispatchAll(results);
-                },
-            })
+            json_post_dispatch_all('/custom/view/' + to.params.viewName, {});
         }
         next();
     },
@@ -40,12 +31,12 @@ const CustomeView = {
 const Action = {
     template: '<router-view></router-view>',
     beforeRouteEnter: (to, from, next) => {
-        call('/action/' + to.params.actionId, to.params);
+        json_post_dispatch_all('/action/' + to.params.actionId, to.params);
         next();
     },
     beforeRouteUpdate: (to, from, next) => {
         if (to.params.actionId != from.params.actionId)
-            call('/action/' + to.params.actionId, to.params);
+            json_post_dispatch_all('/action/' + to.params.actionId, to.params);
         next();
     },
 };
@@ -61,12 +52,12 @@ const View = {
                 />`,
     props: ['spaceId', 'menuId', 'actionId', 'viewId', 'dataId', 'mode'],
     beforeRouteEnter: (to, from, next) => {
-        call('/view/' + to.params.viewId, to.params);
+        json_post_dispatch_all('/view/' + to.params.viewId, to.params);
         next();
     },
     beforeRouteUpdate: (to, from, next) => {
         if (to.params.viewId != from.params.viewId)
-            call('/view/' + to.params.viewId, to.params);
+            json_post_dispatch_all('/view/' + to.params.viewId, to.params);
         next();
     },
 };
@@ -93,11 +84,11 @@ export const router = new VueRouter({
                             />`,
                 props: ['spaceId', 'menuId', 'actionId', 'viewId'],
                 beforeRouteEnter: (to, from, next) => {
-                    call('/space/' + to.params.spaceId, to.params);
+                    json_post_dispatch_all('/space/' + to.params.spaceId, to.params);
                     next();
                 },
                 beforeRouteUpdate: (to, from, next) => {
-                    if (to.params.spaceId != from.params.spaceId) call('/space/' + to.params.spaceId, to.params);
+                    if (to.params.spaceId != from.params.spaceId) json_post_dispatch_all('/space/' + to.params.spaceId, to.params);
                     next();
                 },
             },
@@ -167,13 +158,5 @@ export const router = new VueRouter({
         },
     ],
 });
-
-const call = (path, params) => {
-    json_post(path, params, {
-        onSuccess: (results) => {
-            dispatchAll(results);
-        },
-    })
-}
 
 export default router;
