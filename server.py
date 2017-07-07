@@ -1196,6 +1196,7 @@ def getView12():
                 'model': 'Customer',
                 'display': "'super : ' + fields.name",
                 'actionId': '5',
+                'menuId': "1",
                 'component': 'furet-ui-list-field-many2one',
             },
             {
@@ -1229,7 +1230,7 @@ def getView13():
         'type': 'UPDATE_VIEW',
         'viewId': '13',
         'viewType': 'Form',
-        'label': 'Category',
+        'label': 'Address',
         'creatable': True,
         'deletable': True,
         'editable': True,
@@ -1248,6 +1249,7 @@ def getView13():
                             v-bind:fields="['name']"
                             limit="10"
                             actionId="5"
+                            menuId="1"
                             required="1"
                             mode="readwrite"
                         />
@@ -1291,7 +1293,7 @@ def getView14():
         'type': 'UPDATE_VIEW',
         'viewId': '14',
         'viewType': 'Thumbnail',
-        'label': 'Category',
+        'label': 'Address',
         'creatable': True,
         'onSelect': '13',
         'model': 'Address',
@@ -1309,6 +1311,7 @@ def getView14():
                             v-bind:fields="['name']"
                             limit="10"
                             actionId="5"
+                            menuId="1"
                             required="1"
                             mode="readwrite"
                         />

@@ -172,7 +172,7 @@ export const Space = Vue.component('furet-ui-space', {
     },
     computed: {
         space_state () {
-            return this.$store.state.global.spaces[String(this.spaceId)];
+            return this.$store.state.data.spaces[String(this.spaceId)];
         },
         left_menu () {
             return this.space_state && this.space_state.left_menu || [];

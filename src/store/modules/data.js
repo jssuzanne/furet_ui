@@ -8,11 +8,18 @@ v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import _ from 'underscore';
+
+export const defaultSpace = {
+    left_menu: [],
+    right_menu: [],
+};
+
 export const defaultState = {
     actions: {},
     views: {},
     data: {},
     changes: {},
+    spaces: {},
 }
 
 // getters
@@ -51,7 +58,7 @@ export const mutations = {
     'DELETE_DATA'(state, action) {
         const data = Object.assign({}, state.data)
         _.each(action.dataIds, dataId => {
-            if (data[action.model][dataId])
+            if (data[action.model] && data[action.model][dataId])
                 delete data[action.model][dataId];
         });
         state.data = data;
@@ -111,11 +118,23 @@ export const mutations = {
         });
         state.changes = changes;
     },
+    'UPDATE_SPACE'(state, action) {
+        const spaces = Object.assign({}, state.spaces)
+        const value = Object.assign({}, action);
+        delete value.spaceId;
+        if (spaces[action.spaceId] == undefined) {
+            spaces[action.spaceId] = Object.assign({}, defaultSpace, value)
+        } else {
+            Object.assign(spaces[action.spaceId], value)
+        }
+        state.spaces = spaces;
+    },
     'CLEAR_DATA'(state, action) {
         state.actions = {};
         state.views = {};
         state.data = {};
         state.changes = {};
+        state.spaces = {};
     },
 };
 

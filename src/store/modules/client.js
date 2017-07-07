@@ -23,9 +23,9 @@ export const mutations = {
     'UPDATE_CLIENT'(state, action) {
         const value = Object.assign({}, action);
         delete value.viewName;
-        const values = {};
-        values[action.viewName] = value
-        Object.assign(state, values);
+        const values = Object.assign({}, state[action.viewName]);
+        Object.assign(values, value);
+        state[action.viewName] = values;
     },
     'CLEAR_CLIENT'(state, action) {
         _.each(_.keys(state), k => delete state[k]);
