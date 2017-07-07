@@ -10,7 +10,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
-import {json_post} from '../server-call';
+import {json_post, json_post_dispatch_all} from '../server-call';
 import {getNewID} from '../view';
 import _ from 'underscore';
 
@@ -104,8 +104,39 @@ export const ListViewBase = Vue.component('furet-ui-list-view-base', {
     },
 });
 
+export const addNewDataId = (obj) => {
+    if (obj.view.onSelect) {
+        obj.$router.push({
+            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+            params: {
+                spaceId: obj.spaceId,
+                menuId: obj.menuId,
+                actionId: obj.actionId,
+                viewId: obj.view.onSelect,
+                dataId: getNewID(obj.view.model),
+                mode: 'new',
+            }
+        });
+    }
+};
+export const selectRowDataId = (obj, row) => {
+    if (obj.view.onSelect) {
+        obj.$router.push({
+            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+            params: {
+                spaceId: obj.spaceId,
+                menuId: obj.menuId,
+                actionId: obj.actionId,
+                viewId: obj.view.onSelect,
+                dataId: row.__dataId,
+                mode: 'readonly',
+            }
+        });
+    }
+};
+
 export const ListView = Vue.component('furet-ui-list-view', {
-    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change'],
+    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'dataId', 'dataIds', 'data', 'change'],
     template: `
         <div>
             <nav class="level">
@@ -210,35 +241,10 @@ export const ListView = Vue.component('furet-ui-list-view', {
     },
     methods: {
         getData() {
-            json_post(
-                '/list/get', 
-                {
-                    model: this.view.model,
-                    filter: this.filter,
-                    fields: this.view.fields,
-                    viewId: this.viewId,
-                },
-                {
-                    onSuccess: (results) => {
-                        dispatchAll(results);
-                    },
-                },
-            );
+            json_post_dispatch_all('/list/get', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
         },
         addNew () {
-            if (this.view.onSelect) {
-                this.$router.push({
-                    name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onSelect,
-                        dataId: getNewID(this.view.model),
-                        mode: 'new',
-                    }
-                });
-            }
+            addNewDataId(this);
         },
         deleteData () {
             const dataIds = _.map(this.checkedRows, row => row.__dataId);
@@ -250,19 +256,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
             });
         },
         selectRow (row) {
-            if (this.view.onSelect) {
-                this.$router.push({
-                    name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onSelect,
-                        dataId: row.__dataId,
-                        mode: 'readonly',
-                    }
-                });
-            }
+            selectRowDataId(this, row);
         },
         updateCheck (checkedRows) {
             this.checkedRows = checkedRows;
@@ -272,6 +266,37 @@ export const ListView = Vue.component('furet-ui-list-view', {
 
 plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});
 
+export const addNewX2MDataId = (obj) => {
+    if (obj.view.onSelect) {
+        const newId = getNewID(obj.view.model)
+        const dataIds = obj.dataIds.slice(0);
+        dataIds.push(newId);
+        const values = {dataId: newId};
+        if (obj.x2oField != undefined) values[obj.x2oField] = obj.x2oFieldId;
+        obj.updateValueX2M(newId, values, true);
+        obj.$emit('updateDataIds', dataIds);
+        obj.$emit('changeView', obj.view.onSelect, newId);
+    }
+};
+export const deleteDataX2MDataId = (obj) => {
+    const removeIds = _.map(obj.checkedRows, row => row.__dataId);
+    obj.$emit('updateDataIds', _.difference(obj.dataIds, removeIds));
+    obj.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
+        model: obj.view.model,
+        dataIds: removeIds,
+    });
+};
+export const updateValueX2M = (obj, dataId, values, create) => {
+    if (create) obj.$store.commit('CREATE_CHANGE_X2M', {model: obj.view.model, dataId});
+    _.each(_.keys(values), fieldname => {
+        obj.$store.commit('UPDATE_CHANGE_X2M', {
+            model: obj.view.model,
+            dataId,
+            fieldname,
+            value: values[fieldname],
+        });
+    });
+};
 
 export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
     props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
@@ -324,15 +349,7 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
     created () {
         const changes = this.$store.state.data.changes.new || {};
         const newIds = _.keys(changes[this.model] || {});
-        json_post('/list/x2m/get', 
-                  {model: this.model, 
-                   fields: this.view.fields, 
-                   dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1),
-                  }, {
-                    onSuccess (result) {
-                        dispatchAll(result);
-                    }
-        });
+        json_post_dispatch_all('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1)});
     },
     data: () => {
         return {
@@ -346,25 +363,10 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
     },
     methods: {
         addNew () {
-            if (this.view.onSelect) {
-                const newId = getNewID(this.view.model)
-                const dataIds = this.dataIds.slice(0);
-                dataIds.push(newId);
-                const values = {dataId: newId};
-                if (this.x2oField != undefined) values[this.x2oField] = this.x2oFieldId;
-                this.updateValueX2M(newId, values, true);
-                this.$emit('updateDataIds', dataIds);
-                this.$emit('changeView', this.view.onSelect, newId);
-            }
+            addNewX2MDataId(this);
         },
         deleteData () {
-            const dataIds = _.map(this.checkedRows, row => row.__dataId);
-            const removeIds = _.filter(this.dataIds, dataId => dataIds.indexOf(dataId) == -1);
-            this.$emit('updateDataIds', dataIds);
-            this.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
-                model: this.view.model,
-                dataIds: removeIds,
-            });
+            deleteDataX2MDataId(this);
         },
         selectRow (row) {
             if (this.view.onSelect) {
@@ -378,15 +380,7 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
             this.$emit('changeView', viewId);
         },
         updateValueX2M(dataId, values, create) {
-            if (create) this.$store.commit('CREATE_CHANGE_X2M', {model: this.view.model, dataId});
-            _.each(_.keys(values), fieldname => {
-                this.$store.commit('UPDATE_CHANGE_X2M', {
-                    model: this.view.model,
-                    dataId,
-                    fieldname,
-                    value: values[fieldname],
-                });
-            });
+            updateValueX2M(this, dataId, values, create);
         },
     }
 });
