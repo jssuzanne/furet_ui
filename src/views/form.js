@@ -10,7 +10,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
-import {json_post} from '../server-call';
+import {json_post, json_post_dispatch_all} from '../server-call';
 import {getNewID} from '../view';
 import _ from 'underscore';
 
@@ -23,8 +23,69 @@ export const FormViewIcon = Vue.component('furet-ui-form-view-icon', {
 
 plugin.set(['views', 'icon'], {Form: 'furet-ui-form-view-icon'})
 
+export const addNewDataId = (obj) => {
+    obj.$router.push({
+        name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+        params: {
+            spaceId: obj.spaceId,
+            menuId: obj.menuId,
+            actionId: obj.actionId,
+            viewId: obj.viewId,
+            dataId: getNewID(obj.view.model),
+            mode: 'new',
+        }
+    });
+};
+export const openModeDataId = (obj) => {
+    obj.$router.push({
+        name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+        params: {
+            spaceId: obj.spaceId,
+            menuId: obj.menuId,
+            actionId: obj.actionId,
+            viewId: obj.viewId,
+            dataId: obj.dataId,
+            mode: 'readwrite',
+        }
+    });
+};
+export const closeModeDataId = (obj) => {
+    if (obj.view.onClose) {
+        obj.$router.push({
+            name: obj.menuId ? 'space_menu_action_view' : 'space_action_view',
+            params: {
+                spaceId: obj.spaceId,
+                menuId: obj.menuId,
+                actionId: obj.actionId,
+                viewId: obj.view.onClose,
+            }
+        });
+    }
+};
+export const cancelModeDataId = (obj) => {
+    obj.$store.commit('CLEAR_CHANGE', {
+        model: obj.view.model,
+        dataId: obj.dataId,
+    });
+    if (obj.mode == 'new') {
+        closeModeDataId(obj)
+    } else {
+        obj.$router.push({
+            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+            params: {
+                spaceId: obj.spaceId,
+                menuId: obj.menuId,
+                actionId: obj.actionId,
+                viewId: obj.viewId,
+                dataId: obj.dataId,
+                mode: 'readonly',
+            }
+        });
+    }
+};
+
 export const FormView = Vue.component('furet-ui-form-view', {
-    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change'],
+    props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'dataId', 'mode', 'data', 'change'],
     template: `
         <div>
             <nav class="level">
@@ -150,111 +211,22 @@ export const FormView = Vue.component('furet-ui-form-view', {
     },
     methods: {
         getData () {
-            json_post(
-                '/form/get', 
-                {
-                    model: this.view.model,
-                    id: this.dataId,
-                    new: this.mode == 'new',
-                    fields: this.view.fields,
-                    viewId: this.viewId,
-                },
-                {
-                    onSuccess: (results) => {
-                        dispatchAll(results);
-                    },
-                },
-            );
+            json_post_dispatch_all('/form/get', {model: this.view.model, id: this.dataId, new: this.mode == 'new', fields: this.view.fields, viewId: this.viewId});
         },
         addNew () {
-            this.$router.push({
-                name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                params: {
-                    spaceId: this.spaceId,
-                    menuId: this.menuId,
-                    actionId: this.actionId,
-                    viewId: this.viewId,
-                    dataId: getNewID(this.view.model),
-                    mode: 'new',
-                }
-            });
+            addNewDataId(this);
         },
         openMode () {
-            this.$router.push({
-                name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                params: {
-                    spaceId: this.spaceId,
-                    menuId: this.menuId,
-                    actionId: this.actionId,
-                    viewId: this.viewId,
-                    dataId: this.dataId,
-                    mode: 'readwrite',
-                }
-            });
+            openModeDataId(this);
         },
         closeMode () {
-            if (this.view.onClose) {
-                this.$router.push({
-                    name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onClose,
-                    }
-                });
-            }
+            closeModeDataId(this);
         },
         cancelMode () {
-            this.$store.commit('CLEAR_CHANGE', {
-                model: this.view.model,
-                dataId: this.dataId,
-            });
-            if (this.mode == 'new') {
-                if (this.view.onClose) {
-                    this.$router.push({
-                        name: this.menuId ? 'space_menu_action_view' : 'space_action_view',
-                        params: {
-                            spaceId: this.spaceId,
-                            menuId: this.menuId,
-                            actionId: this.actionId,
-                            viewId: this.view.onClose,
-                        }
-                    });
-                }
-            } else {
-                    this.$router.push({
-                        name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                        params: {
-                            spaceId: this.spaceId,
-                            menuId: this.menuId,
-                            actionId: this.actionId,
-                            viewId: this.viewId,
-                            dataId: this.dataId,
-                            mode: 'readonly',
-                        }
-                    });
-            }
+            cancelModeDataId(obj);
         },
         deleteData () {
-            json_post(
-                '/data/delete', 
-                { 
-                    model: this.view.model, 
-                    dataIds: [this.dataId],
-                    path: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onClose,
-                    },
-                },
-                {
-                    onSuccess: (result) => {
-                        dispatchAll(result)
-                    },
-                }
-            )
+            json_post_dispatch_all('/data/delete', {model: this.view.model, dataIds: [this.dataId], path: {spaceId: this.spaceId, menuId: this.menuId, actionId: this.actionId, viewId: this.view.onClose}});
         },
         saveData () {
             const changes = Object.assign({}, this.$store.state.data.changes)
@@ -290,7 +262,41 @@ export const FormView = Vue.component('furet-ui-form-view', {
 
 plugin.set(['views', 'type'], {Form: 'furet-ui-form-view'});
 
-export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
+export const addNewX2MDataId = (obj) => {
+    const newId = getNewID(obj.view.model)
+    const dataIds = obj.dataIds.slice(0);
+    dataIds.push(newId);
+    const values = {dataId: newId};
+    if (obj.x2oField != undefined) values[obj.x2oField] = obj.x2oFieldId;
+    obj.updateValueX2M(newId, values, true);
+    obj.$emit('updateDataIds', dataIds);
+    obj.$emit('changeView', obj.viewId, newId);
+};
+export const deleteDataX2MDataId = (obj) => {
+    const dataIds = obj.dataIds.slice(0);
+    const index = dataIds.indexOf(obj.dataId);
+    dataIds.splice(index, 1);
+    obj.$emit('updateDataIds', dataIds);
+    obj.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
+        model: obj.view.model,
+        dataIds: [obj.dataId],
+    });
+    if (obj.view.onClose) obj.$emit('changeView', obj.view.onClose);
+    else obj.$emit('changeView', obj.viewId, dataIds.length ? dataIds[0] : null);
+}
+export const updateValueX2M = (obj, dataId, values, create) => {
+    if (create) obj.$store.commit('CREATE_CHANGE_X2M', {model: obj.view.model, dataId});
+    _.each(_.keys(values), fieldname => {
+        obj.$store.commit('UPDATE_CHANGE_X2M', {
+            model: obj.view.model,
+            dataId,
+            fieldname,
+            value: values[fieldname],
+        });
+    });
+};
+
+export const X2MFormView = Vue.component('furet-ui-x2m-form-view', {
     props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
     template: `
         <div>
@@ -345,15 +351,7 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
     created: function () {
         const changes = this.$store.state.data.changes.new || {};
         const newIds = _.keys(changes[this.model] || {});
-        json_post('/list/x2m/get', 
-                  {model: this.model, 
-                   fields: this.view.fields, 
-                   dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1),
-                  }, {
-                    onSuccess (result) {
-                        dispatchAll(result);
-                    }
-        });
+        json_post_dispatch_all('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1)});
     },
     computed: {
         config () {
@@ -380,14 +378,7 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
     },
     methods: {
         addNew () {
-            const newId = getNewID(this.view.model)
-            const dataIds = this.dataIds.slice(0);
-            dataIds.push(newId);
-            const values = {dataId: newId};
-            if (this.x2oField != undefined) values[this.x2oField] = this.x2oFieldId;
-            this.updateValueX2M(newId, values, true);
-            this.$emit('updateDataIds', dataIds);
-            this.$emit('changeView', this.viewId, newId);
+            addNewX2MDataId(this);
         },
         closeMode () {
             if (this.view.onClose) {
@@ -395,30 +386,13 @@ export const FormViewX2M = Vue.component('furet-ui-x2m-form-view', {
             }
         },
         deleteData () {
-            const dataIds = this.dataIds.slice(0);
-            const index = dataIds.indexOf(this.dataId);
-            dataIds.splice(index, 1);
-            this.$emit('updateDataIds', dataIds);
-            this.$store.commit('UPDATE_CHANGE_X2M_DELETE', {
-                model: this.view.model,
-                dataIds: [this.dataId],
-            });
-            if (this.view.onClose) this.$emit('changeView', this.view.onClose);
-            else this.$emit('changeView', this.viewId, dataIds.length ? dataIds[0] : null);
+            deleteDataX2MDataId(this);
         },
         changeView(viewId) {
             this.$emit('changeView', viewId);
         },
         updateValueX2M(dataId, values, create) {
-            if (create) this.$store.commit('CREATE_CHANGE_X2M', {model: this.view.model, dataId});
-            _.each(_.keys(values), fieldname => {
-                this.$store.commit('UPDATE_CHANGE_X2M', {
-                    model: this.view.model,
-                    dataId,
-                    fieldname,
-                    value: values[fieldname],
-                });
-            });
+            updateValueX2M(obj, dataId, values, create);
         },
     }
 });

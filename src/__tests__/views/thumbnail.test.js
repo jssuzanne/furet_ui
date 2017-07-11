@@ -331,6 +331,7 @@ describe('furet-ui-x2m-thumbnail-view component', () => {
             render: h => h(X2MThumbnailView, {props: {
                 view: view_thumbnail,
                 views,
+                dataIds,
             }}),
         });
         renderer.renderToString(vm, (err, str) => {

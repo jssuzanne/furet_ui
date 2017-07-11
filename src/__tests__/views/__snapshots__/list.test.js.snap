@@ -688,10 +688,47 @@ exports[`furet-ui-x2m-list-view component Render without data 2 1`] = `
                 <table class="table is-narrow has-mobile-cards">
                     <thead>
                         <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label></th>
+                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <tr>
+                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                            <td data-label="ID" class="has-text-right"><span><span></span></span>
+                            </td>
+                            <td data-label="Label"><span><span></span></span>
+                            </td>
+                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                                </span>
+                            </td>
+                            <td data-label="State"><span><span> --- </span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                            <td data-label="ID" class="has-text-right"><span><span></span></span>
+                            </td>
+                            <td data-label="Label"><span><span></span></span>
+                            </td>
+                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                                </span>
+                            </td>
+                            <td data-label="State"><span><span> --- </span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                            <td data-label="ID" class="has-text-right"><span><span></span></span>
+                            </td>
+                            <td data-label="Label"><span><span></span></span>
+                            </td>
+                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                                </span>
+                            </td>
+                            <td data-label="State"><span><span> --- </span></span>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div class="level">
@@ -706,6 +743,9 @@ exports[`furet-ui-x2m-list-view component Render without data 2 1`] = `
                             <ul class="pagination-list">
                                 <!---->
                                 <!---->
+                                <li><a class="pagination-link is-current">
+                1
+            </a></li>
                                 <!---->
                                 <!---->
                             </ul>

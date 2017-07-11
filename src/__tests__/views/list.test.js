@@ -77,7 +77,7 @@ const view_list = {
     ],
     search: [],
     buttons: [],
-    onSelect_buttons: [],                                                                      
+    onSelect_buttons: [],
     fields: ["id", "name", "bool", "state"],
 }
 
@@ -325,6 +325,7 @@ describe('furet-ui-x2m-list-view component', () => {
             render: h => h(X2MListView, {props: {
                 view: view_list,
                 views,
+                dataIds,
             }}),
         });
         renderer.renderToString(vm, (err, str) => {
@@ -400,7 +401,7 @@ describe('furet-ui-x2m-list-view component', () => {
             x2oFieldId: '1',
             $emit: (key, value) => {
                 switch (key) {
-                    case 'changeView': 
+                    case 'changeView':
                         expect(value).toBe('3');
                         break;
                     case 'updateDataIds':
