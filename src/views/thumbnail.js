@@ -9,8 +9,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
 import plugin from '../plugin';
-import {dispatchAll} from '../store';
-import {json_post} from '../server-call';
+import {json_post_dispatch_all} from '../server-call';
 import {getNewID} from '../view';
 import _ from 'underscore';
 
@@ -22,6 +21,37 @@ export const ThumbnailViewIcon = Vue.component('furet-ui-thumbnail-view-icon', {
 });
 
 plugin.set(['views', 'icon'], {Thumbnail: 'furet-ui-thumbnail-view-icon'})
+
+export const addNewDataId = (obj) => {
+    if (obj.view.onSelect) {
+        obj.$router.push({
+            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+            params: {
+                spaceId: obj.spaceId,
+                menuId: obj.menuId,
+                actionId: obj.actionId,
+                viewId: obj.view.onSelect,
+                dataId: getNewID(obj.view.model),
+                mode: 'new',
+            }
+        });
+    }
+};
+export const selectCardDataId = (obj, card) => {
+    if (obj.view.onSelect) {
+        obj.$router.push({
+            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
+            params: {
+                spaceId: obj.spaceId,
+                menuId: obj.menuId,
+                actionId: obj.actionId,
+                viewId: obj.view.onSelect,
+                dataId: card.__dataId,
+                mode: 'readonly',
+            }
+        });
+    }
+}
 
 export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
     props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change', 'column_size'],
@@ -114,57 +144,44 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
     },
     methods: {
         getData () {
-            json_post(
-                '/thumbnail/get', 
-                {
-                    model: this.view.model,
-                    filter: this.filter,
-                    fields: this.view.fields,
-                    viewId: this.viewId,
-                },
-                {
-                    onSuccess: (results) => {
-                        dispatchAll(results);
-                    },
-                },
-            );
+            json_post_dispatch_all('/thumbnail/get', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
         },
         addNew () {
-            if (this.view.onSelect) {
-                this.$router.push({
-                    name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onSelect,
-                        dataId: getNewID(this.view.model),
-                        mode: 'new',
-                    }
-                });
-            }
+            addNewDataId(this);
         },
         selectCard (card) {
-            if (this.view.onSelect) {
-                this.$router.push({
-                    name: this.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-                    params: {
-                        spaceId: this.spaceId,
-                        menuId: this.menuId,
-                        actionId: this.actionId,
-                        viewId: this.view.onSelect,
-                        dataId: card.__dataId,
-                        mode: 'readonly',
-                    }
-                });
-            }
+            selectCardDataId(this, card);
         }
     }
 });
 
 plugin.set(['views', 'type'], {Thumbnail: 'furet-ui-thumbnail-view'});
 
-export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
+export const addNewX2MDataId = (obj) => {
+    if (obj.view.onSelect) {
+        const newId = getNewID(obj.view.model)
+        const dataIds = obj.dataIds.slice(0);
+        dataIds.push(newId);
+        const values = {dataId: newId};
+        if (obj.x2oField != undefined) values[obj.x2oField] = obj.x2oFieldId;
+        obj.updateValueX2M(newId, values, true);
+        obj.$emit('updateDataIds', dataIds);
+        obj.$emit('changeView', obj.view.onSelect, newId);
+    }
+}
+export const updateValueX2M = (obj, dataId, values, create) => {
+    if (create) obj.$store.commit('CREATE_CHANGE_X2M', {model: obj.view.model, dataId});
+    _.each(_.keys(values), fieldname => {
+        obj.$store.commit('UPDATE_CHANGE_X2M', {
+            model: obj.view.model,
+            dataId,
+            fieldname,
+            value: values[fieldname],
+        });
+    });
+}
+
+export const X2MThumbnailView = Vue.component('furet-ui-x2m-thumbnail-view', {
     props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
     template: `
         <div>
@@ -205,15 +222,7 @@ export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
     created () {
         const changes = this.$store.state.data.changes.new || {};
         const newIds = _.keys(changes[this.model] || {});
-        json_post('/list/x2m/get', 
-                  {model: this.model, 
-                   fields: this.view.fields, 
-                   dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1),
-                  }, {
-                    onSuccess (result) {
-                        dispatchAll(result);
-                    }
-        });
+        json_post_dispatch_all('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1)});
     },
     computed: {
         tableData () {
@@ -237,16 +246,7 @@ export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
     },
     methods: {
         addNew () {
-            if (this.view.onSelect) {
-                const newId = getNewID(this.view.model)
-                const dataIds = this.dataIds.slice(0);
-                dataIds.push(newId);
-                const values = {dataId: newId};
-                if (this.x2oField != undefined) values[this.x2oField] = this.x2oFieldId;
-                this.updateValueX2M(newId, values, true);
-                this.$emit('updateDataIds', dataIds);
-                this.$emit('changeView', this.view.onSelect, newId);
-            }
+            addNewX2MDataId(this);
         },
         selectCard (card) {
             if (this.view.onSelect) {
@@ -257,15 +257,7 @@ export const ThumbnailViewX2M = Vue.component('furet-ui-x2m-thumbnail-view', {
             this.$emit('changeView', viewId);
         },
         updateValueX2M(dataId, values, create) {
-            if (create) this.$store.commit('CREATE_CHANGE_X2M', {model: this.view.model, dataId});
-            _.each(_.keys(values), fieldname => {
-                this.$store.commit('UPDATE_CHANGE_X2M', {
-                    model: this.view.model,
-                    dataId,
-                    fieldname,
-                    value: values[fieldname],
-                });
-            });
+            updateValueX2M(this, dataId, values, create);
         },
     }
 });
