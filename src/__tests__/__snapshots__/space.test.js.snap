@@ -7,11 +7,11 @@ exports[`Space component Render 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->
@@ -31,11 +31,11 @@ exports[`Space component Render breadscrumb 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -59,15 +59,14 @@ exports[`Space component Render breadscrumb 2`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;"><a>
-                                    Action 2
-                                </a> /
-                    </li>
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li><a>
+                                        Action 2
+                                    </a></li>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -91,23 +90,20 @@ exports[`Space component Render breadscrumb 3`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;"><a>
-                                    Action 2
-                                </a> /
-                    </li>
-                    <li style="display:inline;"><a>
-                                    Action 3
-                                </a> /
-                    </li>
-                    <li style="display:inline;"><a>
-                                    Action 4
-                                </a> /
-                    </li>
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li><a>
+                                        Action 2
+                                    </a></li>
+                        <li><a>
+                                        Action 3
+                                    </a></li>
+                        <li><a>
+                                        Action 4
+                                    </a></li>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -131,15 +127,14 @@ exports[`Space component Render breadscrumb 4`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;"><a>
-                                    Action 2
-                                </a> /
-                    </li>
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li><a>
+                                        Action 2
+                                    </a></li>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -156,15 +151,14 @@ exports[`Space component Render breadscrumb 4`] = `
                 <nav class="nav">
                     <div class="nav-left">
                         <!---->
-                        <ul style="padding:10px 0px;list-style:none;">
-                            <li style="display:inline;"><a>
-                                    Action 2
-                                </a> /
-                            </li>
-                            <li style="display:inline;">
-
-                            </li>
-                        </ul>
+                        <nav class="breadcrumb">
+                            <ul>
+                                <li><a>
+                                        Action 2
+                                    </a></li>
+                                <li class="is-active"><a></a></li>
+                            </ul>
+                        </nav>
                     </div>
                     <div class="nav-right">
                         <!---->
@@ -186,11 +180,11 @@ exports[`Space component Render display left menu (close) 1`] = `
     <div class="column" style="padding-left:10px;padding-right:10px;">
         <nav class="nav">
             <div class="nav-left"><a class="button"><i aria-hidden="true" class="fa fa-bars fa-2x"></i></a>
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -249,11 +243,11 @@ exports[`Space component Render display left menu (open) 1`] = `
     <div class="column" style="padding-left:10px;padding-right:10px;">
         <nav class="nav">
             <div class="nav-left"><a class="button"><i aria-hidden="true" class="fa fa-bars fa-2x"></i></a>
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -281,11 +275,11 @@ exports[`Space component Render display right menu (close) 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -311,11 +305,11 @@ exports[`Space component Render display right menu (open) 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -439,11 +433,11 @@ exports[`View Selector component Render 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->
@@ -463,11 +457,11 @@ exports[`View Selector component Render unclickable selected 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->

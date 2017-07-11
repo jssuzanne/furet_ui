@@ -126,19 +126,16 @@ export const Space = Vue.component('furet-ui-space', {
                         <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">
                             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
                         </a>
-                        <ul v-bind:style="{padding: '10px 0px', listStyle: 'none'}">
-                            <li v-bind:style="{display: 'inline'}" 
-                                v-for="a in actions"
-                            >
-                                <a v-on:click="onClickBreadScrumb(a)">
-                                    {{a.label}}
-                                </a>
-                                /
-                            </li>
-                            <li v-bind:style="{display: 'inline'}" >
-                                {{action.label}}
-                            </li>
-                        </ul>
+                        <nav class="breadcrumb">
+                            <ul>
+                                <li v-for="a in actions">
+                                    <a v-on:click="onClickBreadScrumb(a)">
+                                        {{a.label}}
+                                    </a>
+                                </li>
+                                <li class="is-active"><a>{{action.label}}</a></li>
+                            </ul>
+                        </nav>
                     </div>
                     <div class="nav-right">
                         <furet-ui-view-selector

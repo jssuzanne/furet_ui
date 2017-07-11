@@ -16,7 +16,7 @@ exports[`Menu component Render Menu with value from store open 2`] = `
 <a data-server-rendered="true" class="nav-item"><a class="button"><span class="icon"><i class="fa fa-user"></i></span> <span> Login </span></a>
 <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-content animation-content" style="max-width:undefined;">
+    <div class="animation-content modal-content" style="max-width:960px;">
         <div class="card">
             <header class="card-header">
                 <div class="field has-addons-centered">
@@ -60,7 +60,7 @@ exports[`Menu component Render Menu with value from store open 2`] = `
         <footer class="card-footer">
             <p class="card-footer-item"><a>Close</a></p>
         </footer>
-    </div> <button class="modal-close"></button></div>
+    </div> <button class="modal-close is-large"></button></div>
 </a>
 `;
 
@@ -70,7 +70,7 @@ exports[`Menu component Render Menu with value from store open and filtering 2`]
 <a data-server-rendered="true" class="nav-item"><a class="button"><span class="icon"><i class="fa fa-user"></i></span> <span> Login </span></a>
 <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-content animation-content" style="max-width:undefined;">
+    <div class="animation-content modal-content" style="max-width:960px;">
         <div class="card">
             <header class="card-header">
                 <div class="field has-addons-centered">
@@ -104,7 +104,7 @@ exports[`Menu component Render Menu with value from store open and filtering 2`]
         <footer class="card-footer">
             <p class="card-footer-item"><a>Close</a></p>
         </footer>
-    </div> <button class="modal-close"></button></div>
+    </div> <button class="modal-close is-large"></button></div>
 </a>
 `;
 
@@ -114,7 +114,7 @@ exports[`Menu component Render Menu with value from store open and select custom
 <a data-server-rendered="true" class="nav-item"><a class="button"><span class="icon"><i class="fa fa-user"></i></span> <span> Login </span></a>
 <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-content animation-content" style="max-width:undefined;">
+    <div class="animation-content modal-content" style="max-width:960px;">
         <div class="card">
             <header class="card-header">
                 <div class="field has-addons-centered">
@@ -158,7 +158,7 @@ exports[`Menu component Render Menu with value from store open and select custom
         <footer class="card-footer">
             <p class="card-footer-item"><a>Close</a></p>
         </footer>
-    </div> <button class="modal-close"></button></div>
+    </div> <button class="modal-close is-large"></button></div>
 </a>
 `;
 
@@ -166,7 +166,7 @@ exports[`Menu component Render Menu with value from store open and select custom
 <a data-server-rendered="true" class="nav-item"><a class="button"><span class="icon"><i class="fa fa-user"></i></span> <span> Login </span></a>
 <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-content animation-content" style="max-width:undefined;">
+    <div class="animation-content modal-content" style="max-width:960px;">
         <div class="card">
             <header class="card-header">
                 <div class="field has-addons-centered">
@@ -210,7 +210,7 @@ exports[`Menu component Render Menu with value from store open and select custom
         <footer class="card-footer">
             <p class="card-footer-item"><a>Close</a></p>
         </footer>
-    </div> <button class="modal-close"></button></div>
+    </div> <button class="modal-close is-large"></button></div>
 </a>
 `;
 
@@ -220,7 +220,7 @@ exports[`Menu component Render Menu with value from store open and select space 
 <a data-server-rendered="true" class="nav-item"><a class="button"><span class="icon"><i class="fa fa-user"></i></span> <span> Login </span></a>
 <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-content animation-content" style="max-width:undefined;">
+    <div class="animation-content modal-content" style="max-width:960px;">
         <div class="card">
             <header class="card-header">
                 <div class="field has-addons-centered">
@@ -264,7 +264,7 @@ exports[`Menu component Render Menu with value from store open and select space 
         <footer class="card-footer">
             <p class="card-footer-item"><a>Close</a></p>
         </footer>
-    </div> <button class="modal-close"></button></div>
+    </div> <button class="modal-close is-large"></button></div>
 </a>
 `;
 
@@ -272,7 +272,7 @@ exports[`Menu component Render Menu with value from store open and select space 
 <a data-server-rendered="true" class="nav-item"><a class="button"><span class="icon"><i class="fa fa-trash"></i></span> <span> New Space </span></a>
 <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-content animation-content" style="max-width:undefined;">
+    <div class="animation-content modal-content" style="max-width:960px;">
         <div class="card">
             <header class="card-header">
                 <div class="field has-addons-centered">
@@ -316,7 +316,7 @@ exports[`Menu component Render Menu with value from store open and select space 
         <footer class="card-footer">
             <p class="card-footer-item"><a>Close</a></p>
         </footer>
-    </div> <button class="modal-close"></button></div>
+    </div> <button class="modal-close is-large"></button></div>
 </a>
 `;
 

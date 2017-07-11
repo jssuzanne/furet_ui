@@ -69,7 +69,7 @@ exports[`furet-ui-view component Render with form view 4`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -122,7 +122,7 @@ exports[`furet-ui-view component Render with form view 5`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -175,7 +175,7 @@ exports[`furet-ui-view component Render with form view 6`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -262,35 +262,35 @@ exports[`furet-ui-view component Render with list view 4`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="is-empty">
+                        <td colspan="1"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <!---->
-                                <!---->
-                            </ul>
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
                             <!---->
-                        </div>
+                            <!---->
+                            <!---->
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>
@@ -315,75 +315,71 @@ exports[`furet-ui-view component Render with list view 5`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>New</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 2</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>3</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 3</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>New</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 2</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>3</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 3</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <li><a class="pagination-link is-current">
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
+                            <!---->
+                            <!---->
+                            <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                <!---->
-                                <!---->
-                            </ul>
                             <!---->
-                        </div>
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>
@@ -408,75 +404,71 @@ exports[`furet-ui-view component Render with list view 6`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>New</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 2</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>3</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 3</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>New</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 2</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>3</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 3</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <li><a class="pagination-link is-current">
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
+                            <!---->
+                            <!---->
+                            <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                <!---->
-                                <!---->
-                            </ul>
                             <!---->
-                        </div>
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>
@@ -834,7 +826,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 2`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -888,7 +880,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 3`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -942,7 +934,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 4`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -1007,7 +999,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 2`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -1061,7 +1053,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 3`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -1115,7 +1107,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 4`] = `
             </div>
         </div>
     </nav>
-    <section class="box">
+    <section class="box" style="margin-bottom:1px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -1175,75 +1167,71 @@ exports[`furet-ui-x2m-view component Render with list view 2`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span></span></span>
-                            </td>
-                            <td data-label="Label"><span><span></span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span> --- </span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span></span></span>
-                            </td>
-                            <td data-label="Label"><span><span></span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span> --- </span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span></span></span>
-                            </td>
-                            <td data-label="Label"><span><span></span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span> --- </span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span></span></span>
+                        </td>
+                        <td data-label="Label"><span><span></span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span> --- </span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span></span></span>
+                        </td>
+                        <td data-label="Label"><span><span></span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span> --- </span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span></span></span>
+                        </td>
+                        <td data-label="Label"><span><span></span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span> --- </span></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <li><a class="pagination-link is-current">
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
+                            <!---->
+                            <!---->
+                            <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                <!---->
-                                <!---->
-                            </ul>
                             <!---->
-                        </div>
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>
@@ -1274,75 +1262,71 @@ exports[`furet-ui-x2m-view component Render with list view 3`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>New</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 2</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span></span></span>
-                            </td>
-                            <td data-label="Label"><span><span></span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span> --- </span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>New</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 2</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span></span></span>
+                        </td>
+                        <td data-label="Label"><span><span></span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span> --- </span></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <li><a class="pagination-link is-current">
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
+                            <!---->
+                            <!---->
+                            <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                <!---->
-                                <!---->
-                            </ul>
                             <!---->
-                        </div>
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>
@@ -1373,75 +1357,71 @@ exports[`furet-ui-x2m-view component Render with list view 4`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>New</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 2</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span></span></span>
-                            </td>
-                            <td data-label="Label"><span><span></span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span> --- </span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>New</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 2</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span></span></span>
+                        </td>
+                        <td data-label="Label"><span><span></span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span> --- </span></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <li><a class="pagination-link is-current">
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
+                            <!---->
+                            <!---->
+                            <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                <!---->
-                                <!---->
-                            </ul>
                             <!---->
-                        </div>
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>
@@ -1472,75 +1452,71 @@ exports[`furet-ui-x2m-view component Render with list view 5`] = `
         </div>
     </nav>
     <div class="b-table">
-        <div class="b-table-content">
-            <!---->
-            <div class="table-wrapper">
-                <table class="table is-narrow has-mobile-cards">
-                    <thead>
-                        <tr>
-                            <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>New</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                            </td>
-                            <td data-label="Label"><span><span>Label 2</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span>Done</span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                            <td data-label="ID" class="has-text-right"><span><span></span></span>
-                            </td>
-                            <td data-label="Label"><span><span>New id</span></span>
-                            </td>
-                            <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                </span>
-                            </td>
-                            <td data-label="State"><span><span> --- </span></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!---->
+        <div class="table-wrapper">
+            <table class="table is-narrow has-mobile-cards">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>New</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                        </td>
+                        <td data-label="Label"><span><span>Label 2</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span>Done</span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                        <td data-label="ID" class="has-text-right"><span><span></span></span>
+                        </td>
+                        <td data-label="Label"><span><span>New id</span></span>
+                        </td>
+                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                            </span>
+                        </td>
+                        <td data-label="State"><span><span> --- </span></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="level">
+            <div class="level-left">
+                <!---->
             </div>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <!---->
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                            <ul class="pagination-list">
-                                <!---->
-                                <!---->
-                                <li><a class="pagination-link is-current">
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="pagination-list">
+                            <!---->
+                            <!---->
+                            <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                <!---->
-                                <!---->
-                            </ul>
                             <!---->
-                        </div>
+                            <!---->
+                        </ul>
+                        <!---->
                     </div>
                 </div>
             </div>

@@ -28,11 +28,11 @@ exports[`Route component Render App with space 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->
@@ -52,11 +52,11 @@ exports[`Route component Render App with space 2`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->
@@ -76,11 +76,11 @@ exports[`Route component Render App with space and action 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -108,11 +108,11 @@ exports[`Route component Render App with space and action 2`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -137,11 +137,11 @@ exports[`Route component Render App with space and action and custome view 1`] =
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -173,11 +173,11 @@ exports[`Route component Render App with space and action and view 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -207,63 +207,59 @@ exports[`Route component Render App with space and action and view 1`] = `
                 </div>
             </nav>
             <div class="b-table">
-                <div class="b-table-content">
-                    <!---->
-                    <div class="table-wrapper">
-                        <table class="table is-narrow has-mobile-cards">
-                            <thead>
-                                <tr>
-                                    <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                                    <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                                    </td>
-                                    <td data-label="Label"><span><span>Label</span></span>
-                                    </td>
-                                    <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                        </span>
-                                    </td>
-                                    <td data-label="State"><span><span>New</span></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                                    <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                                    </td>
-                                    <td data-label="Label"><span><span>Label 2</span></span>
-                                    </td>
-                                    <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                        </span>
-                                    </td>
-                                    <td data-label="State"><span><span>Done</span></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <!---->
+                <div class="table-wrapper">
+                    <table class="table is-narrow has-mobile-cards">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                                <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                                </td>
+                                <td data-label="Label"><span><span>Label</span></span>
+                                </td>
+                                <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                                    </span>
+                                </td>
+                                <td data-label="State"><span><span>New</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                                <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                                </td>
+                                <td data-label="Label"><span><span>Label 2</span></span>
+                                </td>
+                                <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                                    </span>
+                                </td>
+                                <td data-label="State"><span><span>Done</span></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="level">
+                    <div class="level-left">
+                        <!---->
                     </div>
-                    <div class="level">
-                        <div class="level-left">
-                            <div class="level-item">
-                                <!---->
-                            </div>
-                        </div>
-                        <div class="level-right">
-                            <div class="level-item">
-                                <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                                    <ul class="pagination-list">
-                                        <!---->
-                                        <!---->
-                                        <li><a class="pagination-link is-current">
+                    <div class="level-right">
+                        <div class="level-item">
+                            <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                                <ul class="pagination-list">
+                                    <!---->
+                                    <!---->
+                                    <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                        <!---->
-                                        <!---->
-                                    </ul>
                                     <!---->
-                                </div>
+                                    <!---->
+                                </ul>
+                                <!---->
                             </div>
                         </div>
                     </div>
@@ -282,11 +278,11 @@ exports[`Route component Render App with space and action and view 2`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -380,11 +376,11 @@ exports[`Route component Render App with space and action and view 3`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -415,7 +411,7 @@ exports[`Route component Render App with space and action and view 3`] = `
                     </div>
                 </div>
             </nav>
-            <section class="box">
+            <section class="box" style="margin-bottom:1px;">
                 <div class="columns is-multiline is-mobile">
                     <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                         <!---->
@@ -463,11 +459,11 @@ exports[`Route component Render App with space and action and view 4`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -498,7 +494,7 @@ exports[`Route component Render App with space and action and view 4`] = `
                     </div>
                 </div>
             </nav>
-            <section class="box">
+            <section class="box" style="margin-bottom:1px;">
                 <div class="columns is-multiline is-mobile">
                     <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 2 </span>
                         <!---->
@@ -546,11 +542,11 @@ exports[`Route component Render App with space and menu 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->
@@ -570,11 +566,11 @@ exports[`Route component Render App with space and menu 2`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a></a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <!---->
@@ -594,11 +590,11 @@ exports[`Route component Render App with space and menu and action 1`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -626,11 +622,11 @@ exports[`Route component Render App with space and menu and action 2`] = `
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -655,11 +651,11 @@ exports[`Route component Render App with space and menu and action and custome v
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -691,11 +687,11 @@ exports[`Route component Render App with space and menu and action and view 1`] 
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -725,63 +721,59 @@ exports[`Route component Render App with space and menu and action and view 1`] 
                 </div>
             </nav>
             <div class="b-table">
-                <div class="b-table-content">
-                    <!---->
-                    <div class="table-wrapper">
-                        <table class="table is-narrow has-mobile-cards">
-                            <thead>
-                                <tr>
-                                    <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                                    <td data-label="ID" class="has-text-right"><span><span>1</span></span>
-                                    </td>
-                                    <td data-label="Label"><span><span>Label</span></span>
-                                    </td>
-                                    <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                        </span>
-                                    </td>
-                                    <td data-label="State"><span><span>New</span></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                                    <td data-label="ID" class="has-text-right"><span><span>2</span></span>
-                                    </td>
-                                    <td data-label="Label"><span><span>Label 2</span></span>
-                                    </td>
-                                    <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
-                                        </span>
-                                    </td>
-                                    <td data-label="State"><span><span>Done</span></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <!---->
+                <div class="table-wrapper">
+                    <table class="table is-narrow has-mobile-cards">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                                <td data-label="ID" class="has-text-right"><span><span>1</span></span>
+                                </td>
+                                <td data-label="Label"><span><span>Label</span></span>
+                                </td>
+                                <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                                    </span>
+                                </td>
+                                <td data-label="State"><span><span>New</span></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                                <td data-label="ID" class="has-text-right"><span><span>2</span></span>
+                                </td>
+                                <td data-label="Label"><span><span>Label 2</span></span>
+                                </td>
+                                <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true" checked="checked"> <span class="check"></span> <span class="control-label"></span></label>
+                                    </span>
+                                </td>
+                                <td data-label="State"><span><span>Done</span></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="level">
+                    <div class="level-left">
+                        <!---->
                     </div>
-                    <div class="level">
-                        <div class="level-left">
-                            <div class="level-item">
-                                <!---->
-                            </div>
-                        </div>
-                        <div class="level-right">
-                            <div class="level-item">
-                                <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                                    <ul class="pagination-list">
-                                        <!---->
-                                        <!---->
-                                        <li><a class="pagination-link is-current">
+                    <div class="level-right">
+                        <div class="level-item">
+                            <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                                <ul class="pagination-list">
+                                    <!---->
+                                    <!---->
+                                    <li><a class="pagination-link is-current">
                 1
             </a></li>
-                                        <!---->
-                                        <!---->
-                                    </ul>
                                     <!---->
-                                </div>
+                                    <!---->
+                                </ul>
+                                <!---->
                             </div>
                         </div>
                     </div>
@@ -800,11 +792,11 @@ exports[`Route component Render App with space and menu and action and view 2`] 
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -898,11 +890,11 @@ exports[`Route component Render App with space and menu and action and view 3`] 
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -933,7 +925,7 @@ exports[`Route component Render App with space and menu and action and view 3`] 
                     </div>
                 </div>
             </nav>
-            <section class="box">
+            <section class="box" style="margin-bottom:1px;">
                 <div class="columns is-multiline is-mobile">
                     <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                         <!---->
@@ -981,11 +973,11 @@ exports[`Route component Render App with space and menu and action and view 4`] 
         <nav class="nav">
             <div class="nav-left">
                 <!---->
-                <ul style="padding:10px 0px;list-style:none;">
-                    <li style="display:inline;">
-                        Action : 1
-                    </li>
-                </ul>
+                <nav class="breadcrumb">
+                    <ul>
+                        <li class="is-active"><a>Action : 1</a></li>
+                    </ul>
+                </nav>
             </div>
             <div class="nav-right">
                 <div class="field has-addons">
@@ -1016,7 +1008,7 @@ exports[`Route component Render App with space and menu and action and view 4`] 
                     </div>
                 </div>
             </nav>
-            <section class="box">
+            <section class="box" style="margin-bottom:1px;">
                 <div class="columns is-multiline is-mobile">
                     <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 2 </span>
                         <!---->

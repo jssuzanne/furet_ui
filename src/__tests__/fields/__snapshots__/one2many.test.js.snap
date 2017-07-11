@@ -19,51 +19,47 @@ exports[`One2Many Form component Render 1`] = `
 </div>
 </nav>
 <div class="b-table">
-    <div class="b-table-content">
-        <!---->
-        <div class="table-wrapper">
-            <table class="table is-narrow has-mobile-cards">
-                <thead>
-                    <tr>
-                        <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
-                        <td data-label="ID" class="has-text-right"><span><span></span></span>
-                        </td>
-                        <td data-label="Label"><span><span>Test</span></span>
-                        </td>
-                        <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
-                            </span>
-                        </td>
-                        <td data-label="State"><span><span> --- </span></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <!---->
+    <div class="table-wrapper">
+        <table class="table is-narrow has-mobile-cards">
+            <thead>
+                <tr>
+                    <th class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="checkbox-cell"><label tabindex="0" class="checkbox"><input type="checkbox" true-value="true"> <span class="check"></span> <span class="control-label"></span></label></td>
+                    <td data-label="ID" class="has-text-right"><span><span></span></span>
+                    </td>
+                    <td data-label="Label"><span><span>Test</span></span>
+                    </td>
+                    <td data-label="Boolean"><span><label disabled="disabled" class="checkbox is-disabled"><input type="checkbox" disabled="disabled" true-value="true"> <span class="check"></span> <span class="control-label"></span></label>
+                        </span>
+                    </td>
+                    <td data-label="State"><span><span> --- </span></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="level">
+        <div class="level-left">
+            <!---->
         </div>
-        <div class="level">
-            <div class="level-left">
-                <div class="level-item">
-                    <!---->
-                </div>
-            </div>
-            <div class="level-right">
-                <div class="level-item">
-                    <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
-                        <ul class="pagination-list">
-                            <!---->
-                            <!---->
-                            <li><a class="pagination-link is-current">
+        <div class="level-right">
+            <div class="level-item">
+                <div class="pagination"><a class="pagination-previous is-disabled"><span class="icon"><i class="fa fa-angle-left"></i></span></a> <a class="pagination-next is-disabled"><span class="icon"><i class="fa fa-angle-right"></i></span></a>
+                    <ul class="pagination-list">
+                        <!---->
+                        <!---->
+                        <li><a class="pagination-link is-current">
                 1
             </a></li>
-                            <!---->
-                            <!---->
-                        </ul>
                         <!---->
-                    </div>
+                        <!---->
+                    </ul>
+                    <!---->
                 </div>
             </div>
         </div>
