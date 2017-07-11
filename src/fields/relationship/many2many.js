@@ -56,18 +56,47 @@ export const FieldFormMany2ManyCheckbox = Vue.component('furet-ui-form-field-man
                         v-bind:id="value.dataId"
                         v-bind:class="['column', checkbox_class]" 
                     >
-                        <b-checkbox 
+                        <furet-ui-b-checkbox 
                             v-bind:checked="isChecked(value.dataId)" 
                             v-bind:disabled="isReadonly"
                             v-on:change="onChange"
                         >
                             {{value.label}}
                             <div v-bind:style="getStyle(value.dataId)" />
-                        </b-checkbox>
+                        </furet-ui-b-checkbox>
                     </div>
                 </div>
             </b-field>
         </b-tooltip>`,
+    components: {
+        'furet-ui-b-checkbox': {
+            props: ['checked', 'disabled'],
+            template: `
+                <b-checkbox 
+                    v-model="value" 
+                    v-bind:disabled="disabled"
+                    v-on:change="onChange"
+                >
+                    <slot></slot>
+                </b-checkbox>
+            `,
+            data () {
+                return {
+                    value: this.checked,
+                };
+            },
+            methods: {
+                onChange (value, event) {
+                    this.$emit('change', value, event);
+                },
+            },
+            watch: {
+                disabled (newDisabled) {
+                    this.value = this.checked;
+                },
+            }
+        },
+    },
     created () {
         json_post('/field/x2x/search', 
                   {model: this.model, fields:this.fields}, 
