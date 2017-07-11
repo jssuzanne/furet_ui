@@ -74,13 +74,6 @@ export const mutations = {
         state.changes = Object.assign({}, action.changes);
     },
     'CLEAR_CHANGE'(state, action) {
-        const changes = Object.assign({}, state.changes);
-        if (changes[action.model] && changes[action.model][action.dataId]) {
-            delete changes[action.model][action.dataId];
-            state.changes = changes;
-        }
-    },
-    'CLEAR_ALL_CHANGE'(state, action) {
         state.changes = {};
     },
     'CREATE_CHANGE_X2M'(state, action) {

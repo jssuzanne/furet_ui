@@ -14,7 +14,7 @@ import _ from 'underscore';
 import './picture';
 
 export const changeView = (router, store, spaceId, menuId, actionId, viewId) => {
-    store.commit('CLEAR_ALL_CHANGE');
+    store.commit('CLEAR_CHANGE');
     router.push({
         name: menuId ? 'space_menu_action_view' : 'space_action_view',
         params: {spaceId, menuId, actionId, viewId}
@@ -38,7 +38,7 @@ export const onClickMenu = (router, spaceId, menu) => {
     }
     dispatchAll([
         {type: 'CLEAR_BREADSCRUMB'},
-        {type: 'CLEAR_ALL_CHANGE'},
+        {type: 'CLEAR_CHANGE'},
     ]);
 }
 

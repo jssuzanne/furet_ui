@@ -10,7 +10,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 import chai from 'chai';
 import {defaultState, mutations} from '../../store/modules/data';
 
-describe('store.state.client', () => {
+describe('store.state.data', () => {
     let state;
     const menus = [
         {
@@ -694,91 +694,7 @@ describe('store.state.client', () => {
         mutations.REPLACE_CHANGE(state, action);
         chai.expect(state).to.deep.equal(expected)
     });
-    it('clear existing changes', () => {
-        state.changes = {
-            'Test': {
-                '1': {
-                    test: 'Test',
-                },
-            },
-        };
-        const action = {
-            model: 'Test',
-            dataId: '1',
-        };
-        const expected = {
-            actions: {},
-            views: {},
-            changes: {Test: {}},
-            data: {},
-            spaces: {},
-        };
-        mutations.CLEAR_CHANGE(state, action);
-        chai.expect(state).to.deep.equal(expected)
-    });
-    it('clear existing changes 2', () => {
-        state.changes = {
-            'Test': {
-                '1': {
-                    test: 'Test 1',
-                },
-                '2': {
-                    test: 'Test 2',
-                },
-            },
-        };
-        const action = {
-            model: 'Test',
-            dataId: '1',
-        };
-        const expected = {
-            actions: {},
-            views: {},
-            changes: {Test: {'2': {test: 'Test 2'}}},
-            data: {},
-            spaces: {},
-        };
-        mutations.CLEAR_CHANGE(state, action);
-        chai.expect(state).to.deep.equal(expected)
-    });
-    it('clear unexisting changes 3', () => {
-        state.changes = {
-            'Test': {
-                '2': {
-                    test: 'Test 2',
-                },
-            },
-        };
-        const action = {
-            model: 'Test',
-            dataId: '1',
-        };
-        const expected = {
-            actions: {},
-            views: {},
-            data: {},
-            changes: {Test: {'2': {test: 'Test 2'}}},
-            spaces: {},
-        };
-        mutations.CLEAR_CHANGE(state, action);
-        chai.expect(state).to.deep.equal(expected)
-    });
-    it('clear unexisting changes 4', () => {
-        const action = {
-            model: 'Test',
-            dataId: '1',
-        };
-        const expected = {
-            actions: {},
-            views: {},
-            data: {},
-            changes: {},
-            spaces: {},
-        };
-        mutations.CLEAR_CHANGE(state, action);
-        chai.expect(state).to.deep.equal(expected)
-    });
-    it('clear all changes 1', () => {
+    it('clear changes 1', () => {
         const action = {};
         const expected = {
             actions: {},
@@ -787,10 +703,10 @@ describe('store.state.client', () => {
             changes: {},
             spaces: {},
         };
-        mutations.CLEAR_ALL_CHANGE(state, action);
+        mutations.CLEAR_CHANGE(state, action);
         chai.expect(state).to.deep.equal(expected)
     });
-    it('clear all changes 1', () => {
+    it('clear changes 2', () => {
         state.changes = {
             'Test': {
                 '1': {
@@ -817,7 +733,7 @@ describe('store.state.client', () => {
             changes: {},
             spaces: {},
         };
-        mutations.CLEAR_ALL_CHANGE(state, action);
+        mutations.CLEAR_CHANGE(state, action);
         chai.expect(state).to.deep.equal(expected)
     });
     it('create x2M unexisting change 1', () => {

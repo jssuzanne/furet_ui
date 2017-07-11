@@ -30,7 +30,7 @@ export const selectCard = (type, router, store, card) => {
             break;
     }
     store.commit('CLEAR_BREADSCRUMB');
-    store.commit('CLEAR_ALL_CHANGE');
+    store.commit('CLEAR_CHANGE');
 }
 
 export const Menu = Vue.component('furet-ui-appbar-menu', {

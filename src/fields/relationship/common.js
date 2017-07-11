@@ -25,7 +25,7 @@ export const addInBreadscrumb = (route, store, options) => {
         mode: options.mode || 'readonly',
     }
     json_post_dispatch_all('/action/' + options.actionId, params);
-    store.commit('CLEAR_ALL_CHANGE', {});
+    store.commit('CLEAR_CHANGE', {});
 };
 
 export const RelationShip = {

@@ -63,10 +63,7 @@ export const closeModeDataId = (obj) => {
     }
 };
 export const cancelModeDataId = (obj) => {
-    obj.$store.commit('CLEAR_CHANGE', {
-        model: obj.view.model,
-        dataId: obj.dataId,
-    });
+    obj.$store.commit('CLEAR_CHANGE');
     if (obj.mode == 'new') {
         closeModeDataId(obj)
     } else {
@@ -223,7 +220,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
             closeModeDataId(this);
         },
         cancelMode () {
-            cancelModeDataId(obj);
+            cancelModeDataId(this);
         },
         deleteData () {
             json_post_dispatch_all('/data/delete', {model: this.view.model, dataIds: [this.dataId], path: {spaceId: this.spaceId, menuId: this.menuId, actionId: this.actionId, viewId: this.view.onClose}});
@@ -249,10 +246,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
                 {
                     onSuccess: (result) => {
                         dispatchAll(result)
-                        this.$store.commit('CLEAR_CHANGE', {
-                            model: this.view.model,
-                            dataId: this.dataId,
-                        });
+                        this.$store.commit('CLEAR_CHANGE');
                     },
                 }
             )
@@ -392,7 +386,7 @@ export const X2MFormView = Vue.component('furet-ui-x2m-form-view', {
             this.$emit('changeView', viewId);
         },
         updateValueX2M(dataId, values, create) {
-            updateValueX2M(obj, dataId, values, create);
+            updateValueX2M(this, dataId, values, create);
         },
     }
 });

@@ -362,7 +362,7 @@ describe('furet-ui-form-view component', () => {
             actionId: '3',
             viewId: '3',
         });
-        chai.expect(vm.$store.state.data.changes).to.deep.equal({Test: {}});
+        chai.expect(vm.$store.state.data.changes).to.deep.equal({});
     });
     it('cancelModeDataId 2', () => {
         const vm = new Vue({
@@ -395,7 +395,7 @@ describe('furet-ui-form-view component', () => {
             dataId: '1',
             mode: 'readonly',
         });
-        chai.expect(vm.$store.state.data.changes).to.deep.equal({Test: {}});
+        chai.expect(vm.$store.state.data.changes).to.deep.equal({});
     });
 });
 
