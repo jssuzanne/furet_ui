@@ -38,14 +38,14 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "buefy": "^0.4.0",
-    "bulma": "^0.4.2",
+    "buefy": "^0.4.5",
+    "bulma": "^0.4.3",
     "font-awesome": "^4.7.0",
     "moment": "^2.18.1",
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
     "vue": "^2.3.4",
-    "vue-i18n": "^7.0.3",
+    "vue-i18n": "^7.0.5",
     "vue-router": "^2.5.3",
     "vue2-editor": "^2.0.24",
     "vuex": "^2.3.1",
