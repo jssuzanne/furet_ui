@@ -56,7 +56,7 @@ export const selectCardDataId = (obj, card) => {
 export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
     props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'viewName', 'dataId', 'mode', 'dataIds', 'data', 'change', 'column_size'],
     template: `
-        <div>
+        <div v-bind:style="{'margin-bottom': '20px'}">
             <nav class="level">
                 <div class="level-left">
                     <div class="field has-addons">
@@ -184,7 +184,7 @@ export const updateValueX2M = (obj, dataId, values, create) => {
 export const X2MThumbnailView = Vue.component('furet-ui-x2m-thumbnail-view', {
     props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
     template: `
-        <div>
+        <div v-bind:style="{'margin-bottom': '10px'}">
             <nav class="level">
                 <div class="level-left">
                     <div class="field has-addons" v-if="!isReadonly">

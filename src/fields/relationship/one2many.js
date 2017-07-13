@@ -38,18 +38,20 @@ export const FieldFormOne2Many = Vue.component('furet-ui-form-field-one2many', {
                 v-bind:message="getMessage"
                 v-bind:style="{'width': 'inherit'}"
             >
-                <furet-ui-x2m-view 
-                    v-bind:model="model"
-                    v-bind:views="views"
-                    v-bind:viewId="viewId"
-                    v-bind:dataIds="dataIds"
-                    v-bind:dataId="dataId"
-                    v-bind:isReadonly="isReadonly"
-                    v-bind:x2oField="x2oField"
-                    v-bind:x2oFieldId="config.dataId"
-                    v-on:changeView="changeView"
-                    v-on:updateDataIds="updateDataIds"
-                />
+                <div v-bind:style="{backgroundColor: '#f5f5f5', padding: '5px'}">
+                    <furet-ui-x2m-view 
+                        v-bind:model="model"
+                        v-bind:views="views"
+                        v-bind:viewId="viewId"
+                        v-bind:dataIds="dataIds"
+                        v-bind:dataId="dataId"
+                        v-bind:isReadonly="isReadonly"
+                        v-bind:x2oField="x2oField"
+                        v-bind:x2oFieldId="config.dataId"
+                        v-on:changeView="changeView"
+                        v-on:updateDataIds="updateDataIds"
+                    />
+                </div>
             </b-field>
         </b-tooltip>`,
     data () {

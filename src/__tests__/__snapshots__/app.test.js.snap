@@ -2,51 +2,57 @@
 
 exports[`App component Render App with default value from store 1`] = `
 <div data-server-rendered="true">
-    <nav class="nav">
-        <div class="nav-left">
-            <!---->
-        </div>
-        <div class="nav-center">
+    <section class="hero is-primary">
+        <nav class="nav">
+            <div class="nav-left">
+                <!---->
+            </div>
+            <div class="nav-center">
 
-        </div>
-        <div class="nav-right">
-            <!---->
-        </div>
-    </nav>
+            </div>
+            <div class="nav-right">
+                <!---->
+            </div>
+        </nav>
+    </section>
     <!---->
 </div>
 `;
 
 exports[`App component Render App with value from store 1`] = `
 <div data-server-rendered="true">
-    <nav class="nav">
-        <div class="nav-left">
-            <!---->
-        </div>
-        <div class="nav-center">
+    <section class="hero is-primary">
+        <nav class="nav">
+            <div class="nav-left">
+                <!---->
+            </div>
+            <div class="nav-center">
 
-        </div>
-        <div class="nav-right">
-            <!---->
-        </div>
-    </nav>
+            </div>
+            <div class="nav-right">
+                <!---->
+            </div>
+        </nav>
+    </section>
     <!---->
 </div>
 `;
 
 exports[`App component Render App with value from store 2`] = `
 <div data-server-rendered="true">
-    <nav class="nav">
-        <div class="nav-left">
-            <!---->
-        </div>
-        <div class="nav-center">
-            Test
-        </div>
-        <div class="nav-right">
-            <!---->
-        </div>
-    </nav>
+    <section class="hero is-primary">
+        <nav class="nav">
+            <div class="nav-left">
+                <!---->
+            </div>
+            <div class="nav-center">
+                Test
+            </div>
+            <div class="nav-right">
+                <!---->
+            </div>
+        </nav>
+    </section>
     <!---->
 </div>
 `;

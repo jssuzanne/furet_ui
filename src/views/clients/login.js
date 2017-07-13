@@ -13,13 +13,15 @@ import {json_post_dispatch_all} from '../../server-call';
 
 export const Login = Vue.component('furet-ui-custom-view-login', {
     template: `
-        <div class="columns is-mobile">
-            <div class="column is-half is-offset-one-quarter">
-                <a class="button is-primary" v-on:click="onCallServer">
-                    {{ $t('views.clients.login.button') }}
-                </a>
+        <section class="section">
+            <div class="columns is-mobile">
+                <div class="column is-half is-offset-one-quarter">
+                    <a class="button is-primary" v-on:click="onCallServer">
+                        {{ $t('views.clients.login.button') }}
+                    </a>
+                </div>
             </div>
-        </div>`,
+        </section>`,
     methods: {
         onCallServer () {
             json_post_dispatch_all('/client/login', {});

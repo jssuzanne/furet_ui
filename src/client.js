@@ -11,6 +11,7 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import 'bulma/css/bulma.css'
 import 'buefy/lib/buefy.css';
+import './client.css';
 import { sync } from 'vuex-router-sync';
 import "font-awesome-loader";
 import {json_post} from './server-call';

@@ -1,17 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`furet-ui-custom-view component Login 1`] = `
-<div data-server-rendered="true" class="columns is-mobile">
-    <div class="column is-half is-offset-one-quarter"><a class="button is-primary">
-                    Log in
-                </a></div>
-</div>
+<section data-server-rendered="true" class="section">
+    <div class="columns is-mobile">
+        <div class="column is-half is-offset-one-quarter"><a class="button is-primary">
+                        Log in
+                    </a></div>
+    </div>
+</section>
 `;
 
 exports[`furet-ui-custom-view component Logout 1`] = `<!---->`;
 
 exports[`furet-ui-custom-view component Unknown 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;Unknown&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -22,7 +24,7 @@ exports[`furet-ui-custom-view component Unknown 1`] = `
 `;
 
 exports[`furet-ui-view component Render with form view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -33,7 +35,7 @@ exports[`furet-ui-view component Render with form view 1`] = `
 `;
 
 exports[`furet-ui-view component Render with form view 2`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -44,7 +46,7 @@ exports[`furet-ui-view component Render with form view 2`] = `
 `;
 
 exports[`furet-ui-view component Render with form view 3`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -69,7 +71,7 @@ exports[`furet-ui-view component Render with form view 4`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:20px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -122,7 +124,7 @@ exports[`furet-ui-view component Render with form view 5`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:20px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -175,7 +177,7 @@ exports[`furet-ui-view component Render with form view 6`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:20px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -214,7 +216,7 @@ exports[`furet-ui-view component Render with form view 6`] = `
 `;
 
 exports[`furet-ui-view component Render with list view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -225,7 +227,7 @@ exports[`furet-ui-view component Render with list view 1`] = `
 `;
 
 exports[`furet-ui-view component Render with list view 2`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -236,7 +238,7 @@ exports[`furet-ui-view component Render with list view 2`] = `
 `;
 
 exports[`furet-ui-view component Render with list view 3`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -478,7 +480,7 @@ exports[`furet-ui-view component Render with list view 6`] = `
 `;
 
 exports[`furet-ui-view component Render with no data 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -489,7 +491,7 @@ exports[`furet-ui-view component Render with no data 1`] = `
 `;
 
 exports[`furet-ui-view component Render with thumbnail view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -500,7 +502,7 @@ exports[`furet-ui-view component Render with thumbnail view 1`] = `
 `;
 
 exports[`furet-ui-view component Render with thumbnail view 2`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -511,7 +513,7 @@ exports[`furet-ui-view component Render with thumbnail view 2`] = `
 `;
 
 exports[`furet-ui-view component Render with thumbnail view 3`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -522,7 +524,7 @@ exports[`furet-ui-view component Render with thumbnail view 3`] = `
 `;
 
 exports[`furet-ui-view component Render with thumbnail view 4`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <nav class="level">
         <div class="level-left">
             <div class="field has-addons">
@@ -539,7 +541,7 @@ exports[`furet-ui-view component Render with thumbnail view 4`] = `
 `;
 
 exports[`furet-ui-view component Render with thumbnail view 5`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <nav class="level">
         <div class="level-left">
             <div class="field has-addons">
@@ -638,7 +640,7 @@ exports[`furet-ui-view component Render with thumbnail view 5`] = `
 `;
 
 exports[`furet-ui-view component Render with thumbnail view 6`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <nav class="level">
         <div class="level-left">
             <div class="field has-addons">
@@ -737,7 +739,7 @@ exports[`furet-ui-view component Render with thumbnail view 6`] = `
 `;
 
 exports[`furet-ui-view component Render with unknwon view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -748,7 +750,7 @@ exports[`furet-ui-view component Render with unknwon view 1`] = `
 `;
 
 exports[`furet-ui-view component Render with unknwon view 2`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -759,7 +761,7 @@ exports[`furet-ui-view component Render with unknwon view 2`] = `
 `;
 
 exports[`furet-ui-view component Render with unknwon view 3`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -770,7 +772,7 @@ exports[`furet-ui-view component Render with unknwon view 3`] = `
 `;
 
 exports[`furet-ui-view component Render with unknwon view 4`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;Unknown&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -789,7 +791,7 @@ exports[`furet-ui-view-icon component Thumbnail 1`] = `<i data-server-rendered="
 exports[`furet-ui-view-icon component Unknown 1`] = `<i data-server-rendered="true" class="fa fa-exclamation-triangle"></i>`;
 
 exports[`furet-ui-x2m-view component Render with form view 1 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -826,7 +828,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 2`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:10px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -880,7 +882,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 3`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:10px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -934,7 +936,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 4`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:10px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span> 1 </span>
                 <!---->
@@ -962,7 +964,7 @@ exports[`furet-ui-x2m-view component Render with form view 1 4`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with form view 2 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -999,7 +1001,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 2`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:10px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -1053,7 +1055,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 3`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:10px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -1107,7 +1109,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 4`] = `
             </div>
         </div>
     </nav>
-    <section class="box" style="margin-bottom:1px;">
+    <section class="box" style="margin-bottom:10px;">
         <div class="columns is-multiline is-mobile">
             <div class="column is-4"><span data-label="" class="tooltip is-primary is-top is-medium" style="width:100%;"><div class="field" style="width:inherit;"><label class="label">ID</label> <span>  </span>
                 <p class="help is-danger">this field is required</p>
@@ -1135,7 +1137,7 @@ exports[`furet-ui-x2m-view component Render with form view 2 4`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with list view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -1526,7 +1528,7 @@ exports[`furet-ui-x2m-view component Render with list view 5`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with no data 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -1537,7 +1539,7 @@ exports[`furet-ui-x2m-view component Render with no data 1`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with thumbnail view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -1548,7 +1550,7 @@ exports[`furet-ui-x2m-view component Render with thumbnail view 1`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with thumbnail view 2`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:10px;">
     <nav class="level">
         <div class="level-left">
             <!---->
@@ -1652,7 +1654,7 @@ exports[`furet-ui-x2m-view component Render with thumbnail view 2`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with thumbnail view 3`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:10px;">
     <nav class="level">
         <div class="level-left">
             <!---->
@@ -1759,7 +1761,7 @@ exports[`furet-ui-x2m-view component Render with thumbnail view 3`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with thumbnail view 4`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:10px;">
     <nav class="level">
         <div class="level-left">
             <!---->
@@ -1863,7 +1865,7 @@ exports[`furet-ui-x2m-view component Render with thumbnail view 4`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with thumbnail view 5`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:10px;">
     <nav class="level">
         <div class="level-left">
             <!---->
@@ -1967,7 +1969,7 @@ exports[`furet-ui-x2m-view component Render with thumbnail view 5`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with unknwon view 1`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -1978,7 +1980,7 @@ exports[`furet-ui-x2m-view component Render with unknwon view 1`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with unknwon view 2`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -1989,7 +1991,7 @@ exports[`furet-ui-x2m-view component Render with unknwon view 2`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with unknwon view 3`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;&quot; is unknown</h1>
         <h2 class="subtitle">
@@ -2000,7 +2002,7 @@ exports[`furet-ui-x2m-view component Render with unknwon view 3`] = `
 `;
 
 exports[`furet-ui-x2m-view component Render with unknwon view 4`] = `
-<div data-server-rendered="true">
+<div data-server-rendered="true" style="margin-bottom:20px;">
     <section class="section box">
         <h1 class="title">The wanted view &quot;Unknown&quot; is unknown</h1>
         <h2 class="subtitle">

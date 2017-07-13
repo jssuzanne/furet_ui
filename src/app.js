@@ -15,17 +15,19 @@ import './space';
 export const App = Vue.component('furet-ui', {
     template: `
         <div>
-            <nav class="nav">
-                <div class="nav-left">
-                    <furet-ui-appbar-left-menu />
-                </div>
-                <div class="nav-center">
-                    {{ title }}
-                </div>
-                <div class="nav-right">
-                    <furet-ui-appbar-right-menu />
-                </div>
-            </nav>
+            <section class="hero is-primary">
+                    <nav class="nav">
+                        <div class="nav-left">
+                            <furet-ui-appbar-left-menu />
+                        </div>
+                        <div class="nav-center">
+                            {{ title }}
+                        </div>
+                        <div class="nav-right">
+                            <furet-ui-appbar-right-menu />
+                        </div>
+                    </nav>
+            </section>
             <router-view></router-view>
         </div>`,
     computed: {

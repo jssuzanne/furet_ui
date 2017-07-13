@@ -26,7 +26,7 @@ import plugin from '../plugin';
 export const ViewUnknown = Vue.component('furet-ui-view-unknown', {
     props: ['viewName'],
     template: `
-        <div>
+        <div v-bind:style="{marginBottom: '20px'}">
             <section class="section box">
                 <h1 class="title">{{$t('views.unknown.title', {name: viewName})}}</h1>
                 <h2 class="subtitle">

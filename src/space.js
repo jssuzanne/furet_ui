@@ -110,9 +110,12 @@ export const SpaceMenu = Vue.component('furet-ui-space-menu', {
 
 export const Space = Vue.component('furet-ui-space', {
     template: `
-        <div class="columns is-gapless">
+        <div 
+            class="columns is-gapless"
+            v-bind:style="{marginTop: '5px'}"
+        >
             <div v-if="isOpenLeft && left_menu.length > 0" class="column is-one-quarter is-half-mobile">
-                <aside class="menu">
+                <aside class="menu" v-bind:style="{padding: '5px'}">
                     <furet-ui-space-menu 
                         v-bind:menus="left_menu" 
                         v-bind:menuId="menuId" 
@@ -121,7 +124,7 @@ export const Space = Vue.component('furet-ui-space', {
                 </aside>
             </div>
             <div class="column" v-bind:style="{paddingLeft: '10px', paddingRight: '10px'}">
-                <nav class="nav">
+                <nav class="nav" v-bind:style="{backgroundColor: 'inherit'}">
                     <div class="nav-left">
                         <a class="button" v-on:click="isOpenLeft = !isOpenLeft" v-if="left_menu.length > 0">
                             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
@@ -151,7 +154,7 @@ export const Space = Vue.component('furet-ui-space', {
                 <router-view></router-view>
             </div>
             <div v-if="isOpenRight && right_menu.length > 0" class="column is-one-quarter is-half-mobile">
-                <aside class="menu">
+                <aside class="menu" v-bind:style="{padding: '5px'}">
                     <furet-ui-space-menu 
                         v-bind:menus="right_menu" 
                         v-bind:menuId="menuId" 

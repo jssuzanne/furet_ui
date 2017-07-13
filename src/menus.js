@@ -44,8 +44,9 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                 <span> {{ value.label }} </span>
             </a>
             <b-modal :active.sync="isModalActive">
-                <div class="card">
-                    <header class="card-header">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
                         <b-field  position="is-centered">
                             <b-input
                                 type="search"
@@ -56,7 +57,10 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                             </b-input>
                         </b-field>
                     </header>
-                    <div class="card-content">
+                    <div 
+                        class="modal-card-body"
+                        v-bind:style="{color: '#363636', padding: '5px'}"
+                    >
                         <div v-for="group in groups">
                             <legend>
                                 <furet-ui-picture
@@ -68,7 +72,11 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                             <div class="columns is-multiline is-mobile">
                                 <div class="column is-12-mobile is-half-tablet is-half-desktop"
                                     v-for="card in group.values">
-                                        <article class="box media" v-on:click.stop="selectCard(card)">
+                                        <article 
+                                            class="box media" 
+                                            v-on:click.stop="selectCard(card)"
+                                            v-bind:style="{padding: '5px'}"
+                                        >
                                             <div class="media-left">
                                                 <figure class="image is-32x32">
                                                     <furet-ui-picture
@@ -78,10 +86,10 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                                                 </figure>
                                             </div>
                                             <div class="media-content">
-                                                <div class="content">
+                                                <div >
                                                     <strong>{{card.label}}</strong>
                                                     <br />
-                                                    <span>{{card.description}}</span>
+                                                    <small v-bind:style="{whiteSpace: 'pre-wrap'}">{{card.description}}</small>
                                                 </div>
                                             </div>
                                         </article>
@@ -90,10 +98,11 @@ export const Menu = Vue.component('furet-ui-appbar-menu', {
                             </div>
                         </div>
                     </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item">
-                            <a v-on:click="isModalActive = false">{{$t('menus.close')}}</a>
-                        </p>
+                    <footer class="modal-card-foot">
+                        <a 
+                            v-on:click="isModalActive = false"
+                            v-bind:style="{color: '#363636'}"
+                        >{{$t('menus.close')}}</a>
                     </footer>
                 </div>
             </b-modal>

@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Space component Render 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -25,10 +25,10 @@ exports[`Space component Render 1`] = `
 `;
 
 exports[`Space component Render breadscrumb 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -53,10 +53,10 @@ exports[`Space component Render breadscrumb 1`] = `
 `;
 
 exports[`Space component Render breadscrumb 2`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -84,10 +84,10 @@ exports[`Space component Render breadscrumb 2`] = `
 `;
 
 exports[`Space component Render breadscrumb 3`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -121,10 +121,10 @@ exports[`Space component Render breadscrumb 3`] = `
 `;
 
 exports[`Space component Render breadscrumb 4`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -145,10 +145,10 @@ exports[`Space component Render breadscrumb 4`] = `
                 <!---->
             </div>
         </nav>
-        <div class="columns is-gapless">
+        <div class="columns is-gapless" style="margin-top:5px;">
             <!---->
             <div class="column" style="padding-left:10px;padding-right:10px;">
-                <nav class="nav">
+                <nav class="nav" style="background-color:inherit;">
                     <div class="nav-left">
                         <!---->
                         <nav class="breadcrumb">
@@ -175,10 +175,10 @@ exports[`Space component Render breadscrumb 4`] = `
 `;
 
 exports[`Space component Render display left menu (close) 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left"><a class="button"><i aria-hidden="true" class="fa fa-bars fa-2x"></i></a>
                 <nav class="breadcrumb">
                     <ul>
@@ -206,9 +206,9 @@ exports[`Space component Render display left menu (close) 1`] = `
 `;
 
 exports[`Space component Render display left menu (open) 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <div class="column is-one-quarter is-half-mobile">
-        <aside class="menu">
+        <aside class="menu" style="padding:5px;">
             <ul class="menu-list">
                 <li>
                     <!---->
@@ -241,7 +241,7 @@ exports[`Space component Render display left menu (open) 1`] = `
         </aside>
     </div>
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left"><a class="button"><i aria-hidden="true" class="fa fa-bars fa-2x"></i></a>
                 <nav class="breadcrumb">
                     <ul>
@@ -269,10 +269,10 @@ exports[`Space component Render display left menu (open) 1`] = `
 `;
 
 exports[`Space component Render display right menu (close) 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -299,10 +299,10 @@ exports[`Space component Render display right menu (close) 1`] = `
 `;
 
 exports[`Space component Render display right menu (open) 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -325,7 +325,7 @@ exports[`Space component Render display right menu (open) 1`] = `
         <!---->
     </div>
     <div class="column is-one-quarter is-half-mobile">
-        <aside class="menu">
+        <aside class="menu" style="padding:5px;">
             <ul class="menu-list">
                 <li>
                     <!---->
@@ -427,10 +427,10 @@ exports[`SpaceMenu component Render with submenu other selected menu 1`] = `
 `;
 
 exports[`View Selector component Render 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
@@ -451,10 +451,10 @@ exports[`View Selector component Render 1`] = `
 `;
 
 exports[`View Selector component Render unclickable selected 1`] = `
-<div data-server-rendered="true" class="columns is-gapless">
+<div data-server-rendered="true" class="columns is-gapless" style="margin-top:5px;">
     <!---->
     <div class="column" style="padding-left:10px;padding-right:10px;">
-        <nav class="nav">
+        <nav class="nav" style="background-color:inherit;">
             <div class="nav-left">
                 <!---->
                 <nav class="breadcrumb">
