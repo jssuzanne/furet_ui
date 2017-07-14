@@ -205,7 +205,13 @@ export const ListView = Vue.component('furet-ui-list-view', {
                     </div>
                 </div>
                 <div class="level-right">
-                    <furet-ui-search-bar-view v-bind:search="search" v-model="filter"/>
+                    <furet-ui-search-bar-view 
+                        v-if="search.length > 0"
+                        v-bind:search="search" 
+                        v-bind:filter="filter"
+                        v-bind:model="this.view.model"
+                        v-on:updateFilter="updateFilter"
+                    />
                 </div>
             </nav>
             <furet-ui-list-view-base
@@ -222,7 +228,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
     data: () => {
         return {
             checkedRows: [],
-            filter: {},
+            filter: [],
         };
     },
     created: function () {
@@ -233,7 +239,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
             if (this.view) {
                 return this.view.search;
             }
-            return {};
+            return [];
         },
         hasChecked () {
             return this.checkedRows.length > 0;
@@ -242,6 +248,10 @@ export const ListView = Vue.component('furet-ui-list-view', {
     methods: {
         getData() {
             json_post_dispatch_all('/list/get', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
+        },
+        updateFilter(filter) {
+            this.filter = filter;
+            this.getData();
         },
         addNew () {
             addNewDataId(this);

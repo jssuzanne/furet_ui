@@ -154,7 +154,6 @@ class Customer(Base):
                 else:
                     res[0]['data'][str(self.id)][field] = getattr(self, field)
 
-        print res
         return res
 
     def update(self, session, val, changes):
@@ -264,6 +263,19 @@ class Address(Base):
         obj = cls(**data)
         session.add(obj)
         return obj
+
+    @classmethod
+    def quering(cls, query, filters):
+        for f in filters:
+            if f['key'] == 'customer.name':
+                query = query.join(cls.customer)
+                if isinstance(f['searchText'], list):
+                    query = query.filter(or_(*[Customer.name.ilike('%' + st + '%')
+                                               for st in f['searchText']]))
+                else:
+                    query = query.filter(Customer.name.ilike('%' + f['searchText'] + '%'))
+
+        return query
 
 
 Base.metadata.create_all()
@@ -684,7 +696,6 @@ def getView1():
             {
                 'key': 'name',
                 'label': 'Label',
-                "default": 'todo',
             },
             {
                 'key': 'creation_date',
@@ -1216,6 +1227,24 @@ def getView12():
             },
         ],
         'search': [
+            {
+                'key': 'customer.name',
+                'label': 'Customer',
+                'model': 'Customer',
+                'fieldname': 'name',
+            },
+            {
+                'key': 'city',
+                'label': 'City',
+            },
+            {
+                'key': 'zip',
+                'label': 'Zip',
+            },
+            {
+                'key': 'street',
+                'label': 'Street',
+            },
         ],
         'buttons': [
         ],
@@ -1442,6 +1471,21 @@ def getLoginData():
     return superDumps(data)
 
 
+def _rec_filter(query, Model, keys, searchText):
+    field = getattr(Model, keys[0])
+    if len(keys) == 1:
+        if isinstance(searchText, list):
+            query = query.filter(or_(*[field.ilike('%' + st + '%')
+                                       for st in searchText]))
+        else:
+            query = query.filter(field.ilike('%' + searchText + '%'))
+    else:
+        query = query.join(field)
+        query = _rec_filter(query, field.property.mapper.class_, keys[1:], searchText)
+
+    return query
+
+
 def getIdsFromFilter(model, filters):
     ids = []
     try:
@@ -1449,16 +1493,12 @@ def getIdsFromFilter(model, filters):
         Model = MODELS[model]
         query = session.query(Model)
         if filters:
-            for k, v in filters.items():
-                if isinstance(getattr(Model, k).property.columns[0].type, String):
-                    query = query.filter(
-                        or_(*[getattr(Model, k).ilike('%{}%'.format(x)) for x in v]))
-                else:
-                    query = query.filter(getattr(Model, k).in_(v))
+            for f in filters:
+                query = _rec_filter(query, Model, f['key'].split('.'), f['searchText'])
 
         ids = [x.id for x in query.all()]
-    except AttributeError:
-        pass
+    except AttributeError as e:
+        print(str(e))
     finally:
         session.rollback()
         session.close()
@@ -1791,6 +1831,33 @@ def deleteData():
                 'type': 'UPDATE_ROUTE',
                 'path': '/'.join(path),
             })
+    except Exception as e:
+        print(str(e))
+        _data = []
+        session.rollback()
+    finally:
+        session.close()
+
+    return superDumps(_data)
+
+
+@route('/furetui/data/search', method='POST')
+def searchData():
+    response.set_header('Content-Type', 'application/json')
+    session = Session()
+    _data = []
+    try:
+        data = loads(request.body.read())
+        for search in data['search']:
+            Model = MODELS[search.get('model', data['model'])]
+            fieldname = search.get('fieldname', search['key'])
+            query = session.query(Model).filter(
+                getattr(Model, fieldname).ilike('%' + data['searchText'] + '%'))
+            if query.count():
+                search['label'] += ' : ' + data['searchText']
+                search['searchText'] = data['searchText']
+                _data.append(search)
+
     except Exception as e:
         print(str(e))
         _data = []
