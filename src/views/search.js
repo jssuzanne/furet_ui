@@ -11,6 +11,32 @@ import Vue from 'vue';
 import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 import {json_post} from '../server-call';
+import _ from 'underscore';
+
+export const onChange = (obj, values) => {
+    if (JSON.stringify(values) != obj.origin) {
+        const filter = [];
+        _.each(values, value => {
+            const e = _.find(filter, f => f.key == value.key);
+            if (e == undefined) 
+                filter.push({
+                    key: value.key,
+                    label: value.label,
+                    value: value.value,
+                    operator: value.operator,
+                    type: value.type,
+                })
+            else {
+                if (!Array.isArray(e.value)) e.value = [e.value];
+                e.value.push(value.value)
+                e.label = obj.labels[e.key] + ' : "' + e.value.join('", "') + '"';
+            }
+        });
+        obj.origin = JSON.stringify(filter);
+        obj.selected = filter;
+        obj.$emit('updateFilter', filter);
+    }
+};
 
 export const SearchBar = Vue.component('furet-ui-search-bar-view', {
     props: ['filter', 'search', 'model'],
@@ -51,49 +77,16 @@ export const SearchBar = Vue.component('furet-ui-search-bar-view', {
         getOptions (value, loading) {
             const self = this;
             loading(true);
-            json_post(
-                '/data/search', 
-                {
-                    search: this.search,
-                    value,
-                    model: this.model,
-                },
-                {
-                    onSuccess (options) {
-                        self.options = options;
-                    },
-                    onComplete () {
-                        loading(false);
-                    },
-                }
-            );
+            json_post('/data/search', {search: this.search, value, model: this.model}, {
+                onSuccess (options) {self.options = options},
+                onComplete () {loading(false)},
+            });
         },
         onClick () {
             this.$emit('updateFilter', this.selected);
         },
         onChange(values) {
-            if (JSON.stringify(values) != this.origin) {
-                const filter = [];
-                _.each(values, value => {
-                    const e = _.find(filter, f => f.key == value.key);
-                    if (e == undefined) 
-                        filter.push({
-                            key: value.key,
-                            label: value.label,
-                            value: value.value,
-                            operator: value.operator,
-                            type: value.type,
-                        })
-                    else {
-                        if (!Array.isArray(e.value)) e.value = [e.value];
-                        e.value.push(value.value)
-                        e.label = this.labels[e.key] + ' : "' + e.value.join('", "') + '"';
-                    }
-                });
-                this.origin = JSON.stringify(filter);
-                this.selected = filter;
-                this.$emit('updateFilter', filter);
-            }
+            onChange(this, values);
         },
     },
 })
