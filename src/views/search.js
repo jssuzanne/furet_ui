@@ -12,7 +12,7 @@ import vSelect from 'vue-select'
 Vue.component('v-select', vSelect)
 import {json_post} from '../server-call';
 
-export const ThumbnailView = Vue.component('furet-ui-search-bar-view', {
+export const SearchBar = Vue.component('furet-ui-search-bar-view', {
     props: ['filter', 'search', 'model'],
     template: `
         <div class="field has-addons">
@@ -24,7 +24,7 @@ export const ThumbnailView = Vue.component('furet-ui-search-bar-view', {
             <p class="control">
                 <v-select 
                     multiple
-                    v-model="selected" 
+                    v-bind:value.sync="selected" 
                     v-bind:options="options"
                     v-bind:style="{backgroundColor: 'white'}"
                     v-bind:debounce="250"
@@ -37,7 +37,7 @@ export const ThumbnailView = Vue.component('furet-ui-search-bar-view', {
         return {
             selected: JSON.parse(JSON.stringify(this.filter)),
             origin: JSON.stringify(this.filter),
-            options: [],
+            options: [], //_.map(this.search, s => s.type == 'filter'),
         }
     },
     computed: {
@@ -48,14 +48,14 @@ export const ThumbnailView = Vue.component('furet-ui-search-bar-view', {
         }
     },
     methods: {
-        getOptions (searchText, loading) {
+        getOptions (value, loading) {
             const self = this;
             loading(true);
             json_post(
                 '/data/search', 
                 {
                     search: this.search,
-                    searchText,
+                    value,
                     model: this.model,
                 },
                 {
@@ -80,12 +80,14 @@ export const ThumbnailView = Vue.component('furet-ui-search-bar-view', {
                         filter.push({
                             key: value.key,
                             label: value.label,
-                            searchText: value.searchText,
+                            value: value.value,
+                            operator: value.operator,
+                            type: value.type,
                         })
                     else {
-                        if (!Array.isArray(e.searchText)) e.searchText = [e.searchText];
-                        e.searchText.push(value.searchText)
-                        e.label = this.labels[e.key] + ' : "' + e.searchText.join('", "') + '"';
+                        if (!Array.isArray(e.value)) e.value = [e.value];
+                        e.value.push(value.value)
+                        e.label = this.labels[e.key] + ' : "' + e.value.join('", "') + '"';
                     }
                 });
                 this.origin = JSON.stringify(filter);

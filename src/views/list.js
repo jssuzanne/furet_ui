@@ -11,8 +11,9 @@ import Vue from 'vue';
 import plugin from '../plugin';
 import {dispatchAll} from '../store';
 import {json_post, json_post_dispatch_all} from '../server-call';
-import {getNewID} from '../view';
 import _ from 'underscore';
+import {ViewMultiMixin} from './common';
+import {X2MViewMultiMixin} from './x2m-common';
 
 /**
  * Add Icon for List view
@@ -104,38 +105,8 @@ export const ListViewBase = Vue.component('furet-ui-list-view-base', {
     },
 });
 
-export const addNewDataId = (obj) => {
-    if (obj.view.onSelect) {
-        obj.$router.push({
-            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-            params: {
-                spaceId: obj.spaceId,
-                menuId: obj.menuId,
-                actionId: obj.actionId,
-                viewId: obj.view.onSelect,
-                dataId: getNewID(obj.view.model),
-                mode: 'new',
-            }
-        });
-    }
-};
-export const selectRowDataId = (obj, row) => {
-    if (obj.view.onSelect) {
-        obj.$router.push({
-            name: obj.menuId ? 'space_menu_action_view_dataId' : 'space_action_view_dataId',
-            params: {
-                spaceId: obj.spaceId,
-                menuId: obj.menuId,
-                actionId: obj.actionId,
-                viewId: obj.view.onSelect,
-                dataId: row.__dataId,
-                mode: 'readonly',
-            }
-        });
-    }
-};
-
 export const ListView = Vue.component('furet-ui-list-view', {
+    mixins: [ViewMultiMixin],
     props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'dataId', 'dataIds', 'data', 'change'],
     template: `
         <div>
@@ -220,7 +191,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 v-bind:data="data"
                 v-bind:change="change"
                 v-bind:view="view"
-                v-on:selectRow="selectRow"
+                v-on:selectRow="selectEntry"
                 v-on:updateCheck="updateCheck"
             />
         </div>
@@ -231,16 +202,7 @@ export const ListView = Vue.component('furet-ui-list-view', {
             filter: [],
         };
     },
-    created: function () {
-        if (this.view) this.getData();
-    },
     computed: {
-        search () {
-            if (this.view) {
-                return this.view.search;
-            }
-            return [];
-        },
         hasChecked () {
             return this.checkedRows.length > 0;
         },
@@ -248,13 +210,6 @@ export const ListView = Vue.component('furet-ui-list-view', {
     methods: {
         getData() {
             json_post_dispatch_all('/list/get', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
-        },
-        updateFilter(filter) {
-            this.filter = filter;
-            this.getData();
-        },
-        addNew () {
-            addNewDataId(this);
         },
         deleteData () {
             const dataIds = _.map(this.checkedRows, row => row.__dataId);
@@ -265,9 +220,6 @@ export const ListView = Vue.component('furet-ui-list-view', {
                 },
             });
         },
-        selectRow (row) {
-            selectRowDataId(this, row);
-        },
         updateCheck (checkedRows) {
             this.checkedRows = checkedRows;
         },
@@ -276,18 +228,6 @@ export const ListView = Vue.component('furet-ui-list-view', {
 
 plugin.set(['views', 'type'], {List: 'furet-ui-list-view'});
 
-export const addNewX2MDataId = (obj) => {
-    if (obj.view.onSelect) {
-        const newId = getNewID(obj.view.model)
-        const dataIds = obj.dataIds.slice(0);
-        dataIds.push(newId);
-        const values = {dataId: newId};
-        if (obj.x2oField != undefined) values[obj.x2oField] = obj.x2oFieldId;
-        obj.updateValueX2M(newId, values, true);
-        obj.$emit('updateDataIds', dataIds);
-        obj.$emit('changeView', obj.view.onSelect, newId);
-    }
-};
 export const deleteDataX2MDataId = (obj) => {
     const removeIds = _.map(obj.checkedRows, row => row.__dataId);
     obj.$emit('updateDataIds', _.difference(obj.dataIds, removeIds));
@@ -296,20 +236,9 @@ export const deleteDataX2MDataId = (obj) => {
         dataIds: removeIds,
     });
 };
-export const updateValueX2M = (obj, dataId, values, create) => {
-    if (create) obj.$store.commit('CREATE_CHANGE_X2M', {model: obj.view.model, dataId});
-    _.each(_.keys(values), fieldname => {
-        obj.$store.commit('UPDATE_CHANGE_X2M', {
-            model: obj.view.model,
-            dataId,
-            fieldname,
-            value: values[fieldname],
-        });
-    });
-};
 
 export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
-    props: ['model', 'views', 'viewId', 'view', 'dataIds', 'dataId', 'data', 'change', 'isReadonly', 'x2oField', 'x2oFieldId'],
+    mixins:[X2MViewMultiMixin],
     template: `
         <div>
             <nav class="level">
@@ -351,16 +280,11 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
                 v-bind:data="data"
                 v-bind:change="change"
                 v-bind:view="view"
-                v-on:selectRow="selectRow"
+                v-on:selectRow="selectEntry"
                 v-on:updateCheck="updateCheck"
             />
         </div>
     `,
-    created () {
-        const changes = this.$store.state.data.changes.new || {};
-        const newIds = _.keys(changes[this.model] || {});
-        json_post_dispatch_all('/list/x2m/get', {model: this.model, fields: this.view.fields, dataIds: _.filter(this.dataIds, dataId => newIds.indexOf(dataId) == -1)});
-    },
     data: () => {
         return {
             checkedRows: [],
@@ -372,25 +296,11 @@ export const X2MListView = Vue.component('furet-ui-x2m-list-view', {
         },
     },
     methods: {
-        addNew () {
-            addNewX2MDataId(this);
-        },
         deleteData () {
             deleteDataX2MDataId(this);
         },
-        selectRow (row) {
-            if (this.view.onSelect) {
-                this.$emit('changeView', this.view.onSelect, row.__dataId);
-            }
-        },
         updateCheck (checkedRows) {
             this.checkedRows = checkedRows;
-        },
-        changeView(viewId) {
-            this.$emit('changeView', viewId);
-        },
-        updateValueX2M(dataId, values, create) {
-            updateValueX2M(this, dataId, values, create);
         },
     }
 });

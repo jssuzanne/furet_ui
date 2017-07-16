@@ -264,19 +264,6 @@ class Address(Base):
         session.add(obj)
         return obj
 
-    @classmethod
-    def quering(cls, query, filters):
-        for f in filters:
-            if f['key'] == 'customer.name':
-                query = query.join(cls.customer)
-                if isinstance(f['searchText'], list):
-                    query = query.filter(or_(*[Customer.name.ilike('%' + st + '%')
-                                               for st in f['searchText']]))
-                else:
-                    query = query.filter(Customer.name.ilike('%' + f['searchText'] + '%'))
-
-        return query
-
 
 Base.metadata.create_all()
 Session = sessionmaker(bind=engine)
@@ -696,10 +683,12 @@ def getView1():
             {
                 'key': 'name',
                 'label': 'Label',
+                'type': 'search',
             },
             {
                 'key': 'creation_date',
                 'label': 'Creation date',
+                'type': 'search',
             },
         ],
         'buttons': [
@@ -733,11 +722,12 @@ def getView2():
             {
                 'key': 'name',
                 'label': 'Label',
-                "default": 'todo',
+                'type': 'search',
             },
             {
                 'key': 'creation_date',
                 'label': 'Creation date',
+                'type': 'search',
             },
         ],
         'template': '''
@@ -1232,18 +1222,22 @@ def getView12():
                 'label': 'Customer',
                 'model': 'Customer',
                 'fieldname': 'name',
+                'type': 'search',
             },
             {
                 'key': 'city',
                 'label': 'City',
+                'type': 'search',
             },
             {
                 'key': 'zip',
                 'label': 'Zip',
+                'type': 'search',
             },
             {
                 'key': 'street',
                 'label': 'Street',
+                'type': 'search',
             },
         ],
         'buttons': [
@@ -1494,7 +1488,7 @@ def getIdsFromFilter(model, filters):
         query = session.query(Model)
         if filters:
             for f in filters:
-                query = _rec_filter(query, Model, f['key'].split('.'), f['searchText'])
+                query = _rec_filter(query, Model, f['key'].split('.'), f['value'])
 
         ids = [x.id for x in query.all()]
     except AttributeError as e:
@@ -1849,13 +1843,19 @@ def searchData():
     try:
         data = loads(request.body.read())
         for search in data['search']:
-            Model = MODELS[search.get('model', data['model'])]
-            fieldname = search.get('fieldname', search['key'])
-            query = session.query(Model).filter(
-                getattr(Model, fieldname).ilike('%' + data['searchText'] + '%'))
-            if query.count():
-                search['label'] += ' : ' + data['searchText']
-                search['searchText'] = data['searchText']
+            if search.get('type') == 'search':
+                try:
+                    Model = MODELS[search.get('model', data['model'])]
+                    fieldname = search.get('fieldname', search['key'])
+                    query = session.query(Model).filter(
+                        getattr(Model, fieldname).ilike('%' + data['value'] + '%'))
+                    if query.count():
+                        search['label'] += ' : ' + data['value']
+                        search['value'] = data['value']
+                        _data.append(search)
+                except:
+                    pass
+            elif search.get('type') == 'filter':
                 _data.append(search)
 
     except Exception as e:

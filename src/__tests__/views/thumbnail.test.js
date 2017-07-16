@@ -14,8 +14,7 @@ Vue.use(Buefy, {defaultIconPack: 'fa',});
 import {store} from '../../store';
 import {router} from '../../routes';
 import {i18n} from '../../i18n';
-import {ThumbnailView, addNewDataId, selectCardDataId,
-        X2MThumbnailView, addNewX2MDataId, updateValueX2M} from '../../views/thumbnail';
+import {ThumbnailView, X2MThumbnailView, updateValueX2M} from '../../views/thumbnail';
 import '../../views/search';
 import '../../fields';
 import '../../space';
@@ -193,112 +192,6 @@ describe('furet-ui-thumbnail-view component', () => {
             expect(str).toMatchSnapshot();
         });
     });
-    it('addNewDataId 1', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            template: '<div />',
-        });
-        router.push({path: '/'});
-        expect(vm.$route.path).toBe('/');
-        addNewDataId({
-            view: view_thumbnail,
-            $router: router,
-            spaceId: '1',
-            menuId: '2',
-            actionId: '3',
-        });
-        expect(vm.$route.name).toBe('space_menu_action_view_dataId');
-        chai.expect(vm.$route.params).to.deep.equal({
-            spaceId: '1',
-            menuId: '2',
-            actionId: '3',
-            viewId: '3',
-            dataId: vm.$route.params.dataId,
-            mode: 'new',
-        });
-    });
-    it('addNewDataId 2', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            template: '<div />',
-        });
-        router.push({path: '/'});
-        expect(vm.$route.path).toBe('/');
-        addNewDataId({
-            view: view_thumbnail,
-            $router: router,
-            spaceId: '1',
-            actionId: '3',
-        });
-        expect(vm.$route.name).toBe('space_action_view_dataId');
-        chai.expect(vm.$route.params).to.deep.equal({
-            spaceId: '1',
-            menuId: undefined,
-            actionId: '3',
-            viewId: '3',
-            dataId: vm.$route.params.dataId,
-            mode: 'new',
-        });
-    });
-    it('selectCardDataId 1', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            template: '<div />',
-        });
-        router.push({path: '/'});
-        expect(vm.$route.path).toBe('/');
-        selectCardDataId({
-            view: view_thumbnail,
-            $router: router,
-            spaceId: '1',
-            menuId: '2',
-            actionId: '3',
-        }, {__dataId: '4'});
-        expect(vm.$route.name).toBe('space_menu_action_view_dataId');
-        chai.expect(vm.$route.params).to.deep.equal({
-            spaceId: '1',
-            menuId: '2',
-            actionId: '3',
-            viewId: '3',
-            dataId: '4',
-            mode: 'readonly',
-        });
-    });
-    it('selectCardDataId 2', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            template: '<div />',
-        });
-        router.push({path: '/'});
-        expect(vm.$route.path).toBe('/');
-        selectCardDataId({
-            view: view_thumbnail,
-            $router: router,
-            spaceId: '1',
-            actionId: '3',
-        }, {__dataId: '4'});
-        expect(vm.$route.name).toBe('space_action_view_dataId');
-        chai.expect(vm.$route.params).to.deep.equal({
-            spaceId: '1',
-            menuId: undefined,
-            actionId: '3',
-            viewId: '3',
-            dataId: '4',
-            mode: 'readonly',
-        });
-    });
 });
 
 describe('furet-ui-x2m-thumbnail-view component', () => {
@@ -391,51 +284,5 @@ describe('furet-ui-x2m-thumbnail-view component', () => {
         renderer.renderToString(vm, (err, str) => {
             expect(str).toMatchSnapshot();
         });
-    });
-    it('addNewX2MDataId', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            template: '<div />',
-        });
-        addNewX2MDataId({
-            view: view_thumbnail,
-            dataIds,
-            x2oField: 'x2oField',
-            x2oFieldId: '1',
-            $emit: (key, value) => {
-                switch (key) {
-                    case 'changeView':
-                        expect(value).toBe('3');
-                        break;
-                    case 'updateDataIds':
-                        expect(value.length).toBe(4);
-                        break;
-                    default:
-                        expect('Bad key').toBe(1);
-                }
-            },
-            updateValueX2M: (newId, values, bool) => {
-                expect(values.dataId).toBe(newId);
-                expect(values.x2oField).toBe('1');
-                expect(bool).toBe(true);
-            },
-        });
-    });
-    it('updateValueX2M', () => {
-        const vm = new Vue({
-            el: document.createElement('div'),
-            store,
-            router,
-            i18n,
-            template: '<div />',
-        });
-        updateValueX2M({
-            view: view_thumbnail,
-            $store: store,
-        }, '1', {'x2oField': 'x2oFieldId'}, true);
-        chai.expect(store.state.data.changes.new.Test['1']).to.deep.equal({x2oField: 'x2oFieldId'});
     });
 });
