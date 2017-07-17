@@ -211,7 +211,7 @@ export const FormView = Vue.component('furet-ui-form-view', {
     },
     methods: {
         getData () {
-            json_post_dispatch_all('/form/get', {model: this.view.model, id: this.dataId, new: this.mode == 'new', fields: this.view.fields, viewId: this.viewId});
+            json_post_dispatch_all('/data/read/' + this.dataId, {model: this.view.model, new: this.mode == 'new', fields: this.view.fields, viewId: this.viewId});
         },
         addNew () {
             addNewDataId(this);

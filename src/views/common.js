@@ -7,10 +7,8 @@ This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file,You can
 obtain one at http://mozilla.org/MPL/2.0/.
 **/
+import {json_post_dispatch_all} from '../server-call';
 import {getNewID} from '../view';
-
-export const ViewMixin = {
-}
 
 export const addNewMulti = (obj) => {
     if (obj.view.onSelect) {
@@ -44,7 +42,6 @@ export const selectEntryMulti = (obj, card) => {
 }
 
 export const ViewMultiMixin = {
-    mixins: [ViewMixin],
     props: ['spaceId', 'menuId', 'actionId','viewId', 'view', 'dataId', 'dataIds', 'data', 'change'],
     created: function () {
         if (this.view) this.getData();
@@ -58,6 +55,9 @@ export const ViewMultiMixin = {
         },
     },
     methods: {
+        getData () {
+            json_post_dispatch_all('/data/read', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
+        },
         updateFilter(filter) {
             this.filter = filter;
             this.getData();

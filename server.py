@@ -1613,23 +1613,6 @@ def getViewInformation(viewId=None):
     return superDumps([getView(viewId)])
 
 
-def getMultiView():
-    data = loads(request.body.read())
-    ids = getIdsFromFilter(data['model'], data['filter'])
-    fields = data.get('fields')
-    if fields is None:
-        view = getView(data['viewId'])
-        fields = view['fields']
-
-    _data = getData(data['model'], ids, fields)
-    _data.append({
-        'type': 'UPDATE_VIEW',
-        'viewId': data['viewId'],
-        'dataIds': ids,
-    })
-    return superDumps(_data)
-
-
 @route('/furetui/field/x2x/search', method='POST')
 def getM2OSearch():
     response.set_header('Content-Type', 'application/json')
@@ -1666,33 +1649,6 @@ def getListX2MView():
 
     _data = getData(data['model'], data['dataIds'], fields)
     return superDumps(_data)
-
-
-@route('/furetui/list/get', method='POST')
-def getListView():
-    response.set_header('Content-Type', 'application/json')
-    return getMultiView()
-
-
-@route('/furetui/thumbnail/get', method='POST')
-def getThumbnailView():
-    response.set_header('Content-Type', 'application/json')
-    return getMultiView()
-
-
-@route('/furetui/form/get', method='POST')
-def getFormView():
-    response.set_header('Content-Type', 'application/json')
-    data = loads(request.body.read())
-    fields = data.get('fields')
-    if fields is None:
-        view = getView(data['viewId'])
-        fields = view['fields']
-
-    if data['new'] or data.get('id') is None:
-        return superDumps([])
-
-    return superDumps(getData(data['model'], [data['id']], fields))
 
 
 @route('/furetui/init/required/data', method='POST')
@@ -1760,6 +1716,40 @@ def createData():
         session.close()
 
     return superDumps(_data)
+
+
+@route('/furetui/data/read', method='POST')
+def getMultiView():
+    response.set_header('Content-Type', 'application/json')
+    data = loads(request.body.read())
+    ids = getIdsFromFilter(data['model'], data['filter'])
+    fields = data.get('fields')
+    if fields is None:
+        view = getView(data['viewId'])
+        fields = view['fields']
+
+    _data = getData(data['model'], ids, fields)
+    _data.append({
+        'type': 'UPDATE_VIEW',
+        'viewId': data['viewId'],
+        'dataIds': ids,
+    })
+    return superDumps(_data)
+
+
+@route('/furetui/data/read/<dataId>', method='POST')
+def getFormView(dataId):
+    response.set_header('Content-Type', 'application/json')
+    data = loads(request.body.read())
+    fields = data.get('fields')
+    if fields is None:
+        view = getView(data['viewId'])
+        fields = view['fields']
+
+    if data['new'] or dataId is None:
+        return superDumps([])
+
+    return superDumps(getData(data['model'], [dataId], fields))
 
 
 @route('/furetui/data/update', method='POST')

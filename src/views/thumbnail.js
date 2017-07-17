@@ -9,7 +9,6 @@ obtain one at http://mozilla.org/MPL/2.0/.
 **/
 import Vue from 'vue';
 import plugin from '../plugin';
-import {json_post_dispatch_all} from '../server-call';
 import _ from 'underscore';
 import {ViewMultiMixin} from './common';
 import {X2MViewMultiMixin} from './x2m-common';
@@ -109,11 +108,6 @@ export const ThumbnailView = Vue.component('furet-ui-thumbnail-view', {
             };
         },
     },
-    methods: {
-        getData () {
-            json_post_dispatch_all('/thumbnail/get', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
-        },
-    }
 });
 
 plugin.set(['views', 'type'], {Thumbnail: 'furet-ui-thumbnail-view'});

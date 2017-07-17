@@ -208,9 +208,6 @@ export const ListView = Vue.component('furet-ui-list-view', {
         },
     },
     methods: {
-        getData() {
-            json_post_dispatch_all('/list/get', {model: this.view.model, filter: this.filter, fields: this.view.fields, viewId: this.viewId});
-        },
         deleteData () {
             const dataIds = _.map(this.checkedRows, row => row.__dataId);
             json_post('/data/delete', {model: this.view.model, dataIds}, {
