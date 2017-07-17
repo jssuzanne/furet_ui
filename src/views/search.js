@@ -18,7 +18,7 @@ export const onChange = (obj, values) => {
         const filter = [];
         _.each(values, value => {
             const e = _.find(filter, f => f.key == value.key);
-            if (e == undefined) 
+            if (e == undefined)
                 filter.push({
                     key: value.key,
                     label: value.label,
@@ -48,9 +48,9 @@ export const SearchBar = Vue.component('furet-ui-search-bar-view', {
                 </a>
             </p>
             <p class="control">
-                <v-select 
+                <v-select
                     multiple
-                    v-bind:value.sync="selected" 
+                    v-bind:value.sync="selected"
                     v-bind:options="options"
                     v-bind:style="{backgroundColor: 'white'}"
                     v-bind:debounce="250"
@@ -63,7 +63,7 @@ export const SearchBar = Vue.component('furet-ui-search-bar-view', {
         return {
             selected: JSON.parse(JSON.stringify(this.filter)),
             origin: JSON.stringify(this.filter),
-            options: [], //_.map(this.search, s => s.type == 'filter'),
+            options: [],
         }
     },
     computed: {
